@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: Word API
+  description: All word api endpoint
+  version: 0.0.1
+servers:
+  - url: https://zero-hunger.herokuapp.com/api/v1
+    description: This is the production main server with the base url
+  - url: http://localhost:5000/api/v1
+    description: This is also the development server
+
+# Authentication and useful response
+components:
+  securitySchemes:
+    bearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+ 
+  responses:
+    AuthTokens:
+      type: object
+      properties:
+        token:
+          $ref: '#/components/schemas/Token'
+    NotFound:
+      description: This resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+            
+    BadRequest:
+      # Describing the status code
+      description: Invalid response
+      # response content
+      content:
+          # Sending a json content
+          application/json:
+            # schema for the content
+            schema: 
+              $ref: '#/components/schemas/Error'
+              
+    InternalServerError:
+      # Describing the status code
+      description: Invalid response
+      # response content
+      content:
+          # Sending a json content
+          application/json:
+            # schema for the content
+            schema: 
+              $ref: '#/components/schemas/Error'
+              
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    # Schema for error response body
+    Error:
+      type: object
+      # since it's an object it has to have property
+      properties:
+        # name of the field
+        status:
+          # datatype of the field
+          type: string
+        # name of the field
+        message: 
+          # datatype of the field
+          type: string
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+
+    Test: 
+      # this enclosing is an object
+      type: object
+      # Onece we have object, it has to have properties
+      properties:
+        # The name of the field been returned
+        status:
+          # type of the datatype
+          type: string
+        # The name of the field been returned
+        word:
+          # Type of the datatype
+          type: object
+        # Since the type is an object, it has to have properties
+          properties:
+            # The name of the field
+            _id:
+              # type of the datatype
+              type: string
+            # The name of the field
+            word:
+              # type of the datatype
+              type: string
+
+paths:
+  # First the routes
+  /test:
+    # Followed by the http method
+    get:
+      # Summary of this route
+      summary: Returns a list of word.
+      # Description of the routes
+      description: Get all word
+      # Parameters needed, in the case the parameters will be supply in form of query
+      security:
+        - bearerAuth: [] 
+      parameters:
+        # Name of the parameter
+        - name: filter
+          # Type of query string
+          in: query
+          # Schema for this parameter
+          schema:
+            # the datatype for this parameter
+            type: string
+          # Description of this parameter
+          description: >
+            Filter
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: A array of word object
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/Test'
+                # Showing an example
+                example: 
+                  status: "success"
+                  word:
+                    _id: "5ff71b7a0772973a16dfef90"
+                    word: "GOOGLE"
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+        
