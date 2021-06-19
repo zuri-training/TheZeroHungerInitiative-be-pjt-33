@@ -1,6 +1,6 @@
 const express = require("express");
-
-const { } = require ("../controllers/userController");
+const {  } = require ("../controllers/userController");
+const {signup, login} = require ("../controllers/authController");
 
  class UserRouter {
    constructor(router) {
@@ -9,6 +9,11 @@ const { } = require ("../controllers/userController");
    
    // All api routes definition
    apiRoute() {
+     this.router.route("/signup").post(signup());
+     this.router.route("/login").post(login());
+     this.router.route("/forgot-password").post();
+     this.router.route("/reset-password").post();
+     
      this.router
       .route("/")
       .get();

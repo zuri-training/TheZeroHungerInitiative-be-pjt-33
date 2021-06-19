@@ -17,7 +17,7 @@ const globalErrorHandling = require("./controllers/errorController");
 const swaggerDocumentation = YAML.load("./documentation/index.yaml");
 
 // Routes
-const wordRoute = require("./routes/wordRoute");
+const donorRoute = require("./routes/donorRoute");
 const userRoute = require("./routes/userRoute");
 
 
@@ -81,6 +81,7 @@ class App {
     this.app.use(mongoSanitize());
     // Xss attack
     this.app.use(xss());
+    this.app.use(morgan("dev"));
   }
   
   mountingRoutes() {
@@ -88,7 +89,7 @@ class App {
     this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     
     this.app.use("/api/v1/users", userRoute);
-    this.app.use("/api/v1/word", wordRoute);
+    this.app.use("/api/v1/donors", donorRoute);
     
     
     // 404 Not Found. must be the last route
