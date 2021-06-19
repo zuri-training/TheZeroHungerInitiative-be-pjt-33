@@ -1,6 +1,8 @@
 const express = require("express");
-const {  } = require ("../controllers/userController");
-const {signup, login} = require ("../controllers/authController");
+const User = require("../models/userModel");
+const { getAllUser, getUser, deleteUser, updateUser } = require ("../controllers/userController");
+const auth = require ("../controllers/authController");
+
 
  class UserRouter {
    constructor(router) {
@@ -9,20 +11,26 @@ const {signup, login} = require ("../controllers/authController");
    
    // All api routes definition
    apiRoute() {
-     this.router.route("/signup").post(signup());
-     this.router.route("/login").post(login());
-     this.router.route("/forgot-password").post();
-     this.router.route("/reset-password").post();
+     // user authentication endpoint
+     this.router.route("/signup").post(auth.signup());
+     this.router.route("/login").post(auth.login());
+     this.router.route("/forgot-password").post(auth.forgotPassword());
+     this.router.route("/reset-password/:resetToken").post(auth.resetPassword());
+     this.router.route("/update-password").post(auth.authenticate(), auth.updatePassword());
+     
+     // User api endpoint
+     // All endpoint from here are protected
+     this.router.use(auth.authenticate(), auth.authorize("admin"));
      
      this.router
       .route("/")
-      .get();
+      .get(getAllUser);
       
      this.router
       .route("/:id")
-      .get()
-      .patch()
-      .delete();
+      .get(getUser)
+      .patch(updateUser)
+      .delete(deleteUser);
       
     return this.router;
   }

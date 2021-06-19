@@ -1,5 +1,9 @@
 const {Schema, model} = require("mongoose");
 const validator = require("validator");
+const crypto = require ("crypto");
+const bcrypt = require("bcryptjs");
+
+
 //validate: [validator.isEmail, "Please provide a valid email"] trim: true,
 //timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"
 // Preferred name, phone number, email, and password, and password confirm, isDisabled, createdAt, updatedAt, role
@@ -7,6 +11,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: [true, "Please provide your username"],
+    unique: true,
     lowercase: true
   },
   phoneNumber: {
@@ -28,7 +33,13 @@ const userSchema = new Schema({
   },
   isDisabled: {
     type: String,
-    default: false
+    default: false,
+    select: false
+  },
+  badge: {
+    type: Number,
+    default: 1,
+    enum: [1, 2, 3, 4, 5]
   },
   password: {
     type: String,
@@ -44,16 +55,41 @@ const userSchema = new Schema({
       },
       message: "Your password doesn't match"
     }
-  }
+  },
+  passwordResetToken: String,
+  passwordResetExpires: Date
 }, {
   timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"}
 });
 
 // 1. Middleware to hash the password using bcrypt package
+userSchema.pre("save", async function(next) {
+  
+  if(!this.isModified("password")) return next();
+  
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next();
+});
 
 
 // 2. Middleware to check if the user supply password is equal the corresponding password in the database
+userSchema.methods.correctPassword = async function(providedPassword, storedPassword) {
+  return await bcrypt.compare(providedPassword, storedPassword);
+};
 
+
+// 3. generate a password reset token
+userSchema.methods.passwordResetTokenMethod = function() {
+  
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  
+  this.passwordResetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  
+  this.passwordResetExpires = Date.now() + (20  * 60 * 1000) + (1 *60 * 60 * 1000);
+  
+  return resetToken;
+};
 
 const User = model("User", userSchema);
 

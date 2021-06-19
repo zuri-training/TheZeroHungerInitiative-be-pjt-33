@@ -32,6 +32,7 @@ class CRUDAPI {
       
       return res.status(200).json({
         status: "success",
+        length: data.length,
         data
       });
     });

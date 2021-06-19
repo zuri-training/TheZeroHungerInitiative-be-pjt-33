@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
 const dotenv = require("dotenv").config();
 const YAML = require("yamljs");
@@ -71,6 +72,7 @@ class App {
   parsingBody() {
     this.app.use(express.json({ limit: "10kb" }));
     this.app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+    this.app.use(cookieParser());
     this.app.use(cors());
   }
   
