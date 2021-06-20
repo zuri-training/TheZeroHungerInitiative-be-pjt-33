@@ -196,8 +196,9 @@ class AuthController {
         // Reset to undefined
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
+        logger.debug(e);
         await user.save({ validateBeforeSave: false });
-    
+        logger.debug(e);
         return next(new AppError("There was an error sending email", 500));
       }
     });
@@ -261,7 +262,7 @@ class AuthController {
       await user.save();
       
       // 4) sign token and send response
-     const token = this.sendToken();
+     const token = this.sendToken(user, res);
      
      res.status(200).json({
        status: "success",
