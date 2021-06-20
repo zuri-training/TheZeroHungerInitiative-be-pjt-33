@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production nodemon -e js,json,yaml index.js",
+    "start": "node index.js",
+    "start:prod": "NODE_ENV=production node index.js",
     "dev": "nodemon -e js,json,yaml index.js"
   },
   "author": "Toheeb",
@@ -18,15 +19,19 @@
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.1",
     "express-rate-limit": "^5.2.3",
+    "googleapis": "^77.0.0",
     "helmet": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.15",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.6.2",
+    "swagger-ui-express": "^4.1.6",
+    "validator": "^13.6.0",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1",
-    "swagger-ui-express": "^4.1.6",
-    "yalmjs": "^0.3.0",
-    "validator": "^13.6.0",
-    "nodemailer": "^6.6.2"
+    "yamljs": "^0.3.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

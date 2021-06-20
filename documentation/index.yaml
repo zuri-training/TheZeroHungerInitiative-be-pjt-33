@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Word API
-  description: All word api endpoint
+  title: Zero Hunger Initiatives
+  description: Zero Hunger Initiatives API documentation
   version: 0.0.1
 servers:
-  - url: https://zero-hunger.herokuapp.com/api/v1
+  - url: https://zero-hunger-initiative.herokuapp.com/api/v1
     description: This is the production main server with the base url
   - url: http://localhost:5000/api/v1
     description: This is also the development server
@@ -43,7 +43,7 @@ components:
               
     InternalServerError:
       # Describing the status code
-      description: Invalid response
+      description: Invalid server error
       # response content
       content:
           # Sending a json content
@@ -54,6 +54,12 @@ components:
               
     Unauthorized:
       description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -72,15 +78,97 @@ components:
         message: 
           # datatype of the field
           type: string
-    Token:
+      example:
+        status: "error"
+        message: "An error occurred"
+    EmailSent:
       type: object
       properties:
+        status: 
+          type: string
+        message:
+          type: string
+      example:
+        status: "success"
+        message: "email sent"
+    SignupResponse:
+      type: object
+      properties:
+        status: 
+          type: string
+        user:
+          type: object
+          properties:
+            _id:
+              type: string
+            username: 
+              type: string
+            phoneNumber:
+              type: number
+            email:
+              type: string
+            badge:
+              type: number
         token:
           type: string
       example:
-        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+        status: "success"
+        user:
+          _id: "538fsa267fywi787f3678"
+          username: "test1"
+          phoneNumber: 09020119024
+          email: "tohebayomide11@gmail.com"
+          badge: 1
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg"
+    LoginResponse:
+      type: object
+      properties:
+        status: 
+          type: string
+        token:
+          type: string
+      example:
+        status: "success"
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg"
+    GetAllUsers:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        users:
+          type: array
+          items: 
+            $ref: "#/components/schemas/UserOnly"
+        
 
-    Test: 
+    UserOnly: 
+      # this enclosing is an object
+      type: object
+      # Onece we have object, it has to have properties
+      properties:
+        # The name of the field
+        _id:
+          # type of the datatype
+          type: string
+        # The name of the field
+        username:
+          # type of the datatype
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        badge:
+          type: string
+      example:
+        _id: "538fsa267fywi787f3678"
+        username: "test1"
+        phoneNumber: "09020119024"
+        email: "tohebayomide11@gmail.com"
+        badge: 1
+        
+    User: 
       # this enclosing is an object
       type: object
       # Onece we have object, it has to have properties
@@ -90,7 +178,7 @@ components:
           # type of the datatype
           type: string
         # The name of the field been returned
-        word:
+        user:
           # Type of the datatype
           type: object
         # Since the type is an object, it has to have properties
@@ -100,11 +188,386 @@ components:
               # type of the datatype
               type: string
             # The name of the field
-            word:
+            username:
               # type of the datatype
               type: string
+            phoneNumber:
+              type: string
+            email:
+              type: string
+            badge:
+              type: string
+      example:
+        status: "success"
+        user:
+          _id: "538fsa267fywi787f3678"
+          username: "test1"
+          phoneNumber: "09020119024"
+          email: "tohebayomide11@gmail.com"
+          badge: 1
 
 paths:
+  # First the routes
+  /users/login:
+    # Followed by the http method
+    post:
+      # Summary of this route
+      summary: login into your account.
+      # Description of the routes
+      description: use this endpoint to log into your account
+      # Parameters needed, in the case the parameters will be supply in form of query
+      requestBody:
+        description: provide your details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              username: 
+                type: string
+              password:
+                type: string
+            example:
+              username: "test1"
+              password: "pass1234"
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: user details and token
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/LoginResponse'
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users/signup:
+    # Followed by the http method
+    post:
+      # Summary of this route
+      summary: Create a new account.
+      # Description of the routes
+      description: Create a new account on this platform
+      # Parameters needed, in the case the parameters will be supply in form of query
+      requestBody:
+        description: provide your details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              username: 
+                type: string
+              email:
+                type: string
+              phoneNumber:
+                type: number
+              password:
+                type: string
+              passwordConfirm:
+                type: string
+            example:
+              username: "test"
+              email: "fayomide11@gmail.com"
+              phoneNumber: "09020119024"
+              password: "pass1234"
+              passwordConfirm: "pass1234"
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: user details and token
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/SignupResponse'
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users/forgot-password:
+    # Followed by the http method
+    post:
+      # Summary of this route
+      summary: Forget password.
+      # Description of the routes
+      description: Forgot your password, well provide with your email
+      # Parameters needed, in the case the parameters will be supply in form of query
+      requestBody:
+        description: provide your details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              email:
+                type: string
+            example:
+              email: "fayomide11@gmail.com"
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: user details and token
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/EmailSent'
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users/reset-password/{resetToken}:
+    # Followed by the http method
+    post:
+      # Summary of this route
+      summary: Reset password.
+      # Description of the routes
+      description: Reset your password
+      # Parameters needed, in the case the parameters will be supply in form of query
+      parameters:
+        - in: path
+          name: resetToken
+          required: true
+          description: reset token 
+          schema: 
+            type: string
+            example: "800e28ede8995d63d73f7ccf33482fea14e2939fd556ba68fae5f281e332f474"
+      requestBody:
+        description: provide your details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              password:
+                type: string
+              passwordConfirm:
+                type: string
+            example:
+              password: "pass12345"
+              passwordConfirm: "pass12345"
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: user details and token
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/LoginResponse'
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users/update-password:
+    # Followed by the http method
+    post:
+      # Summary of this route
+      summary: update password.
+      # Description of the routes
+      description: This endpoint is only for logged user, to update the password
+      security:
+        - bearerAuth: [] 
+      # Parameters needed, in the case the parameters will be supply in form of query
+      requestBody:
+        description: provide your details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              currentPassword:
+                type: string
+              password:
+                type: string
+              passwordConfirm:
+                type: string
+            example:
+              currentPassword: "pass1234"
+              password: "pass12345"
+              passwordConfirm: "pass12345"
+      # Response
+      responses:
+        '200': # status code
+          # response description
+          description: user details and token
+          # Content of this response
+          content:
+            # Returning in json format
+            application/json:
+              # Schema for this json format
+              schema: 
+                $ref: '#/components/schemas/LoginResponse'
+        "400": # bad request status code
+          $ref: '#/components/responses/BadRequest'
+        "401": # bad request status code
+          $ref: '#/components/responses/Unauthorized'
+        "404": # bad request status code
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users:
+    get:
+      summary: Get all users.
+      description: Get all users in the database
+      security:
+        - bearerAuth: [] 
+      responses:
+        '200':
+          description: user details and token
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/GetAllUsers'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /users/{id}:
+    get:
+      summary: Get a users.
+      description: Get a users in the database
+      security:
+        - bearerAuth: [] 
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: user details and token
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      summary: Update a users.
+      description: Update a users in the database
+      security:
+        - bearerAuth: [] 
+      requestBody:
+        description: provide your details
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              badge:
+                type: string
+            example:
+              badge: 1
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: user details and token
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a users.
+      description: Delete a users in the database
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: user id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: user details and token
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/User'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+          
   # First the routes
   /test:
     # Followed by the http method
@@ -139,7 +602,7 @@ paths:
             application/json:
               # Schema for this json format
               schema: 
-                $ref: '#/components/schemas/Test'
+                $ref: '#/components/schemas/User'
                 # Showing an example
                 example: 
                   status: "success"
@@ -150,6 +613,8 @@ paths:
           $ref: '#/components/responses/BadRequest'
         "401": # bad request status code
           $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
         "404": # bad request status code
           $ref: '#/components/responses/NotFound'
         "500": # Internal server error 
