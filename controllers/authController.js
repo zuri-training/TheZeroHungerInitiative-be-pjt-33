@@ -56,7 +56,9 @@ class AuthController {
   signup() {
     return catchAsync(async (req, res, next) => {
       
-      if(req.body.role) req.body.role = "donor";
+      if(req.body.role === "admin") {
+        return(next(new AppError("Hey, you can't make your self and admin 😎", 400)));
+      }
       
       // save user to database
       const user = await this.User.create(req.body);

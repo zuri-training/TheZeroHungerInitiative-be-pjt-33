@@ -140,8 +140,58 @@ components:
           type: array
           items: 
             $ref: "#/components/schemas/UserOnly"
+    DonationResponse:
+      type: object
+      properties:
+        foodCategory:
+          type: string
+          example: "raw food"
+        deliveryOption:
+          type: string
+          example: "pick-up"
+        items:
+          type: array
+          items: 
+            $ref: "#/components/schemas/DonationOnly"
+        user:
+          type: string
+          example: "userid"
+        pickupDate:
+          type: string
+          example: "2021-06-24"
+        pickupAddress:
+          type: string
+          example: "ondo"
+        contactName:
+          type: string
+          example: "Toheeb"
+        contactPhoneNumber:
+          type: number
+          example: "09020119024"
+        localGovernment:
+          type: string
+          example: "ondo"
+        attachedDispatchRider:
+          type: boolean
+          example: false
+        rider:
+          type: string
+          example: "riderid"
         
-
+    DonationOnly:
+      type: object
+      properties:
+        description:
+          type: string
+        metric:
+          type: string
+        quantity:
+          type: string
+      example:
+        description: "indomitable"
+        metric: "kg"
+        quantity: "12"
+    
     UserOnly: 
       # this enclosing is an object
       type: object
@@ -214,10 +264,10 @@ paths:
       # Summary of this route
       summary: login into your account.
       # Description of the routes
-      description: use this endpoint to log into your account
+      description: After user has created an account they can logged into the application and have access to some protected routes.
       # Parameters needed, in the case the parameters will be supply in form of query
       requestBody:
-        description: provide your details
+        description: Provide your username and password to login
         required: true
         content:
           application/json:
@@ -235,7 +285,7 @@ paths:
       responses:
         '200': # status code
           # response description
-          description: user details and token
+          description: User details and token
           # Content of this response
           content:
             # Returning in json format
@@ -257,10 +307,10 @@ paths:
       # Summary of this route
       summary: Create a new account.
       # Description of the routes
-      description: Create a new account on this platform
+      description: Create a new account to get access to some protected routes in the application.
       # Parameters needed, in the case the parameters will be supply in form of query
       requestBody:
-        description: provide your details
+        description: Provide all the required fields to create an account
         required: true
         content:
           application/json:
@@ -287,7 +337,7 @@ paths:
       responses:
         '200': # status code
           # response description
-          description: user details and token
+          description: User details and token
           # Content of this response
           content:
             # Returning in json format
@@ -309,10 +359,10 @@ paths:
       # Summary of this route
       summary: Forget password.
       # Description of the routes
-      description: Forgot your password, well provide with your email
+      description: Forgot your password, okay don't freak out we get you covered, provide your email you use to create an account on this platform.
       # Parameters needed, in the case the parameters will be supply in form of query
       requestBody:
-        description: provide your details
+        description: Provide your registered email, we then send a link to your email account, click the link to reset your password.
         required: true
         content:
           application/json:
@@ -327,7 +377,7 @@ paths:
       responses:
         '200': # status code
           # response description
-          description: user details and token
+          description: success response
           # Content of this response
           content:
             # Returning in json format
@@ -349,7 +399,7 @@ paths:
       # Summary of this route
       summary: Reset password.
       # Description of the routes
-      description: Reset your password
+      description: Reset your password by clicking on the link send to your email address.
       # Parameters needed, in the case the parameters will be supply in form of query
       parameters:
         - in: path
@@ -360,7 +410,7 @@ paths:
             type: string
             example: "800e28ede8995d63d73f7ccf33482fea14e2939fd556ba68fae5f281e332f474"
       requestBody:
-        description: provide your details
+        description: Provide your new password and passwordConfirm
         required: true
         content:
           application/json:
@@ -378,7 +428,7 @@ paths:
       responses:
         '200': # status code
           # response description
-          description: user details and token
+          description: User details and token
           # Content of this response
           content:
             # Returning in json format
@@ -400,12 +450,12 @@ paths:
       # Summary of this route
       summary: update password.
       # Description of the routes
-      description: This endpoint is only for logged user, to update the password
+      description: Logged user can update their current password if they wish to do so.
       security:
         - bearerAuth: [] 
       # Parameters needed, in the case the parameters will be supply in form of query
       requestBody:
-        description: provide your details
+        description: Provide your current password, new password and passwordConfirm
         required: true
         content:
           application/json:
@@ -426,7 +476,7 @@ paths:
       responses:
         '200': # status code
           # response description
-          description: user details and token
+          description: User details and token
           # Content of this response
           content:
             # Returning in json format
@@ -445,12 +495,12 @@ paths:
   /users:
     get:
       summary: Get all users.
-      description: Get all users in the database
+      description: Only logged in admin can use this endpoint, to get all the users we have in the database.
       security:
         - bearerAuth: [] 
       responses:
         '200':
-          description: user details and token
+          description: User details and token
           content:
             application/json:
               schema: 
@@ -468,7 +518,7 @@ paths:
   /users/{id}:
     get:
       summary: Get a users.
-      description: Get a users in the database
+      description: Only logged in admin can use this endpoint, to get a single users, by providing the id of that user.
       security:
         - bearerAuth: [] 
       parameters:
@@ -481,7 +531,7 @@ paths:
             example: "60ce2c43732fc72480f9a4e7"
       responses:
         '200':
-          description: user details and token
+          description: User details
           content:
             application/json:
               schema: 
@@ -498,11 +548,11 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     patch:
       summary: Update a users.
-      description: Update a users in the database
+      description: Only logged in admin can use this endpoint, to update the user details
       security:
         - bearerAuth: [] 
       requestBody:
-        description: provide your details
+        description: Provide your details
         content:
           application/json:
             schema:
@@ -522,7 +572,7 @@ paths:
             example: "60ce2c43732fc72480f9a4e7"
       responses:
         '200':
-          description: user details and token
+          description: User details and token
           content:
             application/json:
               schema: 
@@ -539,7 +589,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       summary: Delete a users.
-      description: Delete a users in the database
+      description: Only logged in admin can use this endpoint to delete the provided users id.
       security:
         - bearerAuth: []
       parameters:
@@ -552,7 +602,7 @@ paths:
             example: "60ce2c43732fc72480f9a4e7"
       responses:
         '200':
-          description: user details and token
+          description: User details and token
           content:
             application/json:
               schema: 
@@ -567,55 +617,294 @@ paths:
           $ref: '#/components/responses/NotFound'
         "500": # Internal server error 
           $ref: '#/components/responses/InternalServerError'
+  /donate:
+    post:
+      summary: create a donation.
+      description: create a donation
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: provide donation details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DonationResponse"
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      summary: get all donation.
+      description: get all donation
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /donate/{id}:
+    get:
+      summary: get a single donation.
+      description: get a single donation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: donation id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      summary: update a single donation.
+      description: update a single donation
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: provide your details
+        content:
+          application/json:
+            schema:
+              type: object
+            properties:
+              pickupDate:
+                type: string
+                example: "2022-06-26"
+              pickupAddress:
+                type: string
+                example: "akure ondo"
+              contactName:
+                type: string
+                example: "YouTube"
+              contactPhoneNumber:
+                type: string
+                example: "09020119024"
+              localGovernment:
+                type: string
+                example: "olorunda"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: donation id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: delete a single donation.
+      description: delete a single donation
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: donation id 
+          schema: 
+            type: string
+            example: "60ce2c43732fc72480f9a4e7"
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /donate/my-donations:
+    get:
+      summary: get the logged in user donation.
+      description: Only donor and volunteer level of users that are logged in are allowed to use this endpoint
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /donate/dispatch-rider:
+    patch:
+      summary: Attached a dispatch riders to a Donation.
+      description: Only admin that are logged in are allowed to use this endpoint to attach a dispatch riders to a specific donation if it's delivery option is pickup
+      parameters:
+        - name: donationId
+          in: query
+          description: The donation id
+          required: true
+          type: string
+        - name: riderId
+          in: query
+          description: The dispatch rider id
+          required: true
+          type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+  /donate/verify-picked-up:
+    patch:
+      summary: Change the status of a donation to picked-up
+      description: Only admin and dispatch riders that are logged in are allowed to use this endpoint. The dispatch rider scan the qrcode of the donor opon getting to the donor location to verify them, before picking the donation.
+      parameters:
+        - name: donationId
+          in: query
+          description: The donation id
+          required: true
+          type: string
+        - name: decodedData
+          in: query
+          description: The decoded qrcode data
+          required: true
+          type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: donation response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/DonationResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403": # Forbidden request status code
+          $ref: '#/components/responses/Forbidden'
+        "404": 
+          $ref: '#/components/responses/NotFound'
+        "500": # Internal server error 
+          $ref: '#/components/responses/InternalServerError'
+          
+          
           
   # First the routes
-  /test:
+  /:
     # Followed by the http method
     get:
       # Summary of this route
-      summary: Returns a list of word.
+      summary: ping me.
       # Description of the routes
-      description: Get all word
+      description: ok
       # Parameters needed, in the case the parameters will be supply in form of query
-      security:
-        - bearerAuth: [] 
-      parameters:
-        # Name of the parameter
-        - name: filter
-          # Type of query string
-          in: query
-          # Schema for this parameter
-          schema:
-            # the datatype for this parameter
-            type: string
-          # Description of this parameter
-          description: >
-            Filter
       # Response
       responses:
         '200': # status code
           # response description
-          description: A array of word object
+          description: Nothing
           # Content of this response
           content:
             # Returning in json format
             application/json:
               # Schema for this json format
               schema: 
-                $ref: '#/components/schemas/User'
-                # Showing an example
-                example: 
-                  status: "success"
-                  word:
-                    _id: "5ff71b7a0772973a16dfef90"
-                    word: "GOOGLE"
+                status:
+                  type: string
+                  example: "Hello ✋, everything is working fine"
         "400": # bad request status code
           $ref: '#/components/responses/BadRequest'
         "401": # bad request status code
           $ref: '#/components/responses/Unauthorized'
         "403": # Forbidden request status code
           $ref: '#/components/responses/Forbidden'
-        "404": # bad request status code
+        "404": # not found request status code
           $ref: '#/components/responses/NotFound'
         "500": # Internal server error 
           $ref: '#/components/responses/InternalServerError'

@@ -7,8 +7,8 @@ class CRUDAPI {
     this.Model = Model;
   }
   
-  noId() {
-    this.next(new AppError("No data found with that ID", 400));
+  noId(next) {
+    next(new AppError("No data found with that ID or incorrect ID", 400));
   }
   
   createData() {
@@ -25,9 +25,10 @@ class CRUDAPI {
   getAllData() {
     return catchAsync(async (req, res, next) => {
       const data = await this.Model.find();
+      //.select("+qrCodeLink");
       
       if(!data) {
-        return this.noId();
+        return this.noId(next);
       }
       
       return res.status(200).json({
@@ -44,7 +45,7 @@ class CRUDAPI {
       const data = await this.Model.findById(id);
       
       if(!data) {
-        return this.noId();
+        return this.noId(next);
       }
       
       return res.status(200).json({
@@ -63,7 +64,7 @@ class CRUDAPI {
       });
       
       if(!data) {
-        return this.noId();
+        return this.noId(next);
       }
       
       return res.status(200).json({
@@ -79,7 +80,7 @@ class CRUDAPI {
       const data = await this.Model.findByIdAndDelete(id);
       
       if(!data) {
-        return this.noId();
+        return this.noId(next);
       }
       
       return res.status(200).json({

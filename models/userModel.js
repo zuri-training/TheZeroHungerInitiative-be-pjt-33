@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["donor", "admin"],
+    enum: ["donor", "admin", "volunteer", "dispatch rider"],
     default: "donor"
   },
   isDisabled: {
