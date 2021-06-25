@@ -5,6 +5,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const cloudinary = require("cloudinary");
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
 const dotenv = require("dotenv").config();
 const YAML = require("yamljs");
@@ -18,7 +19,7 @@ const globalErrorHandling = require("./controllers/errorController");
 const swaggerDocumentation = YAML.load("./documentation/index.yaml");
 
 // Routes
-const donorRoute = require("./routes/donorRoute");
+const donationRoute = require("./routes/donationRoute");
 const userRoute = require("./routes/userRoute");
 
 
@@ -43,6 +44,9 @@ class App {
     
     //Http security
     this.httpSecurity();
+    
+    // configure cloudinary
+    //this.configureCloudinary();
     
     // Testing Middleware
     this.app.use((req, res, next) => {
@@ -91,13 +95,22 @@ class App {
     this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     
     this.app.use("/api/v1/users", userRoute);
-    this.app.use("/api/v1/donors", donorRoute);
+    this.app.use("/api/v1/donate", donationRoute);
     
     
     // 404 Not Found. must be the last route
     this.app.all("*", (req, res, next) => {
       const message = `Can't find ${req.originalUrl} on this server`;
       next(new AppError(message, 400));
+    });
+  }
+  
+  configureCloudinary() {
+    cloudinary.config({ 
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY, 
+      api_secret: process.env.API_SECRET,
+      secure: true
     });
   }
 
