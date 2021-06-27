@@ -101,10 +101,14 @@ class AuthController {
       // generate token
       const token = this.sendToken(userExist, res);
       
+      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      
       res.status(200).json({
         status: "success",
         user: userExist,
-        token
+        token,
+        iat: decode.iat,
+        exp: decode.exp
       });
     });
   }
