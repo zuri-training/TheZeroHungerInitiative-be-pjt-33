@@ -50,8 +50,8 @@ class DonationRouter {
       .post(auth.authorize('admin', 'volunteer', 'donor'), createMonetaryDonation)
 
     this.router
-      .route('/monetary/verify')
-      .post(auth.authorize('admin', 'volunteer', 'donor'), verifyMonetaryDonation)
+      .route('/monetary/verify/:reference')
+      .get(auth.authorize('admin', 'volunteer', 'donor'), verifyMonetaryDonation)
 
     this.router
       .route('/:id')
