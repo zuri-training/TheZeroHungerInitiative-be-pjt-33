@@ -57,7 +57,7 @@ class AuthController {
     return catchAsync(async (req, res, next) => {
       
       if(req.body.role === "admin") {
-        return(next(new AppError("Hey, you can't make your self admin 😎", 400)));
+        return(next(new AppError("Hey, you can't make your self an admin 😎", 400)));
       }
       
       // save user to database

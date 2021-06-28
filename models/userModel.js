@@ -74,9 +74,7 @@ const userSchema = new Schema({
   },
   passwordResetToken: String,
   passwordResetExpires: Date
-}, {
-  timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"}
-});
+}, { timestamps: true });
 
 // 1. Middleware to hash the password using bcrypt package
 userSchema.pre("save", async function(next) {

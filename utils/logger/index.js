@@ -16,8 +16,8 @@ const customConfig = {
     debug: 3,
   },
   colors: {
-    error: 'redBG',
-    info: 'white blueBG',
+    error: 'white redBG',
+    info: 'black blueBG',
     warn: 'yellowBG',
     debug: 'greenBG'
   }
@@ -26,16 +26,16 @@ const customConfig = {
 // This is the format our logs will be seen in the console and then save to the logger.log file
 const myFormat =  format.printf(info => `${info.level}: ${info.message}: ${info.timestamp}`);
 
-const level = () => {
+const level = (() => {
   const env = process.env.NODE_ENV;
   return env === "development" ? "debug" : "error";
-};
+})();
 
 // Telling Winston to add colour
 addColors(customConfig.colors);
 
 const logger = createLogger({
-  level: level(),
+  level,
   levels: customConfig.levels,
   format: format.combine(
     format.colorize({all: true}),
