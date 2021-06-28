@@ -16,7 +16,6 @@ This platform will link restaurants, households, and communities that are ready 
 * MongoDB
 * Mongoose
 
-
 **Some features included in this app:**
 
 ### 
@@ -28,7 +27,6 @@ This platform will link restaurants, households, and communities that are ready 
 
 
 ## Requirement
-
 ### 
 * Live chat; user can live chat with admin, they can make enquiries about the organisation,donations and others as they deem fit
 * Track;  users can track their donations,to know if it has gotten to the location they sent it to.
@@ -36,9 +34,6 @@ This platform will link restaurants, households, and communities that are ready 
 * Donation history; users can see their donation history
 * Cash option; users have the option of donating cash instead of food items
 * Share on social media; users have the option of sharing that they donated through social media platforms and equally inviting their friends.
-
-
-
 
 
 # Contribution Guide

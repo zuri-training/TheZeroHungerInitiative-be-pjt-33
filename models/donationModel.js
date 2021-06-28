@@ -61,9 +61,7 @@ const donationSchema = new Schema({
     type: String
     //select: false
   }
-}, {
-  timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"}
-});
+}, { timestamps: true });
 
 donationSchema.pre("save", async function(next) {
   if(this.isModified("qrCodeLink")) return next();
