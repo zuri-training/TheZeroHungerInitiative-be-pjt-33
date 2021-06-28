@@ -22,6 +22,7 @@ module.exports = class Email {
       refresh_token: process.env.OAUTH_REFRESH_TOKEN,
     });
 
+      
     const accessToken = await new Promise((resolve, reject) => {
       oauth2Client.getAccessToken((err, token) => {
         if (err) {

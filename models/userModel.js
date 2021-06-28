@@ -8,6 +8,22 @@ const bcrypt = require("bcryptjs");
 //timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"
 // Preferred name, phone number, email, and password, and password confirm, isDisabled, createdAt, updatedAt, role
 const userSchema = new Schema({
+  firstName: {
+    type: String,
+    required: [true, "Please provide your first name"]
+  },
+  lastName: {
+    type: String,
+    required: [true, "Please provide your last name"]
+  },
+  gender: {
+    type: String,
+    required: [true, "Please provide your gender"]
+  },
+  address: {
+    type: String,
+    required: [true, "Please provide your address"]
+  },
   username: {
     type: String,
     required: [true, "Please provide your username"],
