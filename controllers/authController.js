@@ -57,7 +57,7 @@ class AuthController {
     return catchAsync(async (req, res, next) => {
       
       if(req.body.role === "admin") {
-        return(next(new AppError("Hey, you can't make your self and admin 😎", 400)));
+        return(next(new AppError("Hey, you can't make your self admin 😎", 400)));
       }
       
       // save user to database
@@ -69,11 +69,15 @@ class AuthController {
       // removing the user password from the output
       user.password = undefined;
       
+      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      
       // send a response
       res.status(201).json({
         status: "success",
         user,
-        token
+        token,
+        iat: decode.iat,
+        exp: decode.exp
       });
     });
   }
