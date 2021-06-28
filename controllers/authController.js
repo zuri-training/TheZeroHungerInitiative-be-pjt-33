@@ -188,10 +188,11 @@ class AuthController {
       // 3. send the link to the user email
       try {
         // Generating reset link
-        const resetLink = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
+        //const resetLink = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
+        const resetLink = `https://zero-hunger.vercel.app/reset.html`;
       
         // creating an instance of this class
-        const sendEmail = new Email(user, resetLink);
+        const sendEmail = new Email(user, resetLink, resetToken);
       
         // sending the reset link to the user email
         await sendEmail.sendResetPasswordLink();
@@ -238,7 +239,7 @@ class AuthController {
       user.passwordConfirm = passwordConfirm;
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
-      await user.save({});
+      await user.save();
       
       // sign token and send response
       const token = this.sendToken(user, res);
