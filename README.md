@@ -1,67 +1,50 @@
-### Zuri Project Team 33
-# TheZeroHungerInitiative BackEnd API
+# Project 33 and Zero Hunger Initiatives
 
-## Running the app
-Start by cloning this repo in to your local machine. Followed by running `npm install` to install all the dependencies. After that, type `npm run dev` to start the server.
+**This API handles all the backend details for (product and team).**
 
-## Application URL
-[Live URL](https://zero-hunger-initiative.herokuapp.com/documentation/)
+### Note
+ - Create an issue before getting started on a task
 
-## Contributing to this project
-1. Fork the repo.
+## Project Description
+This platform will link restaurants, households, and communities that are ready to donate food items, cooked foods, and other consumable products to the less privileged. This project will reduce the level of food wastage, reduce the dependency of the poor on parlatives that  are been shared by the government which is mostly hoarded by people in high places.
 
-2. Clone the fork repo into your local machine.
-```
-git clone https://github.com/zuri-training/TheZeroHungerInitiative-be-pjt-33.git
-```
+**Stack Used**
 
-3. Create an upstream on your local machine to pull the latest code from the main branch of the repository
-```
-git remote add upstream https://github.com/zuri-training/TheZeroHungerInitiative-be-pjt-33.git
-```
+### 
+* Nodejs
+* Expressjs
+* MongoDB
+* Mongoose
 
-4. Create a new branch on your local machine. The command below will create a new branch and then switch to the branch
-```
-git checkout -b <branch-name>
-```
+**Some features included in this app:**
 
-5. Make changes to the code
+### 
+* Login and Signup Features 
+* Forgot Password and Reset Password features
+* Raw and Cooked Food Donation
+* Cash Donation
+* Live chat options features
 
-6. Commit changes to the branch and push to your forked repo.
-```
-git add .
-git commit -m "<commit-message>"
-git push origin <branch-name>
-```
 
-7. Come back to this repo and open a pull request on the branch you created.
-```
-switch to the branch you created on the repo. By doing that you would have seen a button that said *compare/pull request*. press the button, which will then take you to a page to provide the title and description for the pull request. After that, then press the pull request button to submit a pull request. With that you are done, it's left for the reviewer to *review* and *merge*
-```
+## Requirement
+### 
+* Live chat; user can live chat with admin, they can make enquiries about the organisation,donations and others as they deem fit
+* Track;  users can track their donations,to know if it has gotten to the location they sent it to.
+* Drop off/pick up; users have the option of either dropping off their donations to a location near to them or pickup by dispatch if they prefer.
+* Donation history; users can see their donation history
+* Cash option; users have the option of donating cash instead of food items
+* Share on social media; users have the option of sharing that they donated through social media platforms and equally inviting their friends.
 
-8. Do not merge your pull request yourself. Wait for review and merging from the coordinator.
 
-<br>
+# Contribution Guide
 
-## For any subsequent changes
-1. To makes sure your local repo is in sync with the parent repo. First you have pull the changes from the remote repo.
-
-```
-git pull upstream
-```
-
-2. Make changes to the code
-
-3. Commit changes to the branch and push to your forked repo.
-```
-git add .
-git commit -m "<commit-message>"
-git push origin <branch-name>
-```
-
-4. Come back to this repo and open a pull request on the branch you created.
-```
-Switch to the branch you created on the repo. By doing that you would have seen a button that said *compare/pull request*. press the button, which will then take you to a page to provide the title and description for the pull request. After that, then press the pull request button to submit a pull request. With that you are done, it's left for the reviewer to *review* and *merge*
-```
-
-5. Do not merge your pull request yourself. Wait for review and merging from the coordinator.
+1. Go to [github link](https://github.com/zuri-training/TheZeroHungerInitiative-be-pjt-33) and fork the repo.
+2. After forking, go to your github page and Clone your forked repo. 
+3. Create a project folder on your local machine. 
+4. Navigate to it in the terminal. Run `git clone (github link)`.
+5. Create a branch for your task `git checkout -b <branchname>`.
+6. After changes : 
+- git add .
+- git commit  -m "some comments"
+- git push origin `<name of your branch>`
+7. Create PR.
