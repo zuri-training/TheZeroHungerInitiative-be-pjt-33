@@ -15,7 +15,7 @@ const swaggerUi = require("swagger-ui-express");
 const logger = require("./utils/logger");
 const MongoDBConnection = require("./database");
 const AppError = require("./utils/appError");
-const globalErrorHandling = require("./controllers/errorController");
+const errorHandler = require("./middlewares/errorHandler");
 const swaggerDocumentation = YAML.load("./documentation/index.yaml");
 
 // Routes
@@ -59,7 +59,7 @@ class App {
     this.mountingRoutes();
     
     // This must be the last Middleware, used for handling global error
-    this.app.use(globalErrorHandling);
+    this.app.use(errorHandler);
     this.logger.info(`Initialized Application`);
   }
 

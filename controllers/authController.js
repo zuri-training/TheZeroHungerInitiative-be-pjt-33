@@ -15,27 +15,24 @@ class AuthController {
   
   updateBadge() {
     return catchAsync(async (req, res, next) => {
-      const {badge, username} = req.body;
-      
+      const { badge, username } = req.body;
       const user = await this.User.findOne({username});
       
-      if(!user) {
-        return next(new AppError("No user found with that username", 404));
-      }
+      if(!user) return next(new AppError('No user found with that username', 404));
       
-      const updateUser = await this.User.findByIdAndUpdate(user._id, {badge}, {
+      await this.User.findByIdAndUpdate(user._id, {badge}, {
         runValidator: true,
         new: true
       });
       
       res.status(200).json({
-        status: "success",
-        message: "user badge successful updated"
+        status: 'success',
+        message: 'User badge successfully updated!'
       });
     });
   }
   
-  sendToken({_id}, res) {
+  sendToken({ _id }, res) {
     // Generating jwt token
     const token =  jwt.sign({ _id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN
@@ -60,10 +57,8 @@ class AuthController {
         return(next(new AppError("Hey, you can't make your self an admin 😎", 400)));
       }
       
-      // save user to database
+      // save user to database & generate a token
       const user = await this.User.create(req.body);
- 
-      // generate a token
       const token =  this.sendToken(user, res);
       
       // removing the user password from the output
@@ -91,7 +86,7 @@ class AuthController {
         return next(new AppError("Please provide username and password!"), 401);
       }
   
-      // 2) check if the user email exists in the database and cofirm the password
+      // 2) check if the user email exists in the database and confirm the password
       const userExist = await User.findOne({ username }).select("+password");
       
       // does password correct
@@ -99,12 +94,11 @@ class AuthController {
       
       // error message if no user exist and incorrect password
       if(!userExist || !correct) {
-        return next(new AppError("Incorrect username or password!", 401));
+        return next(new AppError("Invalid credentials!", 401));
       }
       
       // generate token
       const token = this.sendToken(userExist, res);
-      
       const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
       
       res.status(200).json({
@@ -122,7 +116,7 @@ class AuthController {
       let token;
       
       // 1= Check if the token is in the header OR Check it in the request token
-      if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+      if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(" ")[1];
       } else if(req.cookies.token) {
         token = req.cookies.token;
@@ -130,7 +124,7 @@ class AuthController {
       
       // No token, send error message
       if(!token) {
-        return next(new AppError("Unauthorized, logged in again!!!", 401));
+        return next(new AppError('Unauthorized. Please log in!', 401));
       }
       
       // 2= Verification of token
@@ -147,22 +141,23 @@ class AuthController {
         return next(new AppError("This user doesn't exist in the database anymore", 401));
       }
       
-      // GRANT ACCESS TO PROCTECTED ROUTE
+      // GRANT ACCESS TO PROTECTED ROUTE
       req.user = userExist;
       next();
     });
   }
-  /*
-  @params:
-    array of roles
-    
-    1= if the array of roles we provided doesn't include the currently logged in user, then don't grant them access. 
-  */
   
+  /**
+   * If the array of roles we provided doesn't include the currently logged in user,
+   * then don't grant them access
+   * @param  {...any} roles Array of user roles
+   */
   authorize(...roles) {
     return (req, res, next) => {
-      if(!roles.includes(req.user.role)) return next(new AppError("You are not allowed to use this resource, please contact support!!!", 403));
-      
+      if(!roles.includes(req.user.role)) {
+        return next(new AppError("Unauthorised to access this resource", 403));
+      }
+
       next();
     };
   };
@@ -197,8 +192,8 @@ class AuthController {
         await sendEmail.sendResetPasswordLink();
         
         return res.status(200).json({
-          status: "success",
-          message: "email sent"
+          status: 'success',
+          message: 'Password reset email sent'
         });
       
       // if paraventure an error occur, it might be possible the passwordResetToken, and passwordResetExpires might have already been set
@@ -209,7 +204,7 @@ class AuthController {
         logger.debug(e);
         await user.save({ validateBeforeSave: false });
         logger.debug(e);
-        return next(new AppError("There was an error sending email", 500));
+        return next(new AppError('An error occured while sending the password reset mail', 500));
       }
     });
   }
@@ -220,7 +215,7 @@ class AuthController {
       const {password, passwordConfirm} = req.body;
      
       if(!password || !passwordConfirm) {
-        return next(new AppError("provide your password and passwordConfirm", 400));
+        return next(new AppError("Please provide your new password twice", 400));
       }
       
       // Hashing the retrieve resetToken from params
@@ -230,7 +225,7 @@ class AuthController {
       const user = await User.findOne({ passwordResetToken: hashedToken, passwordResetExpires: { $gt: Date.now() } });
       
       if(!user) {
-        return (next(new AppError("Token expired or invalid", 400)));
+        return (next(new AppError('Token expired or invalid', 400)));
       }
       
       // Resetting user password
@@ -244,8 +239,7 @@ class AuthController {
       const token = this.sendToken(user, res);
       
       res.status(200).json({
-        status: "success",
-        token
+        status: 'success', token
       });
     });
   }
@@ -275,8 +269,7 @@ class AuthController {
      const token = this.sendToken(user, res);
      
      res.status(200).json({
-       status: "success",
-       token
+       status: 'success', token
      });
     });
   }
