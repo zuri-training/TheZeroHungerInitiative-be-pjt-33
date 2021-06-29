@@ -10,9 +10,9 @@ const sendErrorInDev = (errorObject, res) => {
 const sendErrorInProduction = (errorObject, res) => {
   let details;
 
-  // Mainly handles invalid data types. Can handle bad ObjectId
+  // Handles bad Mongo ObjectId
   if (errorObject.name === 'CastError') {
-    errorObject = new AppError('Invalid data type provided', 400);
+    errorObject = new AppError('Requested resource not found!', 400);
   }
 
   // Mongoose duplicate key error
@@ -24,13 +24,28 @@ const sendErrorInProduction = (errorObject, res) => {
     errorObject = new AppError('A record exists with some of your entered values', 400);
   }
 
-  // Mongoose validation error
+  // Mongoose validation & assertion errors
   if (errorObject.name === 'ValidationError') {
-    details = Object.entries(errorObject.errors).reduce((previous, [key, value]) => {
-      return { ...previous, [key]: value.properties.message }
-    }, {});
-    
-    errorObject = new AppError('Validation failed. Please enter all required values correctly', 400);
+    const errorArray = Object.entries(errorObject.errors);
+
+    try {
+      errorObject = new AppError('Validation failed. Please enter all required values correctly', 400);
+
+      details = errorArray.reduce((previous, [key, value]) => {
+        return { ...previous, [key]: value.properties.message }
+      }, {});
+    } catch (error) {
+      errorObject = new AppError('Assertion failed. Please enter valid values', 400);
+
+      details = errorArray.reduce((previous, [key, value]) => {
+        return { ...previous, [key]: {
+          'reason': value.reason.code,
+          'value': value.details,
+          'valueType': value.valueType,
+          'requiredType': value.kind
+        } }
+      }, {})
+    }
   }
 
   res.status(errorObject.statusCode).json({
