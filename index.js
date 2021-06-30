@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -6,6 +7,7 @@ const xss = require("xss-clean");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const cloudinary = require("cloudinary");
+const socketio = require('socket.io');
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
 const dotenv = require("dotenv").config();
 const YAML = require("yamljs");
@@ -21,6 +23,8 @@ const swaggerDocumentation = YAML.load("./documentation/index.yaml");
 // Routes
 const donationRoute = require("./routes/donationRoute");
 const userRoute = require("./routes/userRoute");
+const messageRoute = require("./routes/messageRoute");
+const conversationRoute = require("./routes/conversationRoute");
 
 
 class App {
@@ -37,6 +41,14 @@ class App {
     this.port = process.env.PORT;
 
     this.app = express();
+    
+    // Setting up socket.io
+    this.server = http.createServer(this.app);
+    this.io = socketio(this.server);
+    
+    // Calling socket io method
+    this.socketIoDefinition();
+    
     this.app.enable("trust proxy");
     
     // Parsing request body
@@ -64,13 +76,19 @@ class App {
   }
 
   start() {
-    this.app.listen(this.port, () => {
+    this.server.listen(this.port, () => {
       this.logger.info(`Now listening on port ${this.port}. in ${this.environment}`);
     });
     this.startTime();
     
     // Connecting to MongoDB
     this.db.connect();
+  }
+  
+  socketIoDefinition() {
+    this.io.on("connection", (socket) => {
+      console.log("a user connected");
+    });
   }
   
   parsingBody() {
@@ -96,6 +114,8 @@ class App {
     
     this.app.use("/api/v1/users", userRoute);
     this.app.use("/api/v1/donate", donationRoute);
+    this.app.use("/api/v1/message", messageRoute);
+    this.app.use("/api/v1/conversation", conversationRoute);
     
     
     // 404 Not Found. must be the last route

@@ -4,10 +4,9 @@ const OAuth2 = google.auth.OAuth2;
 
 
 module.exports = class Email {
-  constructor(user, url, token) {
+  constructor(user, url) {
     this.to = user.email;
     this.url = url;
-    this.token = token;
     this.userName = user.userName;
     this.from = `Zero Hunger Initiative <${process.env.EMAIL_FROM2}> `;
   }
@@ -64,14 +63,12 @@ module.exports = class Email {
     const html = `
       <div>
         <p>Your password reset link</p>
+        <p>Click the below link to reset your password</p>
         <a href="${this.url}">Reset Password</a>
-        <p>Copy the below token into the token box</p>
-        <p>${this.token}</p>
       </div>
       <div>
         <p>if the button above is not clickable, Copy the below link into your browser and the below token</p>
         <p>${this.url}</p>
-        <p>${this.token}</p>
       </div>
     `;
     
