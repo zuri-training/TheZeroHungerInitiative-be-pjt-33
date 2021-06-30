@@ -5,10 +5,10 @@ const messageSchema = new Schema(
     conversationId: {
       type: Schema.ObjectId,
     },
-    sender: {
+    senderId: {
       type: Schema.ObjectId,
     },
-    text: {
+    message: {
       type: String,
     },
   },
@@ -17,4 +17,4 @@ const messageSchema = new Schema(
 
 const Message = model("Message", messageSchema);
 
-module.export = Message;
+module.exports = Message;

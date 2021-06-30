@@ -63,10 +63,11 @@ module.exports = class Email {
     const html = `
       <div>
         <p>Your password reset link</p>
+        <p>Click the below link to reset your password</p>
         <a href="${this.url}">Reset Password</a>
       </div>
       <div>
-        <p>if the button above is not clickable, Copy the below link</p>
+        <p>if the button above is not clickable, Copy the below link into your browser and the below token</p>
         <p>${this.url}</p>
       </div>
     `;
