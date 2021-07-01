@@ -110,6 +110,15 @@ class AuthController {
       });
     });
   }
+
+  logout() {
+    return (req, res, next) => {
+      res.cookie('token', 'none', {
+        expires: new Date(Date.now()),
+        httpOnly: true
+      }).status(200).json({ status: 'success' });
+    }
+  }
   
   authenticate() {
     return catchAsync(async (req, res, next) => {
