@@ -10,31 +10,59 @@ exports.createMonetaryDonation = catchAsync (async (req, res, next) => {
   const { donorName, amount } = req.body;
   const email = req.user.email;
 
-  // const user = await User.findById(req.user._id, { email });
-  // if (!user) return next(new AppError(`User with email address "${email}" does not exist`, 400));
-
-  const monetaryDonation = await MonetaryDonation.create({
+  await new MonetaryDonation({
     email, donorName, amount, user: req.user._id
-  })
+  }).validate()
 
   initializePayment(JSON.stringify({
     email,
-    amount: amount * 100 // Convert the amount to kobo
+    amount: amount * 100, // Convert the amount to kobo
+    metadata: { donorName, customerId: req.user._id }
   }), async (error, body) => {
     if (error) {
-      console.log(error);
-      return next(new AppError('An error occured during payment initialisation', 400));
+      return next(new AppError('An error occured during payment initialisation', 500));
     }
 
-    response = JSON.parse(body);
-    monetaryDonation.referenceId = response.data.reference;
-    await monetaryDonation.save();
-
-    res.status(200).json({ status: 'success', data: response.data});
+    res.status(200).json({ status: 'success', data: JSON.parse(body) });
   })
 })
 
 
 exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
+  const ref = req.params.reference;
 
+  verifyPayment(ref, async (error,body) => {
+    if(error){
+      return next(new AppError('An error occured during payment verification', 500));
+    }
+
+    const response = JSON.parse(body);
+    if (response.status === false) return next(new AppError(response.message, 400));
+
+    const { data } = response;
+    const { donorName, customerId } = data.metadata;
+    const [status, email, referenceId, amount] = [data.status, data.customer.email, data.reference, data.amount / 100];
+
+    let transaction;
+    const transactionExists = await MonetaryDonation.findOne({ referenceId });
+
+    if (!transactionExists) {
+      transaction = await MonetaryDonation.create({
+        email, donorName, referenceId, amount, user: customerId, transactionStatus: status
+      })
+    } else transaction = transactionExists;
+    
+    if (transaction.transactionStatus !== status) {
+      transaction.transactionStatus = status;
+      await transaction.save();
+    }
+
+    if (status === 'abandoned') {
+      return next(new AppError('Payment unsuccessful. Please try donating again', 400));
+    } else if (status === 'success') {
+      return res.status(200).json({ status: 'success', message: `Payment successful! You've donated ₦${amount} to The Hunger Initiative` });
+    }
+
+    res.status(500).json({ status: 'false', message: 'An unknown error occured!' });
+  })
 })
