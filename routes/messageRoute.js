@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createMessage, getAllMessage, getMessage } = require ("../controllers/chatController");
+const { createMessage, getAllMessage, getMessage, getSpecificConversationMessage, deleteMessage } = require ("../controllers/chatController");
 const auth = require ("../controllers/authController");
 
  class MessageRouter {
@@ -14,11 +14,17 @@ const auth = require ("../controllers/authController");
      this.router
       .route("/")
       .post(auth.authorize("admin", "volunteer", "donor"), createMessage)
+      //.post(createMessage)
       .get(auth.authorize("admin"), getAllMessage);
       
       this.router
+      .route("/:conversationId")
+      .get(auth.authorize("admin", "volunteer", "donor"), getSpecificConversationMessage);
+      //.get(getSpecificConversationMessage);
+      
+      this.router
       .route("/:id")
-      .get(auth.authorize("admin", "volunteer", "donor"), getMessage);
+      .delete(auth.authorize("admin",), deleteMessage);
       
     return this.router;
    }

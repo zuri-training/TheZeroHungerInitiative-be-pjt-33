@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createConversation, getAllConversation, getConversation } = require ("../controllers/chatController");
+const { createConversation, getAllConversation, getSpecificUserConversation } = require ("../controllers/chatController");
 const auth = require ("../controllers/authController");
 
  class ConversationRouter {
@@ -15,11 +15,13 @@ const auth = require ("../controllers/authController");
      this.router
       .route("/")
       .post(auth.authorize("admin", "volunteer", "donor"), createConversation)
+      //.post(createConversation)
       .get(auth.authorize("admin"), getAllConversation);
       
       this.router
-      .route("/:id")
-      .get(auth.authorize("admin", "volunteer", "donor"), getConversation);
+      .route("/:userId")
+      .get(auth.authorize("admin", "volunteer", "donor"), getSpecificUserConversation);
+      //.get(getSpecificUserConversation);
       
     return this.router;
    }

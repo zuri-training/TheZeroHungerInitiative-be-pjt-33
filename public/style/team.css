@@ -1,0 +1,221 @@
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+header {
+  width: 100%;
+  height: 10vh;
+  background-color: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: sticky;
+  top: 0;
+}
+
+.header-logo {
+  width: 10em;
+  height: 4em;
+  background-image: url(../images/index/Logo\ main.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+}
+.header-links {
+  display: none;
+}
+
+.iconify {
+  font-size: 3em;
+  cursor: pointer;
+}
+
+.sideNavHidden {
+  width: 0px;
+}
+.sideNav {
+  width: 250px;
+  text-align: center;
+}
+.sideNav,
+.sideNavHidden {
+  display: flex;
+  flex-flow: column wrap;
+  height: 100%;
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #e5e5e5;
+  overflow-x: hidden;
+  padding-top: 50px;
+  transition: 0.5s;
+}
+
+.sideNav span,
+.sideNavHidden span {
+  padding: 2em 1em 0.5em 2em;
+  font-size: 20px;
+  color: #fe8e66;
+  font-weight: bold;
+  display: block;
+  transition: 0.3s;
+  text-align: left;
+}
+.sideNav span:hover,
+.sideNavHidden span:hover {
+  color: #e5e5e5;
+  background-color: #832706 !important;
+}
+.sideNav i,
+.sideNavHidden i {
+  margin-left: -15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  pointer-events: none;
+}
+
+#close {
+  display: none;
+}
+
+.login-button {
+  background-color: #fe8e66;
+  color: #fff;
+  padding: 1em 2em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-button:hover {
+  background-color: #832706;
+}
+@media screen and (min-width: 765px) {
+  header {
+    height: 12vh;
+  }
+  #open {
+    display: none;
+  }
+  .header-links {
+    display: flex;
+    width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #444444;
+    font-weight: bold;
+  }
+  .header-links a:hover {
+    color: #fe8e66;
+  }
+}
+
+footer {
+  width: 100%;
+  background-color: rgba(254, 142, 102, 0.7);
+}
+footer form {
+  text-align: center;
+  background-color: #ffffff;
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+}
+
+.input {
+  height: 3em;
+  border: none;
+  border: 2px solid #fe8e66;
+  outline: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 1em;
+}
+form button {
+  background-color: #fe8e66;
+  border: none;
+  height: 3.3em;
+  padding: 0 1em;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: -1em;
+  font-weight: bold;
+}
+form button:hover {
+  background-color: #832706;
+  cursor: pointer;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+}
+.footer-links li {
+  padding: 0.5em 0 0.5em 1em;
+  list-style-type: none;
+}
+.footer-links li:hover {
+  color: #ffffff;
+}
+.footer-links h3 {
+  margin-top: -1em;
+  margin-bottom: -0.1em;
+}
+
+@media screen and (min-width: 765px) {
+  .footer-links {
+    height: 13em;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  .footer-links h3 {
+    margin-top: 0em;
+    margin-bottom: 0em;
+  }
+}
+main h1 {
+  text-align: center;
+  color: #444444;
+}
+
+.pic-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 5em;
+  color: #444444;
+  text-align: center;
+}
+.team-pic {
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  background-image: url(../images/team/Ellipse\ 29.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-top: 2em;
+}
+
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (min-width: 765px) {
+  .team-pic {
+    width: 10em;
+    height: 10em;
+    margin: 2em;
+  }
+}

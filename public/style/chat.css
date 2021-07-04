@@ -1,0 +1,14 @@
+.message {
+  position: relative;
+}
+
+.owner {
+  position: relative;
+  margin: .5rem;
+  background: green;
+}
+
+.not {
+  position: relative;
+  
+}

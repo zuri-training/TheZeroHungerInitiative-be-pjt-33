@@ -1,3 +1,4 @@
+const path = require('path');
 const http = require('http');
 const express = require("express");
 const morgan = require("morgan");
@@ -15,6 +16,7 @@ const swaggerUi = require("swagger-ui-express");
 
 
 const logger = require("./utils/logger");
+const {addConnectedUser, removeConnectedUser, getCurrentUser} = require("./utils/socketHelper");
 const MongoDBConnection = require("./database");
 const AppError = require("./utils/appError");
 const globalErrorHandling = require("./controllers/errorController");
@@ -25,12 +27,15 @@ const donationRoute = require("./routes/donationRoute");
 const userRoute = require("./routes/userRoute");
 const messageRoute = require("./routes/messageRoute");
 const conversationRoute = require("./routes/conversationRoute");
+const viewRoute = require("./routes/viewRoute");
 
 
 class App {
   constructor() {
     this.logger = logger;
     this.logger.info(`Starting application...`);
+    // Used to store online users with their "id" and "socketId"
+    this.users = [];
     this.init();
     this.db = new MongoDBConnection(this.logger);
   }
@@ -44,16 +49,17 @@ class App {
     
     // Setting up socket.io
     this.server = http.createServer(this.app);
-    this.io = socketio(this.server);
-    
-    // Calling socket io method
-    this.socketIoDefinition();
     
     this.app.enable("trust proxy");
     
+    // Setting view engine to ejs
+    this.app.set('view engine', 'ejs');
+    this.app.set('views', path.join(__dirname, 'views'));
+    this.app.use(express.static(path.join(__dirname, 'public')));
+
     // Parsing request body
     this.parsingBody();
-    
+   
     //Http security
     this.httpSecurity();
     
@@ -76,18 +82,55 @@ class App {
   }
 
   start() {
-    this.server.listen(this.port, () => {
-      this.logger.info(`Now listening on port ${this.port}. in ${this.environment}`);
-    });
-    this.startTime();
-    
     // Connecting to MongoDB
     this.db.connect();
+    
+    this.server.listen(this.port, () => {
+      this.logger.info(`Now listening on port ${this.port}. in ${this.environment} mode`);
+    });
+    
+    //this.io = socketio(this.server);
+    this.io = socketio(this.server, {
+      cors: {
+        origin: "http://localhost:8158",
+      }
+    });
+    
+    this.startTime();
+    
+    // Calling socket io method
+    this.socketIoDefinition();
   }
   
   socketIoDefinition() {
     this.io.on("connection", (socket) => {
-      console.log("a user connected");
+      console.log(`a user connected ${socket.id}`);
+      
+      // When a user connected
+      socket.on('sendConnectedUser', (userId) => {
+        // Add connected user into the user array
+        addConnectedUser(this.users, userId, socket.id);
+        console.log(this.users);
+        // Send all the connected user to the client
+        socket.emit("getConnectedUser", this.users);
+      });
+      
+      socket.on("sendMessage", ({senderId, receiverId, message}) => {
+        const user = getCurrentUser(this.users, receiverId);
+        console.log(user);
+        if(user !== undefined) {
+          this.io.to(user.socketId).emit("getMessage", {senderId, message});
+        }
+      /*this.io.to(user.socketId).emit("getMessage", {senderId, message});*/
+      });
+      
+      // When a user disconnected
+      socket.on("disconnect", () => {
+        console.log(`user disconnected ${socket.id}`);
+        const user = removeConnectedUser(this.users, socket.id);
+        console.log(user);
+        this.io.emit("getConnectedUser", user);
+      });
     });
   }
   
@@ -95,7 +138,8 @@ class App {
     this.app.use(express.json({ limit: "10kb" }));
     this.app.use(express.urlencoded({ extended: true, limit: '10kb' }));
     this.app.use(cookieParser());
-    this.app.use(cors());
+    this.app.use(cors({origin:"*",
+    credentials:true}));
   }
   
   httpSecurity() {
@@ -110,8 +154,9 @@ class App {
   
   mountingRoutes() {
     // Documentation routes
-    this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     
+    this.app.use("/", viewRoute);
+    this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     this.app.use("/api/v1/users", userRoute);
     this.app.use("/api/v1/donate", donationRoute);
     this.app.use("/api/v1/message", messageRoute);

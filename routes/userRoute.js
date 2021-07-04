@@ -20,17 +20,17 @@ const auth = require ("../controllers/authController");
      
      // User api endpoint
      // All endpoint from here are protected
-     this.router.use(auth.authenticate(), auth.authorize("admin"));
+     this.router.use(auth.authenticate());
      
      this.router
       .route("/")
-      .get(getAllUser);
+      .get(auth.authorize("admin"), getAllUser);
       
      this.router
       .route("/:id")
       .get(getUser)
-      .patch(updateUser)
-      .delete(deleteUser);
+      .patch(auth.authorize("admin"), updateUser)
+      .delete(auth.authorize("admin"), deleteUser);
       
     return this.router;
   }
