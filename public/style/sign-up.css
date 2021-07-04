@@ -1,0 +1,442 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto:wght@300;400;500;700;900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  #wrapper-mobile {
+    display: none;
+  }
+
+  body {
+    background-color: #e5e5e5;
+  }
+}
+
+@media (max-width: 600px) {
+  #wrapper-desk-top {
+    display: none;
+  }
+
+  body {
+    background-color: #e5e5e5;
+  }
+}
+
+
+/* loading animation  */
+.lds-hourglass {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: 35px;
+  height: 35px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  /*margin: 2px;*/
+  box-sizing: border-box;
+  border: 22px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+
+/* Mobile Styling */
+
+#wrapper-mobile {
+  padding: 70px 0;
+}
+
+.mobile-form {
+  /*width: 375px;*/
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+  border-radius: 15px;
+  margin: 30px auto;
+}
+
+.header-mobile {
+  width: 100%;
+  /*width: 375px;*/
+  height: 65px;
+  background-color: #fe723f;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.header-mobile ul {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  top: 30%;
+  left: 0;
+}
+
+.header-mobile ul li {
+  list-style: none;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.header-mobile ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 22px;
+  line-height: 29px;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.header-mobile ul li a img {
+  position: relative;
+  top: 4px;
+  right: 6px;
+}
+
+.form-body-mobile {
+  width: 315px;
+  height: auto;
+  margin: 0 auto;
+}
+
+div {
+  margin-top: 30px;
+}
+
+.username-mobile,
+.phone-number-mobile,
+.set-password-mobile {
+  display: flex;
+  flex-direction: column;
+}
+
+.username-mobile label,
+.phone-number-mobile label,
+.set-password-mobile label {
+  font-family: "Lato", sans-serif;
+  text-transform: capitalize;
+  color: #434c5b;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.username-mobile input,
+.phone-number-mobile input,
+.set-password-mobile input,
+.username-mobile select {
+  margin-top: 7px;
+  height: 48px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #aeb4ca;
+  padding: 20px;
+}
+
+.username-mobile select {
+  margin-top: 7px;
+  height: 48px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #aeb4ca;
+  padding: 10px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  left: 7px;
+  top: 10px;
+}
+
+.set-password-mobile label:nth-of-type(2) {
+  position: relative;
+  left: 35px;
+  bottom: 10px;
+}
+
+.sign-up-mobile {
+  width: 100%;
+  position: relative;
+  bottom: 2px;
+  height: 56px;
+  box-shadow: 0px 4px 12px rgba(174, 180, 202, 0.3);
+  border-radius: 15px;
+  background-color: #fe723f;
+  border: 1px solid transparent;
+  color: #ffffff;
+  text-align: center;
+  font-size: 24px;
+  text-transform: capitalize;
+  font-family: "Lato", sans-serif;
+  line-height: 29px;
+  font-weight: 400;
+  font-style: normal;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
+.left {
+  width: 37%;
+  position: relative;
+  top: 52px;
+  left: 0;
+}
+
+.right {
+  width: 37%;
+  position: relative;
+  left: 62%;
+  top: 22px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 24px;
+  color: #434c5b;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  position: relative;
+  top: 35px;
+  left: 0;
+}
+
+.continue-google button,
+.continue-apple button {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #434c5b;
+  border-radius: 15px;
+  background-color: #fafafa;
+  font-size: 18px;
+  line-height: 22px;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.continue-google button {
+  position: relative;
+  top: 40px;
+  left: 0;
+}
+
+.continue-google img {
+  width: 50px;
+  position: relative;
+  left: 14px;
+  bottom: 3px;
+}
+
+.continue-apple img {
+  width: 25px;
+  position: relative;
+  left: 28px;
+  bottom: 42px;
+}
+
+h4 {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  padding-bottom: 30px;
+}
+
+h4 a {
+  text-decoration: none;
+  color: #fe723f;
+}
+
+/* Desk-top Styling */
+
+#wrapper-desk-top {
+  max-width: 1440px;
+  height: auto;
+  background-color: #fafafa;
+  margin: 40px auto;
+}
+
+.header-desktop {
+  padding: 40px 0;
+}
+
+.header-desktop ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+.header-desktop ul li {
+  list-style: none;
+}
+
+.header-desktop ul li a {
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #434c5b;
+  font-style: normal;
+  font-family: "Lato", sans-serif;
+}
+
+.header-desktop ul li a img {
+  vertical-align: sub;
+  margin-right: 7px;
+}
+
+.sign-up-desktop {
+  width: 450px;
+  height: auto;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  color: #353535;
+  word-spacing: 5px;
+  margin: 30px 0;
+}
+
+div {
+  margin-top: 15px;
+}
+
+.firstName-desktop,
+.lastName-desktop,
+.phoneNumber-desktop,
+.email-desktop,
+.gender-desktop,
+.address-desktop,
+.password-desktop,
+.confirmPassword-desktop {
+  display: flex;
+  flex-direction: column;
+}
+
+.firstName-desktop label,
+.lastName-desktop label,
+.phoneNumber-desktop label,
+.email-desktop label,
+.gender-desktop label,
+.address-desktop label,
+.password-desktop label,
+.confirmPassword-desktop label {
+  color: #434c5b;
+  text-transform: capitalize;
+  font-family: "Lato", sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.firstName-desktop input,
+.lastName-desktop input,
+.phoneNumber-desktop input,
+.email-desktop input,
+.gender-desktop select,
+.address-desktop input,
+.password-desktop input,
+.confirmPassword-desktop input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #aeb4ca;
+  border-radius: 7px;
+  margin-top: 8px;
+  padding-left: 35px;
+}
+
+.firstName-desktop img,
+.lastName-desktop img,
+.phoneNumber-desktop img,
+.email-desktop img,
+.gender-desktop img,
+.address-desktop img,
+.password-desktop img:nth-of-type(1),
+.confirmPassword-desktop img:nth-of-type(1) {
+  width: 20px;
+  position: relative;
+  left: 9px;
+  bottom: 36px;
+}
+
+.password-desktop img:nth-of-type(2),
+.confirmPassword-desktop img:nth-of-type(2) {
+  width: 20px;
+  position: relative;
+  left: 92%;
+  bottom: 54px;
+}
+
+.gender-desktop img:nth-of-type(2) {
+  width: 13px;
+  position: relative;
+  left: 93%;
+  bottom: 50px;
+}
+
+button {
+  width: 100%;
+  height: 60px;
+  border: 1px solid transparent;
+  background-color: #fe8e66;
+  color: #ffffff;
+  border-radius: 5px;
+  font-style: normal;
+  font-weight: 600;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  position: relative;
+  bottom: 15px;
+  left: 0;
+}
+
+.confirmPassword-desktop {
+  position: relative;
+  bottom: 20px;
+  left: 0;
+}

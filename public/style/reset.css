@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+    .wrapper-mobile {
+        display: none;
+    }
+
+    body {
+        background-color: #E5E5E5;
+    }
+}
+
+@media (max-width: 600px) {
+    .wrapper-desktop {
+        display: none;
+    }
+
+    body {
+        background-color: #E5E5E5;
+    }
+}
+
+
+/* loading animation  */
+.lds-hourglass {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: 35px;
+  height: 35px;
+}
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  /*margin: 2px;*/
+  box-sizing: border-box;
+  border: 22px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+
+/* Mobile Styling */ 
+
+.form-mobile {
+    width: 375px;
+    height: auto;
+    background-color: #FFFFFF;
+    margin: 40px auto;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.header-mobile {
+    padding-top: 50px;
+    /* padding-bottom: 100px; */
+}
+
+.header-mobile ul {
+    display: flex;
+}
+
+.header-mobile ul li {
+    list-style: none;
+    text-transform: capitalize;
+    color: #FE8E66;
+    font-size: 24px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    line-height: 29px;
+    font-style: normal;
+    margin-left: 20px;
+}
+
+.header-mobile ul li a {
+    vertical-align: middle;
+} 
+
+.email-mobile {
+    margin: 180px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-mobile label {
+    color: #434C5B;
+    font-size: 16px;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-style: normal;
+    font-family: 'Lato', sans-serif;
+    line-height: 29px;
+}
+
+.email-mobile input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #AEB4CA;
+    border-radius: 10px;
+    padding-left: 15px;
+    margin-top: 10px;
+}
+
+.button-mobile {
+    width: 100%;
+    height: 56px;
+    background-color: #FE8E66;
+    box-shadow: 0px 4px 12px rgba(174, 180, 202, 0.3);
+    border-radius: 15px;
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    font-size: 24px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-transform: capitalize;
+    margin-bottom: 50px;
+    position: relative;
+    bottom: 60px;
+}
+
+
+
+/* Desktop Styling */ 
+
+
+.wrapper-desktop {
+    max-width: 1440px;
+    height: auto;
+    background-color: #FAFAFA;
+    margin: 90px auto;
+}
+
+.desktop-header {
+    display: flex;
+    padding-left: 120px;
+    padding-top: 75px;
+}
+
+.desktop-header img {
+    position: relative;
+    bottom: 3px;
+    left: 0;
+}
+
+h1 {
+    color: #FE8E66;
+    font-size: 26px;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    margin-left: 20px;
+}
+
+.form-desktop {
+    width: 401px;
+    height: auto;
+    margin: 60px auto;
+}
+
+h2 {
+    color: #353535;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: normal; 
+    font-family: 'Lato', sans-serif;
+    text-transform: capitalize;
+}
+
+div {
+    margin-top: 30px;
+}
+
+.email-desktop, .newPassword-desktop, .re-enterPassword-desktop {
+    display: flex;
+    flex-direction: column;
+}
+
+.email-desktop label, .newPassword-desktop label, .re-enterPassword-desktop label {
+    color: #434C5B;
+    font-size: 18px;
+    line-height: 29px;
+    font-style: normal;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin: 8px 0;
+}
+
+.email-desktop input, .newPassword-desktop input, .re-enterPassword-desktop input {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #FE8E66;
+    border-radius: 5px;
+    padding-left: 40px;
+}
+
+.email-desktop img, .newPassword-desktop img:nth-of-type(1), .re-enterPassword-desktop img:nth-of-type(1) {
+    width: 18px;
+    position: relative;
+    left: 14px;
+    bottom: 34px;
+}
+
+.newPassword-desktop img:nth-of-type(2), .re-enterPassword-desktop img:nth-of-type(2) {
+    width: 18px;
+    position: relative;
+    left: 90%;
+    bottom: 53px;
+}
+
+.submit-desktop {
+  position: relative;
+    width: 100%;
+    height: 64px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: normal;
+    color: #FFFFFF;
+    background-color: #FE8E66;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+}
+
+.re-enterPassword-desktop {
+    position: relative;
+    bottom: 20px;
+}
+
+
+
+
+

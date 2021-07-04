@@ -1,0 +1,455 @@
+body {
+  padding: none;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: #e5e5e5;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* -------------  Header styling  ------------- */
+header {
+  width: 100%;
+  height: 10vh;
+  background-color: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: sticky;
+  top: 0;
+}
+
+.header-logo {
+  width: 10em;
+  height: 4em;
+  background-image: url(../images/index/Logo\ main.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+}
+.header-links {
+  display: none;
+}
+
+.iconify {
+  font-size: 3em;
+  cursor: pointer;
+}
+
+.sideNavHidden {
+  width: 0px;
+}
+.sideNav {
+  width: 250px;
+  text-align: center;
+}
+.sideNav,
+.sideNavHidden {
+  display: flex;
+  flex-flow: column wrap;
+  height: 100%;
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #e5e5e5;
+  overflow-x: hidden;
+  padding-top: 50px;
+  transition: 0.5s;
+}
+
+.sideNav span,
+.sideNavHidden span {
+  padding: 2em 1em 0.5em 2em ;
+  font-size: 20px;
+  color: #fe8e66;
+  font-weight: bold;
+  display: block;
+  transition: 0.3s;
+  text-align: left;
+}
+.sideNav span:hover,
+.sideNavHidden span:hover {
+  color: #e5e5e5;
+  background-color: #832706 !important;
+}
+.sideNav i,
+.sideNavHidden i {
+  margin-left: -15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  pointer-events: none;
+}
+
+#close {
+  display: none;
+}
+
+.login-button {
+  background-color: #fe8e66;
+  color: #fff;
+  padding: 1em 2em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-button:hover {
+  background-color: #832706;
+}
+@media screen and (min-width: 765px) {
+  header {
+    height: 12vh;
+  }
+  #open {
+    display: none;
+  }
+  .header-links {
+    display: flex;
+    width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #444444;
+    font-weight: bold;
+  }
+  .header-links a:hover {
+    color: #fe8e66;
+  }
+}
+
+/* -------------  Banner1 styling  ------------- */
+
+.banner1-pic {
+  height: 20em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-image: url(../images/index/Rectangle\ 1134.png);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(../images/index/Rectangle\ 1134.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.donate-button1 {
+  background-color: #fe8e66;
+  color: #fff;
+  padding: 1em 1em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.donate-button1:hover {
+  background-color: #832706;
+}
+.donate-button2 {
+  background-color: inherit;
+  border: 1px solid #fe8e66 !important;
+  color: #fe8e66;
+  padding: 1em 1em;
+  margin-left: 0.5em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.donate-button2:hover {
+  color: #fff;
+  background-color: #832706;
+  border: 0 !important;
+}
+
+@media screen and (min-width: 765px) {
+  .banner1-pic {
+    height: auto;
+    height: 30em;
+  }
+  .banner1-title {
+    font-size: 3em;
+  }
+  .donate-button1,
+  .donate-button2 {
+    font-size: 1.2em;
+  }
+}
+
+/* -------------  About styling  ------------- */
+
+.about {
+  text-align: center;
+  padding: 0 1em;
+}
+.about h1 {
+  color: #fe8e66;
+}
+
+@media screen and (min-width: 765px) {
+  .about {
+    padding: 0 auto;
+  }
+  .about h1 {
+    font-size: 3em;
+  }
+  .about p {
+    font-size: 2em;
+  }
+}
+
+/* -------------  Banner2 styling  ------------- */
+
+.banner2-pic {
+  height: 25em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(https://www.welthungerhilfe.org/fileadmin/_processed_/d/b/csm_2017-kongo-markt-welthungerhilfe_b93e6c7f21.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.donate-button3 {
+  background-color: #fe8e66;
+  color: #fff;
+  padding: 1em 3em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.donate-button3:hover {
+  background-color: #832706;
+}
+.banner2-pic p {
+  padding: 0 1em;
+}
+.banner2-title {
+  color: #fe8e66;
+}
+@media screen and (min-width: 765px) {
+  .banner2-pic {
+    height: auto;
+    min-height: 40em;
+
+  }
+  .banner2-title {
+    font-size: 3em;
+    color: #fe8e66;
+  }
+  .donate-button3 {
+    font-size: 1.2em;
+  }
+  .banner2-pic p {
+    padding: 0 5em;
+    font-size: 2em;
+  }
+}
+
+/* -------------  Banner3 styling  ------------- */
+
+.banner3-pic {
+  height: 30em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(https://www.concernusa.org/wp-content/uploads/2013/10/concer-hunger-header3-1280x800.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.donate-button3 {
+  background-color: #fe8e66;
+  color: #fff;
+  padding: 1em 3em;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.donate-button3:hover {
+  background-color: #832706;
+}
+.banner3-pic p {
+  padding: 0 1em;
+}
+.banner3-title {
+  margin-top: 3em;
+}
+@media screen and (min-width: 765px) {
+  .banner3-pic {
+    height: auto;
+    min-height: 40em;
+  }
+  .banner3-title {
+    font-size: 3em;
+  }
+  .donate-button3 {
+    font-size: 1.2em;
+  }
+  .banner3-pic p {
+    padding: 0 5em;
+    font-size: 2em;
+  }
+}
+
+/* -------------  food-list styling  ------------- */
+
+.food-list h1 {
+  color: #fe8e66;
+  text-align: center;
+}
+.food-list p {
+  margin: auto;
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
+.food-list ul {
+  display: flex;
+  flex-flow: column wrap;
+  height: 12em;
+  list-style-type: none;
+  font-size: 1.3em;
+}
+
+@media screen and (min-width: 765px) {
+  .food-list ul {
+    width: 80vw;
+    height: 10em;
+    margin: auto;
+  }
+  .food-list li {
+    padding: 10px;
+    list-style-type: none;
+  }
+  .food-list h1 {
+    font-size: 3em;
+  }
+}
+
+/* -------------  payment styling  ------------- */
+
+.payment-partners h1 {
+  color: #fe8e66;
+  text-align: center;
+  font-size: 1.3em;
+}
+.payment-partners aside {
+  height: 30em;
+}
+.payment-partners .pic1,
+.payment-partners .pic2,
+.payment-partners .pic3 {
+  width: 10em;
+  height: 10em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin: auto;
+}
+.payment-partners .pic1 {
+  background-image: url(../images/index/image\ 1.png);
+}
+.payment-partners .pic2 {
+  background-image: url(../images/index/image\ 2.png);
+}
+
+.payment-partners .pic3 {
+  background-image: url(../images/index/image\ 3.png);
+}
+
+@media screen and (min-width: 765px) {
+  .payment-partners aside {
+    display: flex;
+    flex-direction: row;
+    width: 50em;
+    height: 10em;
+    margin: auto;
+  }
+}
+
+/* -------------  footer styling  ------------- */
+
+footer {
+  width: 100%;
+  background-color: rgba(254, 142, 102, 0.7);
+}
+footer form {
+  text-align: center;
+  background-color: #e5e5e5;
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+}
+
+.input {
+  height: 3em;
+  border: none;
+  border: 2px solid #fe8e66;
+  outline: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 1em;
+}
+form button {
+  background-color: #fe8e66;
+  border: none;
+  height: 3.3em;
+  padding: 0 1em;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: -1em;
+  font-weight: bold;
+}
+form button:hover {
+  background-color: #832706;
+  cursor: pointer;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+}
+.footer-links li {
+  padding: 0.5em 0 0.5em 1em;
+  list-style-type: none;
+}
+.footer-links li:hover {
+  color: #ffffff;
+}
+.footer-links h3 {
+  margin-top: -1em;
+  margin-bottom: -0.1em;
+}
+
+@media screen and (min-width: 765px) {
+  .footer-links {
+    height: 13em;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  .footer-links h3 {
+    margin-top: 0em;
+    margin-bottom: 0em;
+  }
+ 

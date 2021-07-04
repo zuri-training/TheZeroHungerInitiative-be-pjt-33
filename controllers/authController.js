@@ -133,7 +133,9 @@ class AuthController {
       
       // No token, send error message
       if(!token) {
+
         return next(new AppError('Unauthorized. Please log in!', 401));
+
       }
       
       // 2= Verification of token

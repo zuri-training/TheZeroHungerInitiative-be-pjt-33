@@ -55,6 +55,23 @@ class CRUDAPI {
     });
   }
   
+  getRelatedData() {
+    return catchAsync(async (req, res, next) => {
+      const {conversationId} = req.params;
+      const data = await this.Model.find({conversationId});
+      
+      if(!data) {
+        return this.noId(next);
+      }
+      
+      return res.status(200).json({
+        status: "success",
+        length: data.length,
+        data
+      });
+    });
+  }
+  
   updateData() {
     return catchAsync(async (req, res, next) => {
       const {id} = req.params;
