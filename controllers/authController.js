@@ -7,7 +7,6 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const logger = require("../utils/logger");
 
-
 class AuthController {
   constructor(User) {
     this.User = User;

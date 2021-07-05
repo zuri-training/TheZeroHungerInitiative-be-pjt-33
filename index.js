@@ -79,6 +79,9 @@ class App {
     // This must be the last Middleware, used for handling global error
     this.app.use(globalErrorHandling);
     this.logger.info(`Initialized Application`);
+    
+    // Handling Exception
+    this.exception();
   }
 
   start() {
@@ -178,7 +181,42 @@ class App {
       secure: true
     });
   }
-
+  
+  unexpectedErrorHandler(error) {
+    logger.error(error);
+    this.exitHandler();
+  };
+  
+  exitHandler() {
+    if (this.server) {
+      this.server.close(() => {
+        logger.info('Server closed');
+        process.exit(1);
+      });
+    } else {
+      process.exit(1);
+    }
+  }
+  
+  exception() {
+    process.on('uncaughtException', (err) => {
+      logger.info('💥 UNCAUGHT EXCEPTION! Shutting down...');
+      this.unexpectedErrorHandler(err);
+    });
+    
+    process.on('unhandledRejection', (err) => {
+      logger.info('💥 UNHANDLED REJECTION! Shutting down...');
+      this.unexpectedErrorHandler(err);
+    });
+    
+    process.on('SIGTERM', () => {
+      logger.info('SIGTERM received, shutting down');
+      if (this.server) {
+        this.server.close(() => logger.info('process Terminated'));
+      }
+    });
+  }
+  
   startTime() {
     this.logger.info(`server started in ${process.uptime()}.`);
     return process.uptime();
