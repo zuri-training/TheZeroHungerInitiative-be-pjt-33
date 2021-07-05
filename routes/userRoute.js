@@ -14,6 +14,7 @@ const auth = require ("../controllers/authController");
      // user authentication endpoint
      this.router.route("/signup").post(auth.signup());
      this.router.route("/login").post(auth.login());
+     this.router.route("/logout").get(auth.logout());
      this.router.route("/forgot-password").post(auth.forgotPassword());
      this.router.route("/reset-password/:resetToken").post(auth.resetPassword());
      this.router.route("/update-password").post(auth.authenticate(), auth.updatePassword());

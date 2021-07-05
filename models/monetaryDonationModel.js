@@ -19,7 +19,7 @@ const monetaryDonationSchema = new Schema({
   },
   transactionStatus: {
     type: String,
-    enum: ['unknown', 'abandoned', 'successful'],
+    enum: ['unknown', 'abandoned', 'success'],
     default: 'unknown'
   },
   user: {
