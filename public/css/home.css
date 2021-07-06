@@ -1,0 +1,181 @@
+/* Intro Section */
+section.intro {
+  height: 95vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 30px;
+  color: #fff;
+  background-image: url(../images/header-banner.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(../images/header-banner.jpg) center center no-repeat fixed;
+  background-size: cover;
+}
+
+section.intro h2 {
+  font-size: 45px;
+  text-shadow: 4px 4px 4px #000;
+}
+
+section.intro h5 {
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px #000;
+}
+
+section.intro .btn {
+  margin-top: 10px;
+}
+
+section.intro .btn-outline {
+  margin-left: 10px;
+}
+
+
+/* About Section */
+section.about,
+section.food-list {
+  text-align: center;
+  padding: 40px 40px 60px;
+}
+
+section.food-list {
+  padding-bottom: 20px;
+}
+
+section.about h2,
+section.food-list h2 {
+  color: #fe8e66;
+  font-size: 45px;
+}
+
+section.about h5,
+section.food-list h5,
+section.payment-options h5 {
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+section.food-list ul {
+  text-align: center;
+  font-size: 1.3em;
+  margin: 0;
+}
+
+
+/* Donate Food Section */
+section.donate-food {
+  min-height: 95vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  color: #fff;
+  background-image: url(../images/donate-food-banner.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(../images/donate-food-banner.jpg) center center no-repeat fixed;
+  background-size: cover;
+  border-bottom: 4px solid #fff;
+}
+
+
+/* Donate Cash Section */
+section.donate-cash {
+  min-height: 95vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  color: #fff;
+  background-image: url(../images/donate-cash-banner.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url(../images/donate-cash-banner.jpg) center center no-repeat fixed;
+  background-size: cover;
+}
+
+section.donate-food,
+section.donate-cash {
+  transform: skewY(4deg);
+}
+
+section.donate-food .container,
+section.donate-cash .container {
+  transform: skewY(-4deg);
+}
+
+section.donate-food h2,
+section.donate-cash h2 {
+  color: #fe8e66;
+  font-size: 45px;
+  margin-bottom: 45px;
+}
+
+section.donate-food h5,
+section.donate-cash h5 {
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+
+/* Payment Section Options */
+section.payment-options {
+  padding: 0 0 35px;
+}
+
+section.payment-options h5 {
+  color: #fe8e66;
+}
+
+section.payment-options .row .col {
+  margin-bottom: 20px;
+}
+
+
+/* Footer Section */
+footer {
+  padding: 0 0 20px;
+  background-color: rgba(254, 142, 102, 0.7);
+}
+
+footer form {
+  text-align: center;
+  background-color: #e5e5e5;
+  padding-top: -20px;
+  padding-bottom: 2em;
+  margin-bottom: 2em;
+}
+
+footer form .input {
+  height: 3em;
+  border: none;
+  border: 2px solid #fe8e66;
+  font-family: inherit;
+  outline: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 1em;
+}
+
+footer form button {
+  background-color: #fe8e66;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  height: 3em;
+  padding: 0 1em;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: -1em;
+}
+
+footer ul li {
+  padding: 0.5em 0 0.5em 1em;
+  list-style-type: none;
+  color: #000;
+}

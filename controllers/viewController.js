@@ -18,10 +18,16 @@ const forgotPasswordSuccess = (req, res) => {
   res.status(200).render('forgot-password-success');
 };
 
+const home = (req, res) => {
+  console.log(req.page);
+  res.status(200).render('home/index');
+}
+
 module.exports = {
   login,
   signup,
   forgotPassword,
   resetPassword,
-  forgotPasswordSuccess
+  forgotPasswordSuccess,
+  home
 };
