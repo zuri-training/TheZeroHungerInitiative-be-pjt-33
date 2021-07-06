@@ -1,150 +1,65 @@
-const devUrl = "http://localhost:5000/api/v1";
-//const prodUrl = "https://zero-hunger-initiative.herokuapp.com/api/v1";
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
+const form = $('form');
 
-class Signup {
-  constructor(url) {
-    this.url = url;
-    this.initDOMElement();
-    console.log("hello");
-  }
-  
-  initDOMElement() {
-    this.signupButton = document.querySelector(".sign-up-mobile");
-    this.signupButtonDesktop = document.querySelector(".signup-desktop");
-    
-    this.setupEventHandlers();
-  }
-  
-  setupEventHandlers() {
-    // Login button
-    this.signupButton.addEventListener("click", (e) => this.signupHandler(e));
-    this.signupButtonDesktop.addEventListener("click", (e) => this.signupHandlerDesktop(e));
-  }
-  
-  signupDetails() {
-    const firstName = document.querySelector("#firstname-mobile").value;
-    const lastName = document.querySelector("#lastname-mobile").value;
-    const username = document.querySelector("#username-mobile").value;
-    const gender = document.querySelector("#gender-mobile").value;
-    const address = document.querySelector("#address-mobile").value;
-    const email = document.querySelector("#email-mobile").value;
-    const phoneNumber = document.querySelector("#phonenumber-mobile").value;
-    const password = document.querySelector("#password-mobile").value;
-    const passwordConfirm = document.querySelector("#password-confirm-mobile").value;
-  
-    return {firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm};
-  }
-  
-  signupDetailsDesktop() {
-    const firstName = document.querySelector("#firstName").value;
-    const lastName = document.querySelector("#lastName").value;
-    const username = document.querySelector("#username").value;
-    const gender = document.querySelector("#gender").value;
-    const address = document.querySelector("#userAddress").value;
-    const email = document.querySelector("#email").value;
-    const phoneNumber = document.querySelector("#phoneNumber").value;
-    const password = document.querySelector("#userPassword").value;
-    const passwordConfirm = document.querySelector("#confirmPassword").value;
-  
-    return {firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm};
-  }
-  
-  
-  async signupHandler(e) {
-    e.preventDefault();
-    // Get username and password
-    const {firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm} = this.signupDetails();
-    //console.log(firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm);
-   
-    // Loading state
-    this.signupButton.innerHTML = `<div class="lds-hourglass"></div>`;
-    
-    try {
-      // Make an http request to the api
-      const res = await axios({
-        method: 'POST',
-        url: `${this.url}/users/signup`,
-        data: {
-          firstName,
-          lastName,
-          username,
-          email,
-          address,
-          gender,
-          phoneNumber,
-          password,
-          passwordConfirm
-        }
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const data = new URLSearchParams(new FormData(e.target).entries());
+
+  $('body').classList.add('js-loader');
+  $('.app-loader').classList.add('visible');
+  $('.big-button').setAttribute('disabled', 'disabled');
+
+  try {
+    const res = await axios({
+      method: 'POST', url: 'api/v1/users/signup', data
+    });
+
+    if (res.data.status === 'success') {
+      console.log(res.data);
+      const { firstName, role } = res.data.user;
+      iziToast.success({
+        message: `You've signed up successfully as a <b>${role}</b>!`, position: 'topCenter', timeout: 3e3
       });
- 
-      alert("done")
-      alert(res)
-      // if everything is ok
-      /*if(res.data.status === "success") {
-        const {iat, exp, user} = res.data;
-        alert("Signup Successfully");
-        
-        window.setTimeout(() => {
-          location.assign('/dashboard.html');
-        }, 1000);
-      }*/
-      
-    } catch (e) {
-      //console.log(e);
-      alert(e.response.data.message);
-      
-      this.signupButton.textContent = `Signup`;
-    }
-  }
-  
-  async signupHandlerDesktop(e) {
-    e.preventDefault();
-    // Get username and password
-    const {firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm} = this.signupDetailsDesktop();
-    //console.log(firstName, lastName, username, address, email, phoneNumber, gender, password, passwordConfirm);
-   
-    // Loading state
-    this.signupButtonDesktop.innerHTML = `<div class="lds-hourglass"></div>`;
-    
-    try {
-      // Make an http request to the api
-      const res = await axios({
-        method: 'POST',
-        url: `${this.url}/users/signup`,
-        data: {
-          firstName,
-          lastName,
-          username,
-          email,
-          address,
-          gender,
-          phoneNumber,
-          password,
-          passwordConfirm
-        }
-      });
-      //console.log(res);
-      
-      // if everything is ok
-      /*if(res.data.status === "success") {
-        const {iat, exp, user} = res.data;
-        alert("Signup Successfully");
-        
-        window.setTimeout(() => {
-          location.assign('/dashboard.html');
-        }, 1000);
-      }*/
-      
-    } catch (e) {
-      //console.log(e);
-      alert(e.response.data.message);
-      
-      this.signupButtonDesktop.textContent = `Signup`;
-    }
-  }
-  
-  
-}
 
-new Signup(devUrl);
+      setTimeout(() => {
+        $('.app-loader').classList.remove('visible');
+
+        iziToast.success({
+          message: `Hi, <b>${firstName}</b>! You'll be redirected to the dashboard shortly.`, position: 'topCenter', timeout: null
+        });
+        
+        // Redirect to dashboard
+      }, 3e3);
+    }
+  } catch (e) {
+    iziToast.error({
+      title: 'Error', position: 'topCenter', timeout: 3e3,
+      message: `${e.response.data.message}`,
+      onClosing: () => $('.big-button').removeAttribute('disabled')
+    });
+
+    if (e.response.data?.details) {
+      const errorDetails = e.response.data.details;
+
+      if (e.response.data.message !== 'A record exists with some of your entered values') {
+        Object.keys(errorDetails).forEach(field => {
+          iziToast.warning({
+            title: 'Error:', position: 'topCenter', timeout: 3e3, message: `${errorDetails[field]}`
+          });
+        })
+      } else {
+        Object.keys(errorDetails).forEach(field => {
+          iziToast.warning({
+            title: `Please choose another ${field}`, position: 'topCenter', timeout: 3e3
+          });
+        })
+      }
+    }
+
+    $('body').classList.remove('js-loader');
+    $('.app-loader').classList.remove('visible');
+  }
+})

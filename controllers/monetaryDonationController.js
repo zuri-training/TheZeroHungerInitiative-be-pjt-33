@@ -17,7 +17,7 @@ exports.createMonetaryDonation = catchAsync (async (req, res, next) => {
   initializePayment(JSON.stringify({
     email,
     amount: amount * 100, // Convert the amount to kobo
-    metadata: { donorName, customerId: req.user._id }
+    metadata: { donorName, donorId: req.user._id }
   }), async (error, body) => {
     if (error) {
       return next(new AppError('An error occured during payment initialisation', 500));
@@ -32,7 +32,7 @@ exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
   const ref = req.params.reference;
 
   verifyPayment(ref, async (error,body) => {
-    if(error){
+    if (error) {
       return next(new AppError('An error occured during payment verification', 500));
     }
 
@@ -40,7 +40,7 @@ exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
     if (response.status === false) return next(new AppError(response.message, 400));
 
     const { data } = response;
-    const { donorName, customerId } = data.metadata;
+    const { donorName, donorId } = data.metadata;
     const [status, email, referenceId, amount] = [data.status, data.customer.email, data.reference, data.amount / 100];
 
     let transaction;
@@ -48,7 +48,7 @@ exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
 
     if (!transactionExists) {
       transaction = await MonetaryDonation.create({
-        email, donorName, referenceId, amount, user: customerId, transactionStatus: status
+        email, donorName, referenceId, amount, user: donorId, transactionStatus: status
       })
     } else transaction = transactionExists;
     

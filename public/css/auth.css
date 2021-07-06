@@ -1,0 +1,128 @@
+.iziToast {
+  font-family: inherit;
+}
+
+.auth {
+  min-height: 100vh;
+}
+
+.header-actions {
+  padding: 30px 75px;
+}
+
+.header-actions ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-actions ul li {
+  list-style: none;
+}
+
+.header-actions ul li a {
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  color: #434c5b;
+}
+
+.header-actions ul li a img {
+  vertical-align: text-bottom;
+}
+
+@media (max-width: 600px) {
+  .header-actions {
+    padding: 20px 30px;
+  }
+}
+
+.form {
+  margin: 50px auto;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-group label {
+  font-size: 20px;
+  color: #434c5b;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  border: 1px solid #aeb4ca;
+  border-radius: 5px;
+  height: 64px;
+  padding: 20px 0 20px 50px;
+  margin-top: 3px;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 400;
+  color: #aeb4ca;
+  line-height: 22px;
+  outline: none;
+}
+
+.input-group img {
+  position: relative;
+  left: 15px;
+  bottom: 40px;
+  width: 20px;
+  height: auto;
+}
+
+.password .lock-icon {
+  position: relative;
+  left: 15px;
+  bottom: 42px;
+}
+
+.password .eye-icon {
+  position: relative;
+  left: 90%;
+  bottom: 58px;
+}
+
+.password .pupil-icon {
+  position: relative;
+  left: 91.8%;
+  bottom: 70px;
+}
+
+.password label:nth-of-type(2) {
+  text-transform: capitalize;
+  font-size: 17px;
+  font-weight: 400;
+  font-style: normal;
+  color: #aeb4ca;
+  position: relative;
+  left: 35px;
+  bottom: 50px;
+}
+
+.form-options {
+  margin: -10px 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-options a {
+  color: #434c5b;
+}
+
+.big-button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 13px;
+  height: auto;
+  font-size: 110%;
+}

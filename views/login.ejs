@@ -1,122 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
-    <link rel="stylesheet" href="./style/login.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  </head>
-  <body>
-    <!--Mobile View-->
-    <div class="wrapper-mobile">
-      <form class="submit-mobile">
-        <header class="header-mobile">
-          <h1>Zero Hunger</h1>
-          <p>Feed someone today!</p>
-        </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In : : The Hunger Initiative</title>
 
-        <div class="body-form">
-          <div class="username-mobile">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              name="username-mobile"
-              id="username-mobile"
-              placeholder="Enter your username"
-              required
-            />
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/iziToast.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/appLoader.css">
+</head>
+<body class="auth">
+  <header class="header-actions">
+    <ul>
+      <li>
+        <a href="/">
+          <img src="./images/icons/arrow.png" alt="arrow icon">&nbsp;&nbsp;Back</a>
+      </li>
+      <li><a href="signup">Create Account</a></li>
+    </ul>
+  </header>
+
+  <div class="container">
+   <div class="row">
+      <div class="col l4 m8 s12 offset-l4 offset-m2">
+        <form class="form">
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="text" name="email" id="email" placeholder="Enter your email address" required class="browser-default">
+            <img src="./images/icons/message-icon.png" alt="email icon">
           </div>
 
-          <div class="password-mobile">
-            <label for="password-mobile">Password</label>
-            <input
-              type="password"
-              name="password-mobile"
-              id="password-mobile"
-              placeholder="Password"
-              required
-            />
-            <a href="/forgot-password">forgot password?</a>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter password" required class="browser-default">
+            <img src="./images/icons/lock-icon.png" alt="lock icon" class="lock-icon">
           </div>
-          <button class="login-mobile">Login</button>
-          <a href="/signup">
-            <div class="sign-up-mobile">Sign Up</div>
-          </a>
-        </div>
-      </form>
+
+          <div class="form-options">
+            <label>
+              <input type="checkbox">
+              <span>Remember Me</span>
+            </label>
+
+            <a href="forgot-password">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn big-button">Log In</button>
+        </form>
+      </div>
     </div>
+  </div>
 
-    <!--Desk-top View-->
-    <div class="wrapper-desk-top">
-      <header class="header-desk-top">
-        <ul>
-          <li>
-            <a href="#">
-              <img src="./images/arrow.png" alt="arrow icon" /> Back</a
-            >
-          </li>
-          <li><a href="/signup">create account</a></li>
-        </ul>
-      </header>
-      <form class="form-desk-top">
-        <div class="email">
-          <label for="email">Username</label>
-          <input
-            type="text"
-            name="emailAddress"
-            id="email"
-            placeholder="Enter your username"
-            required
-          />
-          <img src="./images/message-icon.png" alt="email icon" />
-        </div>
-
-        <div class="password">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter password"
-            required
-          />
-          <img src="./images/lock-icon.png" alt="lock icon" class="lock-icon" />
-          <img src="./images/eye-icon.png" alt="eye-icon" class="eye-icon" />
-          <img
-            src="./images/eye-pupil-icon.png"
-            alt="pupil icon"
-            class="pupil-icon"
-          />
-
-          <input type="checkbox" name="remember-me" id="remember-me" />
-          <label for="remember-me">remember me</label>
-
-          <a href="forgot-password.html">forgot password?</a>
-        </div>
-
-        <a href="/login">
-          <button class="login">
-            log in
-            <!--<button class="login-desktop">log in</button>-->
-          </button></a
-        >
-
-        <!--<div class="google-sign-in">
-                <button>Sign in with Google</button>
-                <img src="./images/google-icon.png" alt="google favicon">
-            </div>-->
-
-        <!--main-->
-        <!--<div class="apple-sign-in">
-                <button>Sign in with Apple</button>
-                <img src="./images/apple-icon.png" alt="apple icon">
-            </div>-->
-      </form>
-    </div>
-    <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
-    <script src="js/login.js"></script>
-  </body>
+  <%- include('partials/appLoader') %>
+  <script src="js/login.js"></script>
+</body>
 </html>

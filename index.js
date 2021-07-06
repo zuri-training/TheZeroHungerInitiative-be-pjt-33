@@ -141,8 +141,7 @@ class App {
     this.app.use(express.json({ limit: "10kb" }));
     this.app.use(express.urlencoded({ extended: true, limit: '10kb' }));
     this.app.use(cookieParser());
-    this.app.use(cors({origin:"*",
-    credentials:true}));
+    this.app.use(cors({origin:"*", credentials:true}));
   }
   
   httpSecurity() {
@@ -169,7 +168,7 @@ class App {
     // 404 Not Found. must be the last route
     this.app.all("*", (req, res, next) => {
       const message = `Can't find ${req.originalUrl} on this server`;
-      next(new AppError(message, 400));
+      next(new AppError(message, 404));
     });
   }
   
