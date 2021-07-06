@@ -50,12 +50,19 @@ class Login {
       // Make an http request to the api
       const res = await axios({
         method: 'POST',
-        url: `http://localhost:5000/api/v1/users/login`,
+        url: `api/v1/users/login`,
         data: {
           username,
           password
         }
       });
+      
+      /*const res = await axios.post("http://localhost:5000/api/v1/users/login", {
+        username,
+        password
+      })*/
+      
+      console.log(res);
       
       alert("after");
       alert(JSON.stringify(res));

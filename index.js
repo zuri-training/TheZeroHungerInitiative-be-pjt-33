@@ -141,8 +141,9 @@ class App {
     this.app.use(express.json({ limit: "10kb" }));
     this.app.use(express.urlencoded({ extended: true, limit: '10kb' }));
     this.app.use(cookieParser());
-    this.app.use(cors({origin:"*",
-    credentials:true}));
+    this.app.use(cors());
+    /*this.app.use(cors({origin:"*",
+    credentials:true}));*/
   }
   
   httpSecurity() {
@@ -157,7 +158,7 @@ class App {
   
   mountingRoutes() {
     // Documentation routes
-    
+ 
     this.app.use("/", viewRoute);
     this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     this.app.use("/api/v1/users", userRoute);
