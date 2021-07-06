@@ -1,11 +1,12 @@
-const crypto = require("crypto");
-const { promisify } = require("util");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-const Email = require("../utils/Email");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const logger = require("../utils/logger");
+const crypto = require('crypto');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+const uaParser = require('ua-parser-js');
+const User = require('../models/userModel');
+const sendEmail = require('../utils/sendEmail');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const logger = require('../utils/logger');
 
 class AuthController {
   constructor(User) {
@@ -78,23 +79,22 @@ class AuthController {
   
   login() {
     return catchAsync(async (req, res, next) => {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
   
       // 1) Check is the user provide and email and password
-      if(!username || !password) {
-        return next(new AppError("Please provide username and password!"), 401);
+      if(!email || !password) {
+        return next(new AppError("Please enter your email and password!"), 401);
       }
   
       // 2) check if the user email exists in the database and confirm the password
-      const userExist = await User.findOne({ username }).select("+password");
+      const userExist = await User.findOne({ email }).select("+password");
+      if (!userExist) return next(new AppError('Invalid credentials!', 401));
       
       // does password correct
       const correct = await userExist.correctPassword(password, userExist.password);
       
       // error message if no user exist and incorrect password
-      if(!userExist || !correct) {
-        return next(new AppError("Invalid credentials!", 401));
-      }
+      if(!correct) return next(new AppError("Invalid credentials!", 401));
       
       // generate token
       const token = this.sendToken(userExist, res);
@@ -174,48 +174,52 @@ class AuthController {
   
   forgotPassword() {
     return catchAsync(async (req, res, next) => {
-      const {email} = req.body;
+      const { email } = req.body;
       
       if(!email) {
-        return next(new AppError("please provide your email", 400))
+        return next(new AppError("Please enter your email", 400))
       }
       // 1. check if the provided email exist in the database
       const user = await this.User.findOne({email});
       
-      if(!user) {
-        return next(new AppError("the email doesn't match any records in the database", 404));
+      if (!user) {
+        return next(new AppError(`Account with email address doesn't exist`, 404));
       }
       
       // 2. generate a random token for the user
       const resetToken = user.passwordResetTokenMethod();
       user.save({ validateBeforeSave: false });
+
+      // Generating reset URL
+      let resetURL;
+      const ua = uaParser(req.headers['user-agent']);
+
+      if (process.env.NODE_ENV === 'production') {
+        resetURL = `${req.protocol}://${req.get('host')}/reset-password/?token=${resetToken}`;
+      } else {
+        resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
+      }
   
       // 3. send the link to the user email
       try {
-        // Generating reset link
-        //const resetLink = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
-        const resetLink = `https://zero-hunger.vercel.app/reset.html?token=${resetToken}`;
-      
-        // creating an instance of this class
-        const sendEmail = new Email(user, resetLink);
-      
-        // sending the reset link to the user email
-        await sendEmail.sendResetPasswordLink();
-        
-        return res.status(200).json({
-          status: 'success',
-          message: 'Password reset email sent'
+        await sendEmail({
+          email: user.email,
+          subject: `Password Reset Token ~ ${process.env.FROM_NAME}`,
+          template: 'mail/passwordResetMail',
+          context: {
+            firstName: user.firstName,
+            os: `${ua.os.name} ${ua.os.version}`,
+            browser: `${ua.browser.name}`,
+            resetURL,
+            passwordExpiration: '20 minutes',
+            productName: process.env.FROM_NAME
+          }
         });
-      
-      // if paraventure an error occur, it might be possible the passwordResetToken, and passwordResetExpires might have already been set
+        
+        return res.status(200).json({ status: 'success', message: 'Password reset email sent' });
       } catch (e) {
-        // Reset to undefined
-        user.passwordResetToken = undefined;
-        user.passwordResetExpires = undefined;
         logger.debug(e);
-        await user.save({ validateBeforeSave: false });
-        logger.debug(e);
-        return next(new AppError('An error occured while sending the password reset mail', 500));
+        return res.status(500).json({ status: 'failure', message: `Password reset email couldn't been sent at the moment` });
       }
     });
   }

@@ -1,284 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up Page</title>
-    <link rel="stylesheet" href="style/sign-up.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  </head>
-  <body>
-    <!--Mobile View-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up : : The Hunger Initiative</title>
 
-    <section id="wrapper-mobile">
-      <form action="#" class="mobile-form">
-        <header class="header-mobile">
-          <ul>
-            <li>
-              <a href="#"
-                ><img src="./images/Arrow-icon.png" alt="arrow icon" />back</a
-              >
-            </li>
-            <li>
-              <img src="./images/three-dot-icon.png" alt="hamburger menu" />
-            </li>
-          </ul>
-        </header>
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/iziToast.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/appLoader.css">
+</head>
+<body class="auth">
+  <header class="header-actions">
+    <ul>
+      <li>
+        <a href="/">
+          <img src="./images/icons/arrow.png" alt="arrow icon">&nbsp;&nbsp;Back</a>
+      </li>
+      <li><a href="login">Log In</a></li>
+    </ul>
+  </header>
 
-        <main class="form-body-mobile">
-          <div class="username-mobile">
+  <div class="container">
+   <div class="row">
+      <div class="col l4 m8 s12 offset-l4 offset-m2">
+        <form class="form">
+          <div class="input-group">
             <label for="firstName">First Name</label>
-            <input
-              type="text"
-              name="username"
-              id="firstname-mobile"
-              placeholder="enter your first name"
-              required
-            />
+            <input type="text" name="firstName" id="firstName" placeholder="Your first name" required class="browser-default">
+            <img src="./images/icons/person-icon.png" alt="person icon">
           </div>
-          <div class="username-mobile">
+
+          <div class="input-group">
             <label for="lastName">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              id="lastname-mobile"
-              placeholder="enter your last name"
-              required
-            />
+            <input type="text" name="lastName" id="lastName" placeholder="Your last name" required class="browser-default">
+            <img src="./images/icons/person-icon.png" alt="person icon">
           </div>
-          <div class="username-mobile">
+
+          <div class="input-group">
             <label for="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username-mobile"
-              placeholder="enter your username"
-              required
-            />
+            <input type="text" name="username" id="username" placeholder="Your username" required class="browser-default">
+            <img src="./images/icons/person-icon.png" alt="person icon">
           </div>
-          <div class="username-mobile">
-            <label for="username">Gender</label>
-            <select id="gender-mobile" required>
-              <option>Male</option>
-              <option>Female</option>
+
+          <div class="input-group">
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" required class="browser-default">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unknown">Prefer not to say</option>
             </select>
-          </div>
-          <div class="username-mobile">
-            <label for="username">Address</label>
-            <input
-              type="text"
-              name="address"
-              id="address-mobile"
-              placeholder="enter your Address"
-              required
-            />
-          </div>
-          <div class="username-mobile">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email-mobile"
-              placeholder="enter your Email"
-              required
-            />
+            <img src="./images/icons/person-icon.png" alt="person icon">
           </div>
 
-          <div class="phone-number-mobile">
-            <label for="phoneNumber">phone number</label>
-            <input
-              type="number"
-              name="phoneNumber"
-              id="phonenumber-mobile"
-              placeholder="enter your phone number"
-              required
-            />
+          <div class="input-group">
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" placeholder="Enter your address" required class="browser-default">
+            <img src="./images/icons/location-icon.png" alt="address icon">
           </div>
 
-          <div class="set-password-mobile">
-            <label for="setPassword">Password</label>
-            <input
-              type="password"
-              name="password-mobile"
-              id="password-mobile"
-              placeholder="enter your password"
-              required
-            />
-          </div>
-          <div class="set-password-mobile">
-            <label for="setPassword">Password Confirm</label>
-            <input
-              type="password"
-              name="password"
-              id="password-confirm-mobile"
-              placeholder="enter your password confirm"
-              required
-            />
-
-            <!--<input type="checkbox" name="showPassword" id="showPassword" />
-            <label for="showPassword">show password</label>-->
+          <div class="input-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="number" name="phoneNumber" id="phoneNumber" placeholder="enter your phone number" required class="browser-default">
+            <img src="./images/icons/telephone-icon.png" alt="telephone icon" />
           </div>
 
-          <div class="sign-up-mobile">
-            sign up
-          </div>
-<!--
-          <hr class="left" />
-
-          <h3>or</h3>
-
-          <hr class="right" />
-          
-          <div class="continue-google">
-            <button>Continue with Google</button>
-            <img src="./images/google-icon.png" alt="google favicon" />
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input type="text" name="email" id="email" placeholder="Enter your email address" required class="browser-default">
+            <img src="./images/icons/message-icon.png" alt="email icon">
           </div>
 
-          <div class="continue-apple">
-            <button>Continue with Apple</button>
-            <img src="./images/apple-icon.png" alt="apple icon" />
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter password" required class="browser-default">
+            <img src="./images/icons/lock-icon.png" alt="lock icon" class="lock-icon">
           </div>
--->
-          <h4>Already have an account? <a href="/login">Login</a></h4>
-        </main>
-      </form>
-    </section>
 
-    <!--Desk-top View-->
+          <div class="input-group">
+            <label for="passwordConfirm">Comfirm Password</label>
+            <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Confirm your password" required class="browser-default">
+            <img src="./images/icons/lock-icon.png" alt="lock icon" class="lock-icon">
+          </div>
 
-    <section id="wrapper-desk-top">
-      <header class="header-desktop">
-        <ul>
-          <li>
-            <a href="#"
-              ><img src="./images/arrow.png" alt="back arrow icon" />Back</a
-            >
-          </li>
-          <li><a href="/login">LOG IN</a></li>
-        </ul>
-      </header>
+          <button type="submit" class="btn big-button">Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-      <form action="#" class="sign-up-desktop">
-        <h1>Create an Account</h1>
-
-        <div class="firstName-desktop">
-          <label for="firstName">first name</label>
-          <input
-            type="text"
-            name="firstName"
-            id="firstName"
-            placeholder="enter your first name"
-            required
-          />
-          <img src="./images/person-icon.png" alt="person icon" />
-        </div>
-
-        <div class="lastName-desktop">
-          <label for="lastName">last name</label>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="enter your last name"
-            required
-          />
-          <img src="./images/person-icon.png" alt="person icon" />
-        </div>
-        <div class="lastName-desktop">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="enter your username name"
-            required
-          />
-          <img src="./images/person-icon.png" alt="person icon" />
-        </div>
-
-        <div class="phoneNumber-desktop">
-          <label for="phoneNumber">phone number</label>
-          <input
-            type="number"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder="enter your phone number"
-            required
-          />
-          <img src="./images/phone.png" alt="telephone icon" />
-        </div>
-
-        <div class="email-desktop">
-          <label for="email">email address</label>
-          <input
-            type="email"
-            name="userEmail"
-            id="email"
-            placeholder="enter your email address"
-            required
-          />
-          <img src="./images/email-icon.png" alt="envelope icon" />
-        </div>
-
-        <div class="gender-desktop">
-          <label for="gender">gender</label>
-          <!--<input
-            type="text"
-            name="userGender"
-            id="gender"
-            placeholder="--select your gender--"
-            required
-          />
-          <img src="./images/person-icon.png" alt="person icon" />
-          <img src="./images/arrow-down-icon.png" alt="arrow down icon">-->
-          <select id="gender" required>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-        </div>
-
-        <div class="address-desktop">
-          <label for="userAddress">address</label>
-          <input
-            type="text"
-            name="userAddress"
-            id="userAddress"
-            placeholder="enter your address"
-            required
-          />
-          <img src="./images/location.png" alt="address icon" />
-        </div>
-
-        <div class="password-desktop">
-          <label for="userPassword">password</label>
-          <input
-            type="password"
-            name="userPassword"
-            id="userPassword"
-            placeholder="enter your password"
-            required
-          />
-          <img src="./images/lock.png" alt="padlock icon" />
-          <img src="./images/eye-icon.png" alt="eye-icon" />
-        </div>
-
-        <div class="confirmPassword-desktop">
-          <label for="confirmPassword">confirm password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="confirm your password"
-            required
-          />
-          <img src="./images/lock.png" alt="padlock icon" />
-          <img src="./images/eye-invisible-icon.png" alt="invisible eye icon" />
-        </div>
-
-        <button class="signup-desktop">create account</button>
-      </form>
-    </section>
-    <script src="js/signup.js"></script>
-  </body>
+  <%- include('partials/appLoader') %>
+  <script src="js/signup.js"></script>
+</body>
 </html>
