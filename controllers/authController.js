@@ -195,7 +195,7 @@ class AuthController {
       const ua = uaParser(req.headers['user-agent']);
 
       if (process.env.NODE_ENV === 'production') {
-        resetURL = `${req.protocol}://${req.get('host')}/reset-password/?token=${resetToken}`;
+        resetURL = `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`;
       } else {
         resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
       }
@@ -204,10 +204,10 @@ class AuthController {
       try {
         await sendEmail({
           email: user.email,
-          subject: `Password Reset Token ~ ${process.env.FROM_NAME}`,
+          subject: `Reset Your Password ~ ${process.env.FROM_NAME}`,
           template: 'mail/passwordResetMail',
           context: {
-            firstName: user.firstName,
+            userName: user.username,
             os: `${ua.os.name} ${ua.os.version}`,
             browser: `${ua.browser.name}`,
             resetURL,
@@ -219,36 +219,34 @@ class AuthController {
         return res.status(200).json({ status: 'success', message: 'Password reset email sent' });
       } catch (e) {
         logger.debug(e);
-        return res.status(500).json({ status: 'failure', message: `Password reset email couldn't been sent at the moment` });
+        return next(new AppError(`Password reset email couldn't been sent at the moment`));
       }
     });
   }
   
   resetPassword() {
     return catchAsync(async (req, res, next) => {
-      const {resetToken} = req.params;
-      const {password, passwordConfirm} = req.body;
-     
-      if(!password || !passwordConfirm) {
-        return next(new AppError("Please provide your new password twice", 400));
-      }
-      
+      const { resetToken } = req.params;
+      const { password, passwordConfirm } = req.body;
+
       // Hashing the retrieve resetToken from params
       const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
       
       // check if user with the hash token exist and the expires time has not passed.
       const user = await User.findOne({ passwordResetToken: hashedToken, passwordResetExpires: { $gt: Date.now() } });
-      
-      if(!user) {
-        return (next(new AppError('Token expired or invalid', 400)));
-      }
+
+      if (!user) return next(new AppError('Token expired or invalid', 400));
+     
+      if (!password || !passwordConfirm) return next(new AppError('Please enter your new password twice', 400));
+
+      if (password !== passwordConfirm) return next(new AppError(`Your passwords don't match`, 400));
       
       // Resetting user password
       user.password = password;
       user.passwordConfirm = passwordConfirm;
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
-      await user.save();
+      await user.save({ validateBeforeSave: false });
       
       // sign token and send response
       const token = this.sendToken(user, res);
@@ -283,9 +281,7 @@ class AuthController {
       // 4) sign token and send response
      const token = this.sendToken(user, res);
      
-     res.status(200).json({
-       status: 'success', token
-     });
+     res.status(200).json({ status: 'success', token });
     });
   }
 }
