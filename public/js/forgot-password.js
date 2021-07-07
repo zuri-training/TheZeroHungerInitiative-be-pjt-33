@@ -28,7 +28,16 @@ form.addEventListener('submit', async e => {
       }, 3e3);
     }
   } catch (e) {
-    // console.log(e.response.data);
+    if (!e.response && e.message === 'Network Error') {
+      $('body').classList.remove('js-loader');
+      $('.app-loader').classList.remove('visible');
+
+      return iziToast.error({
+        title: 'Error:', position: 'topCenter', timeout: 3e3,
+        message: 'No internet connection. Please check your network.',
+        onClosing: () => $('.big-button').removeAttribute('disabled')
+      });
+    }
 
     iziToast.error({
       title: 'Error:', position: 'topCenter', timeout: 3e3,
