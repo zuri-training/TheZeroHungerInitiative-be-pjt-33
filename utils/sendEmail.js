@@ -16,7 +16,10 @@ const sendEmail = async options => {
   transporter.use('compile', nodemailerExpressHandlebars({
     viewEngine: handlebars.create({
       partialsDir: 'partials/',
-      defaultLayout: false
+      defaultLayout: false,
+      helpers: {
+        capitalise: ([first, ...rest]) => first.toUpperCase() + rest.join('')
+      }
     }),
     viewPath: path.resolve(__dirname, '../views')
   }))
