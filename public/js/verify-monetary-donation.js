@@ -20,7 +20,7 @@ $('.app-loader').classList.add('visible');
     });
 
     if (res.data.status === 'success') {
-      showErrorAndRedirect(`${res.data.message}`, 'success', '/donor/donations');
+      showMessageAndRedirect(`${res.data.message}`, 'success', '/donor/donations');
     }
   } catch (e) {
     if (!e.response && e.message === 'Network Error') {
@@ -33,7 +33,7 @@ $('.app-loader').classList.add('visible');
       });
     }
 
-    showErrorAndRedirect(`${e.response.data.message}`, 'error', '/donor/donations');
+    showMessageAndRedirect(`${e.response.data.message}`, 'error', '/donor/donations');
   }
 })();
 
