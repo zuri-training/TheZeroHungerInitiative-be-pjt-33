@@ -22,12 +22,19 @@ const home = (req, res) => {
   console.log(req.page);
   res.status(200).render('home/index');
 }
-
+const team = (req, res) => {
+  res.status(200).render('home/our-team', {title: 'Our Team'});
+}; 
+const volunteer = (req, res) => {
+  res.status(200).render('home/volunteer-signup', {title: 'Become a volunteer'});
+}; 
 module.exports = {
   login,
   signup,
   forgotPassword,
   resetPassword,
   forgotPasswordSuccess,
-  home
+  home,
+  team,
+  volunteer
 };

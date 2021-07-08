@@ -1,6 +1,6 @@
 const express = require('express');
 //const User = require('../models/userModel');
-const { login, signup, forgotPassword, resetPassword, forgotPasswordSuccess, home } = require ('../controllers/viewController');
+const { login, signup, forgotPassword, resetPassword, forgotPasswordSuccess, home, team, volunteer } = require ('../controllers/viewController');
 
 
  class ViewRouter {
@@ -15,6 +15,8 @@ const { login, signup, forgotPassword, resetPassword, forgotPasswordSuccess, hom
     this.router.get('/forgot-password', forgotPassword);
     this.router.get('/reset-password', resetPassword);
     this.router.get('/forgot-password/success', forgotPasswordSuccess);
+    this.router.get('/team', team);
+    this.router.get('/volunteer', volunteer);
     this.router.get('/', home);
     this.router.post('/', (req, res, next) => (req.page='home', next()), home);
     return this.router;
