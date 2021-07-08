@@ -5,19 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log In : : The Hunger Initiative</title>
 
-  <link rel="stylesheet" href="css/materialize.min.css">
-  <link rel="stylesheet" href="css/iziToast.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/font.css">
-  <link rel="stylesheet" href="css/auth.css">
-  <link rel="stylesheet" href="css/appLoader.css">
+  <link rel="stylesheet" href="/css/materialize.min.css">
+  <link rel="stylesheet" href="/css/iziToast.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/font.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/appLoader.css">
 </head>
 <body class="auth">
+  <%- include('partials/messages') %>
+  
   <header class="header-actions">
     <ul>
       <li>
         <a href="/">
-          <img src="./images/icons/arrow.png" alt="arrow icon">&nbsp;&nbsp;Back</a>
+          <img src="/images/icons/arrow.png" alt="arrow icon">&nbsp;&nbsp;Back</a>
       </li>
       <li><a href="signup">Create Account</a></li>
     </ul>
@@ -30,13 +32,13 @@
           <div class="input-group">
             <label for="email">Email Address</label>
             <input type="text" name="email" id="email" placeholder="Enter your email address" required class="browser-default">
-            <img src="./images/icons/message-icon.png" alt="email icon">
+            <img src="/images/icons/message-icon.png" alt="email icon">
           </div>
 
           <div class="input-group">
             <label for="password">Password</label>
             <input type="password" name="password" id="password" placeholder="Enter password" required class="browser-default">
-            <img src="./images/icons/lock-icon.png" alt="lock icon" class="lock-icon">
+            <img src="/images/icons/lock-icon.png" alt="lock icon" class="lock-icon">
           </div>
 
           <div class="form-options">
@@ -55,6 +57,6 @@
   </div>
 
   <%- include('partials/appLoader') %>
-  <script src="js/login.js"></script>
+  <script src="/js/login.js"></script>
 </body>
 </html>

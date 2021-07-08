@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msapplication-tap-highlight" content="no">
+        <title>Donations : : #TheZeroHunger</title>
+
+        <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/plugins/waves/waves.min.css" rel="stylesheet">
+        <link href="/css/iziToast.min.css" rel="stylesheet">
+
+        <link href="/css/alpha.min.css" rel="stylesheet">
+        <link href="/css/dashboard.css" rel="stylesheet">
+        <link href="/css/appLoader.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="loader">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="alpha-app">
+          <div class="page-header">
+            <%- include('partials/donorNavbar') %>
+          </div>
+
+           <%- include('partials/donorSidebar') %>
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="donation-container">
+                              <div class="donation-container-inner">
+                                <div class="donation-container-header">
+                                  <h5> Food Donations</h5>
+                                  <div class="donation-container-actions">
+                                    <span class="filter">
+                                      <i class="material-icons">filter_list</i>&nbsp; Filter
+                                    </span>
+                                    <a href="javascript:;" class="btn btn-primary btn-large">
+                                      <i class="material-icons left">add</i>New Donation
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="table-responsive">
+                                  <table class="table white border-radius-4 pt-1 no-footer dtr-column collapsed"
+                                    role="grid">
+                                    <thead>
+                                      <tr role="row">
+                                        <th>S/N</th>
+                                        <th>Donation Number</th>
+                                        <th>No. of Items Donated</th>
+                                        <th>Delivery Option</th>
+                                        <th>Status</th>
+                                        <th>Date Created</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      <tr role="row" class="odd">
+                                        <td>1</td>
+                                        <td>THI/FD/49056</td>
+                                        <td>25 Items</td>
+                                        <td>Pick-Up Donation</td>
+                                        <td><span class="badge badge-primary">Picked Up</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                            <i class="material-icons text-dark">edit</i>
+                                            <i class="material-icons">filter_center_focus</i>
+                                          </a></td>
+                                      </tr>
+                                      <tr role="row" class="even">
+                                        <td>2</td>
+                                        <td>THI/FD/49056</td>
+                                        <td>10 Items</td>
+                                        <td>Drop-Off Donation</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                            <i class="material-icons text-dark">edit</i>
+                                            <i class="material-icons">filter_center_focus</i>
+                                          </a></td>
+                                      </tr>
+                                      <tr role="row" class="odd">
+                                        <td>3</td>
+                                        <td>THI/FD/49056</td>
+                                        <td>15 Items</td>
+                                        <td>Pick-Up Donation</td>
+                                        <td><span class="badge badge-success">Delivered</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                            <i class="material-icons text-dark">edit</i>
+                                            <i class="material-icons">filter_center_focus</i>
+                                          </a></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
+
+                              <!-- Monetary Donations -->
+                              <div class="donation-container-inner">
+                                <div class="donation-container-header">
+                                  <h5>Monetary Donations</h5>
+                                  <div class="donation-container-actions">
+                                    <span class="filter">
+                                      <i class="material-icons">filter_list</i>&nbsp; Filter
+                                    </span>
+                                    <button class="btn btn-primary btn-large"  data-toggle="modal" data-target="#monetaryDonationDetailsModal">
+                                      <i class="material-icons left">add</i>New Monetary Donation
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="monetaryDonationDetailsModal" tabindex="-1" role="dialog" aria-labelledby="monetaryDonationDetailsModalTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="monetaryDonationDetailsModalTitle">Payment Information</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </div>
+                                              <form>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="email" value="<%= user.email %>">
+                                                    <div class="input-group">
+                                                      <label for="donorName">Donor Name</label>
+                                                      <input type="text" name="donorName" id="donorName" placeholder="Your first name" required="true" class="browser-default" value="<%= user.firstName %> <%= user.lastName %>">
+                                                      <img src="/images/icons/person-icon.png" alt="person icon">
+                                                    </div>
+
+                                                    <div class="input-group">
+                                                      <label for="amount">Amount (₦)</label>
+                                                      <input type="number" name="amount" id="amount" placeholder="Your desired amount (in naira)" required="true" class="browser-default">
+                                                      <img src="/images/icons/card-icon.png" alt="person icon">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-text-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="submit" class="btn btn-primary" id="pay">Pay</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="table-responsive">
+                                  <table class="table white border-radius-4 pt-1 no-footer dtr-column collapsed"
+                                    role="grid">
+                                    <thead>
+                                      <tr role="row">
+                                        <th>S/N</th>
+                                        <th>Donation Number</th>
+                                        <th>Donor</th>
+                                        <th>Status</th>
+                                        <th>Date Created</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      <tr role="row" class="odd">
+                                        <td>1</td>
+                                        <td>THI/MD/23VRH2Y0OR</td>
+                                        <td>Blue Cross Foundation</td>
+                                        <td><span class="badge badge-danger">Abandoned</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                          </a></td>
+                                      </tr>
+                                      <tr role="row" class="even">
+                                        <td>2</td>
+                                        <td>THI/MD/23VRH2Y0OR</td>
+                                        <td>Blue Cross Foundation</td>
+                                        <td><span class="badge badge-warning">Unknown</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                          </a></td>
+                                      </tr>
+                                      <tr role="row" class="odd">
+                                        <td>3</td>
+                                        <td>THI/MD/23VRH2Y0OR</td>
+                                        <td>Blue Cross Foundation</td>
+                                        <td><span class="badge badge-success">Successful</span></td>
+                                        <td>Dec 5th, 2020</td>
+                                        <td><a href="javascript:;">
+                                            <i class="material-icons">assignment</i>
+                                          </a></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../partials/appLoader') %>
+        
+        <script src="/plugins/jquery/jquery-3.4.1.min.js"></script>
+        <script src="/plugins/bootstrap/popper.min.js"></script>
+        <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/plugins/waves/waves.min.js"></script>
+        <script src="/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="/js/dashboard.js"></script>
+        <script src="/js/monetary-donation.js"></script>
+    </body>
+</html>

@@ -1,0 +1,11 @@
+<% if (successMessage.length > 0) { %>
+  <% for( let message of successMessage ) { %>
+    <div class="success" style="display: none; position: fixed; top: -100%;"><%= message %></div>
+  <% } %>
+<% } %>
+
+<% if (errorMessage.length > 0) { %>
+  <% for( let message of errorMessage ) { %>
+    <div class="error" style="display: none; position: fixed; top: -100%;"><%= message %></div>
+  <% } %>
+<% } %>
