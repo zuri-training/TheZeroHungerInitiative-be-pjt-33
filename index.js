@@ -1,33 +1,36 @@
 const path = require('path');
 const http = require('http');
-const express = require("express");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const mongoSanitize = require("express-mongo-sanitize");
-const xss = require("xss-clean");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const cloudinary = require("cloudinary");
+const express = require('express');
+const session = require('express-session');
+const flash = require('connect-flash');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const cloudinary = require('cloudinary');
 const socketio = require('socket.io');
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
-const dotenv = require("dotenv").config();
-const YAML = require("yamljs");
-const swaggerUi = require("swagger-ui-express");
+const dotenv = require('dotenv').config();
+const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express');
+const sessionStore = new session.MemoryStore;
 
 
-const logger = require("./utils/logger");
-const {addConnectedUser, removeConnectedUser, getCurrentUser} = require("./utils/socketHelper");
-const MongoDBConnection = require("./database");
-const AppError = require("./utils/appError");
-const errorHandler = require("./middlewares/errorHandler");
-const swaggerDocumentation = YAML.load("./documentation/index.yaml");
+const logger = require('./utils/logger');
+const {addConnectedUser, removeConnectedUser, getCurrentUser} = require('./utils/socketHelper');
+const MongoDBConnection = require('./database');
+const AppError = require('./utils/appError');
+const errorHandler = require('./middlewares/errorHandler');
+const swaggerDocumentation = YAML.load('./documentation/index.yaml');
 
 // Routes
-const donationRoute = require("./routes/donationRoute");
-const userRoute = require("./routes/userRoute");
-const messageRoute = require("./routes/messageRoute");
-const conversationRoute = require("./routes/conversationRoute");
-const viewRoute = require("./routes/viewRoute");
+const donationRoute = require('./routes/donationRoute');
+const userRoute = require('./routes/userRoute');
+const messageRoute = require('./routes/messageRoute');
+const conversationRoute = require('./routes/conversationRoute');
+const viewRoute = require('./routes/viewRoute');
 
 
 class App {
@@ -56,6 +59,11 @@ class App {
     this.app.set('view engine', 'ejs');
     this.app.set('views', path.join(__dirname, 'views'));
     this.app.use(express.static(path.join(__dirname, 'public')));
+
+    // EJS helpers
+    this.app.locals.helpers = {
+      capitalise: ([first, ...rest]) => first.toUpperCase() + rest.join('')
+    }
 
     // Parsing request body
     this.parsingBody();
@@ -140,13 +148,30 @@ class App {
   parsingBody() {
     this.app.use(express.json({ limit: "10kb" }));
     this.app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-    this.app.use(cookieParser());
+    this.app.use(cookieParser('mRDBxaV8qQADd9FvQe8japFYRmhyyf'));
     this.app.use(cors({origin:"*", credentials:true}));
+
+    // Express session middleware
+    this.app.use(session({
+      cookie: { maxAge: 60000 },
+      store: sessionStore,
+      secret: 'mRDBxaV8qQADd9FvQe8japFYRmhyyf',
+      saveUninitialized: true,
+      resave: true
+    }));
+    this.app.use(flash());
+
+    this.app.use((req, res, next) => {
+      res.locals.successMessage = req.flash('successMessage');
+      res.locals.errorMessage = req.flash('errorMessage');
+      res.locals.session = req.session;
+      next();
+    });
   }
   
   httpSecurity() {
     // Http Header
-    this.app.use(helmet());
+    this.app.use('/api/v1', helmet());
     // Mongoose sanitize
     this.app.use(mongoSanitize());
     // Xss attack

@@ -41,7 +41,7 @@ form.addEventListener('submit', async e => {
 
       return iziToast.error({
         title: 'Error:', position: 'topCenter', timeout: 3e3,
-        message: 'No internet connection. Please check your network.',
+        message: 'Network error. Please check your internet connection.',
         onClosing: () => $('.big-button').removeAttribute('disabled')
       });
     }

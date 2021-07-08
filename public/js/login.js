@@ -30,6 +30,17 @@ form.addEventListener('submit', async e => {
         });
 
         // Redirect to dashboard
+        switch (res.data.user.role) {
+          case 'donor':
+            window.location.href = '/donor/dashboard';
+            break;
+          case 'volunteer':
+            window.location.href = '/volunteer/dashboard';
+            break;
+          case 'admin':
+            window.location.href = '/admin/dashboard';
+            break;
+        }
       }, 3e3);
     }
   } catch (e) {
@@ -39,7 +50,7 @@ form.addEventListener('submit', async e => {
 
       return iziToast.error({
         title: 'Error:', position: 'topCenter', timeout: 3e3,
-        message: 'No internet connection. Please check your network.',
+        message: 'Network error. Please check your internet connection.',
         onClosing: () => $('.big-button').removeAttribute('disabled')
       });
     }
@@ -54,3 +65,14 @@ form.addEventListener('submit', async e => {
     $('.app-loader').classList.remove('visible');
   }
 })
+
+// Show error messages from BackEnd
+const errors = $$('.error');
+
+if (errors.length) {
+  errors.forEach(error => {
+    iziToast.error({
+      title: 'Error:', position: 'topCenter', timeout: 3e3, message: error.innerText
+    });
+  })
+}
