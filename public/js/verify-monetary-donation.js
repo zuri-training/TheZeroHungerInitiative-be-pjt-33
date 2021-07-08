@@ -40,7 +40,7 @@ $('.app-loader').classList.add('visible');
 const showMessageAndRedirect = (message, type, url) => {
   switch (type) {
     case 'success':
-      iziToast.success({ title: 'Error:', position: 'topCenter', timeout: 3e3, message });
+      iziToast.success({ title: 'Congrats!', position: 'topCenter', timeout: 3e3, message });
       break;
     case 'error':
       iziToast.error({ title: 'Error:', position: 'topCenter', timeout: 3e3, message });
