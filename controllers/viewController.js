@@ -22,6 +22,14 @@ const home = (req, res) => {
   res.status(200).render('home/index');
 }
 
+const team = (req, res) => {
+  res.status(200).render('home/our-team', {title: 'Our Team'});
+};
+ 
+const volunteer = (req, res) => {
+  res.status(200).render('home/volunteer-signup', {title: 'Become a volunteer'});
+};
+
 const donorDashboard = (req, res) => {
   // Get donor dashboard data & add them to the context variable
   // Right now, only static data is being shown to the user
@@ -52,6 +60,8 @@ module.exports = {
   resetPassword,
   forgotPasswordSuccess,
   home,
+  team,
+  volunteer,
   donorDashboard,
   verifyMonetaryDonation
 };

@@ -7,6 +7,8 @@ const {
   resetPassword,
   forgotPasswordSuccess,
   home,
+  team,
+  volunteer,
   donorDashboard,
   verifyMonetaryDonation
 } = require('../controllers/viewController');
@@ -26,6 +28,8 @@ class ViewRouter {
   this.router.get('/forgot-password', forgotPassword);
   this.router.get('/reset-password', resetPassword);
   this.router.get('/forgot-password/success', forgotPasswordSuccess);
+  this.router.get('/team', team);
+  this.router.get('/volunteer', volunteer);
   this.router.get('/', home);
   this.router.post('/', (req, res, next) => (req.page='home', next()), home);
 

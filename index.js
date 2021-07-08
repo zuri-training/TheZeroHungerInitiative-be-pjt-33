@@ -181,7 +181,7 @@ class App {
   
   mountingRoutes() {
     // Documentation routes
-    
+ 
     this.app.use("/", viewRoute);
     this.app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
     this.app.use("/api/v1/users", userRoute);
