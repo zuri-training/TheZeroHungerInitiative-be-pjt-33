@@ -68,15 +68,18 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.3;
 }
 
-.btn {
+.btn,
+.btn a {
   background-color: #fe8e66;
+  color: #fff;
   font-family: inherit;
   border: 1px solid transparent;
   border-radius: 50px;
   transition: all .2s ease-out;
 }
 
-.btn:hover {
+.btn:hover,
+.btn a:hover {
   background-color: #832706;
 }
 
