@@ -29,7 +29,7 @@ form.addEventListener('submit', async (e) => {
         });
         
         setTimeout(() => {
-          window.open(res.data.data.data.authorization_url, '_blank');
+          window.location.href = res.data.data.data.authorization_url;
           iziToast.info({
             message: `You can now close this window.<br>You'll be redirected back after the transaction.`, position: 'topCenter', timeout: null
           });
