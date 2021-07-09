@@ -200,6 +200,40 @@ class AuthController {
       }
 
       req.user = userExist;
+      //res.locals.user = userExist;
+      next();
+    });
+  }
+  
+  isLoggedIn() {
+    // Basically a modification of the authenticate() method above.
+    // Determine if a user is logged in
+    return catchAsync(async (req, res, next) => {
+      let token;
+
+      if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+      ) {
+        token = req.headers.authorization.split(' ')[1];
+      } else if (req.cookies.token) {
+        token = req.cookies.token;
+      }
+
+      // No token, send error message
+      if (!token) {
+        return next();
+      }
+
+      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      const userExist = await User.findById(decode._id);
+
+      if (!userExist) {
+        return next();
+      }
+
+      req.user = userExist;
+      //res.locals.user = userExist;
       next();
     });
   }

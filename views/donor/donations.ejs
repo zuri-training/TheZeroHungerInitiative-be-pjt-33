@@ -61,32 +61,20 @@
                                     </thead>
 
                                     <tbody>
+                                      <% if(foodDonation.length > 1) { %>
+                                      <tr>Yap, data</tr>
+                                      <% } else { %>
                                       <tr role="row" class="odd">
-                                        <td>1</td>
-                                        <td>THI/FD/49056</td>
-                                        <td>25 Items</td>
-                                        <td>Pick-Up Donation</td>
-                                        <td><span class="badge badge-primary">Picked Up</span></td>
-                                        <td>Dec 5th, 2020</td>
-                                        <td><a href="javascript:;">
-                                            <i class="material-icons">assignment</i>
-                                            <i class="material-icons text-dark">edit</i>
-                                            <i class="material-icons">filter_center_focus</i>
-                                          </a></td>
+                                        <td>null</td>
+                                        <td>null</td>
+                                        <td>null</td>
+                                        <td>null</td>
+                                        <td><span class="badge badge-primary">null</span></td>
+                                        <td>null</td>
+                                        <td>null</td>
                                       </tr>
-                                      <tr role="row" class="even">
-                                        <td>2</td>
-                                        <td>THI/FD/49056</td>
-                                        <td>10 Items</td>
-                                        <td>Drop-Off Donation</td>
-                                        <td><span class="badge badge-warning">Pending</span></td>
-                                        <td>Dec 5th, 2020</td>
-                                        <td><a href="javascript:;">
-                                            <i class="material-icons">assignment</i>
-                                            <i class="material-icons text-dark">edit</i>
-                                            <i class="material-icons">filter_center_focus</i>
-                                          </a></td>
-                                      </tr>
+                                      <% } %>
+                                      <!--
                                       <tr role="row" class="odd">
                                         <td>3</td>
                                         <td>THI/FD/49056</td>
@@ -99,7 +87,7 @@
                                             <i class="material-icons text-dark">edit</i>
                                             <i class="material-icons">filter_center_focus</i>
                                           </a></td>
-                                      </tr>
+                                      </tr>-->
                                     </tbody>
                                   </table>
                                 </div>
@@ -168,36 +156,29 @@
                                     </thead>
 
                                     <tbody>
-                                      <tr role="row" class="odd">
-                                        <td>1</td>
-                                        <td>THI/MD/23VRH2Y0OR</td>
-                                        <td>Blue Cross Foundation</td>
-                                        <td><span class="badge badge-danger">Abandoned</span></td>
-                                        <td>Dec 5th, 2020</td>
-                                        <td><a href="javascript:;">
-                                            <i class="material-icons">assignment</i>
-                                          </a></td>
-                                      </tr>
-                                      <tr role="row" class="even">
-                                        <td>2</td>
-                                        <td>THI/MD/23VRH2Y0OR</td>
-                                        <td>Blue Cross Foundation</td>
-                                        <td><span class="badge badge-warning">Unknown</span></td>
-                                        <td>Dec 5th, 2020</td>
-                                        <td><a href="javascript:;">
-                                            <i class="material-icons">assignment</i>
-                                          </a></td>
-                                      </tr>
-                                      <tr role="row" class="odd">
-                                        <td>3</td>
-                                        <td>THI/MD/23VRH2Y0OR</td>
-                                        <td>Blue Cross Foundation</td>
-                                        <td><span class="badge badge-success">Successful</span></td>
-                                        <td>Dec 5th, 2020</td>
-                                        <td><a href="javascript:;">
-                                            <i class="material-icons">assignment</i>
-                                          </a></td>
-                                      </tr>
+                                      <% if(cashDonation.length > 1) { %>
+                                        <% cashDonation.forEach((donation, i) => { %>
+                                          <tr role="row" class="odd">
+                                            <td><%= i + 1 %></td>
+                                            <td><%= donation._id %></td>
+                                            <td><%= donation.donorName %></td>
+                                            <td><span class="badge badge-<%=donation.transactionStatus%>"><%= donation.transactionStatus %></span></td>
+                                            <td><%= donation.createdAt.toDateString() %></td>
+                                            <td><a href="javascript:;">
+                                                <i class="material-icons">assignment</i>
+                                              </a></td>
+                                          </tr>
+                                        <% }) %>
+                                      <% } else { %>
+                                        <tr role="row" class="odd">
+                                          <td>null</td>
+                                          <td>null</td>
+                                          <td>null</td></td>
+                                          <td><span class="badge badge-primary">null</span></td>
+                                          <td>null</td>
+                                          <td>null</td>
+                                        </tr>
+                                      <% } %>
                                     </tbody>
                                   </table>
                                 </div>
