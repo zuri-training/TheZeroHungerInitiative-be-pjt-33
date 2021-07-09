@@ -200,6 +200,7 @@ class AuthController {
       }
 
       req.user = userExist;
+      //res.locals.user = userExist;
       next();
     });
   }

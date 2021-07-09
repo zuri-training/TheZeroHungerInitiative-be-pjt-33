@@ -25,7 +25,13 @@
         <li><a href="javascript:;">Donate</a></li>
         <li><a href="volunteer">Volunteer</a></li>
         <li><a href="team">Our Team</a></li>
-        <li><a class="btn" href="login">Login</a></li>
+        <li>
+          <% if(user) { %>
+            <a class="btn" href="/donor/dashboard"><%= user.firstName %></a>
+          <% } else { %>
+            <a class="btn" href="login">Login</a>
+          <% }%>
+        </li>
       </ul>
     </div>
   </header>
