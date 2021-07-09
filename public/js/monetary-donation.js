@@ -58,3 +58,9 @@ form.addEventListener('submit', async (e) => {
     $q('.app-loader').classList.remove('visible');
   }
 });
+
+$q('#amount').addEventListener('input', e => {
+  e.target.value
+    ? ($q('#pay').innerText = `Pay ₦${Number(e.target.value).toLocaleString()}`)
+    : ($q('#pay').innerText = 'Pay')
+});
