@@ -22,16 +22,18 @@
       <ul class="menu">
         <li><a href="javascript:;">Home</a></li>
         <li><a href="about-us">About Us</a></li>
-        <li><a href="javascript:;">Donate</a></li>
+        <li><a href="javascript:;" id="donate">Donate</a></li>
         <li><a href="volunteer">Volunteer</a></li>
         <li><a href="team">Our Team</a></li>
         <li>
-          <% if (user.role === 'donor') { %>
-            <a class="btn" href="/donor/dashboard">My Dashboard</a>
-          <% } else if (user.role === 'admin') { %>
-            <a class="btn" href="/admin/dashboard">Admin</a>
+          <% if (user) { %>
+            <% if (user.role === 'donor') { %>
+              <a class="btn" href="/donor/dashboard">My Dashboard</a>
+            <% } else if (user.role === 'admin') { %>
+              <a class="btn" href="/admin/dashboard">Admin</a>
+            <% } %>
           <% } else { %>
-            <a class="btn" href="login">Login</a>
+            <a class="btn" href="signup">Sign Up</a>
           <% }%>
         </li>
       </ul>
@@ -44,7 +46,15 @@
       <h2>Help Put Food on Someone's Table Today And A Smile on Their Faces</h2>
       <h5>The Zero Hunger Initiative connects intending donors to thousands of donees in Nigeria.</h5>
       <span style="transform: scale(1.25);">
-        <button class="btn" id="donate"><a href="signup">DONATE</a></button>
+        <button class="btn">
+          <% if (user) { %>
+            <% if (user.role === 'donor') { %>
+              <a href="/donor/donations">DONATE</a>
+            <% } %>
+          <% } else { %>
+            <a href="signup">DONATE</a>
+          <% } %>
+        </button>
         <button class="btn btn-outline" id="learn-more">LEARN MORE</button>
       </span>
     </div>
@@ -77,7 +87,15 @@
         that sharing from what we have, no matter how little, helps to make
         our world a better place.
       </h5>
-      <a class="btn" style="transform: scale(1.25);">DONATE FOOD ITEMS</a>
+      <button class="btn" style="transform: scale(1.25);">
+        <% if (user) { %>
+          <% if (user.role === 'donor') { %>
+            <a href="/donor/donations">DONATE FOOD ITEMS</a>
+          <% } %>
+        <% } else { %>
+          <a href="signup">DONATE FOOD ITEMS</a>
+        <% } %>
+      </button>
     </div>
   </section>
 
@@ -94,7 +112,15 @@
         through your money! Our organisation also makes provision for cash
         donations. This way, we make sure no intending donor gets left out.
       </h5>
-      <a class="btn" style="transform: scale(1.25);">DONATE CASH</a>
+      <button class="btn" style="transform: scale(1.25);">
+        <% if (user) { %>
+          <% if (user.role === 'donor') { %>
+            <a href="/donor/donations">DONATE CASH</a>
+          <% } %>
+        <% } else { %>
+          <a href="signup">DONATE CASH</a>
+        <% } %>
+      </button>
     </div>
   </section>
 
