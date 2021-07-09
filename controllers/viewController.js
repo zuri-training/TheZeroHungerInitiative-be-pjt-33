@@ -21,19 +21,19 @@ const forgotPasswordSuccess = (req, res) => {
 }
 
 const home = (req, res) => {
-  res.status(200).render('home/index', {user: req.user});
+  res.status(200).render('home/index', { user: req.user });
 }
 
 const team = (req, res) => {
-  res.status(200).render('home/our-team', {title: 'Our Team'});
+  res.status(200).render('home/our-team', { title: 'Our Team', user: req.user });
 }
  
 const volunteer = (req, res) => {
-  res.status(200).render('home/volunteer-signup', {title: 'Become a Volunteer!'});
+  res.status(200).render('home/volunteer-signup', { title: 'Become a Volunteer!', user: req.user });
 }
 
 const about = (req, res) => {
-  res.status(200).render('home/about-us', {title: 'About Us'});
+  res.status(200).render('home/about-us', { title: 'About Us', user: req.user });
 }
 
 const donorDashboard = async (req, res) => {
