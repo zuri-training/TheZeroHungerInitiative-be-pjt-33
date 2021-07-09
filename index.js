@@ -11,6 +11,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary');
 const socketio = require('socket.io');
+const compression = require('compression');
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
 const dotenv = require('dotenv').config();
 const YAML = require('yamljs');
@@ -70,6 +71,9 @@ class App {
    
     //Http security
     this.httpSecurity();
+
+    // Enable gZip compression
+    this.app.use(compression());
     
     // configure cloudinary
     //this.configureCloudinary();
