@@ -8,6 +8,7 @@ const {
   forgotPasswordSuccess,
   home,
   team,
+  about,
   volunteer,
   donorDashboard,
   verifyMonetaryDonation
@@ -23,7 +24,7 @@ class ViewRouter {
   
   // All view routes definition
   viewRoute() {
-    
+
     this.router.use(auth.isLoggedIn());
     
     this.router.get('/signup', signup);
@@ -34,7 +35,9 @@ class ViewRouter {
     this.router.get('/team', team);
     this.router.get('/volunteer', volunteer);
     this.router.get('/', home);
+    this.router.get('/about-us', about);
     this.router.post('/', (req, res, next) => (req.page='home', next()), home);
+
   
     this.router.get(
       '/donor',

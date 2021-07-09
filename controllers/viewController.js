@@ -32,6 +32,9 @@ const team = (req, res) => {
 const volunteer = (req, res) => {
   res.status(200).render('home/volunteer-signup', {title: 'Become a volunteer'});
 };
+const about = (req, res) => {
+  res.status(200).render('home/about-us', {title: 'About Us'});
+};
 
 const donorDashboard = async (req, res) => {
   // Get donor dashboard data & add them to the context variable
@@ -69,6 +72,7 @@ module.exports = {
   home,
   team,
   volunteer,
+  about,
   donorDashboard,
   verifyMonetaryDonation
 };
