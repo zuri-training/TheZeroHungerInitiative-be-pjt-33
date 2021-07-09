@@ -1,3 +1,5 @@
+const {getUserDonation} = require('./monetaryDonationController');
+
 const login = (req, res) => {
   res.status(200).render('login');
 };
@@ -19,8 +21,9 @@ const forgotPasswordSuccess = (req, res) => {
 };
 
 const home = (req, res) => {
-  res.status(200).render('home/index');
-}
+  
+  res.status(200).render('home/index', {user: req.user});
+};
 
 const team = (req, res) => {
   res.status(200).render('home/our-team', {title: 'Our Team'});
@@ -30,13 +33,17 @@ const volunteer = (req, res) => {
   res.status(200).render('home/volunteer-signup', {title: 'Become a volunteer'});
 };
 
-const donorDashboard = (req, res) => {
+const donorDashboard = async (req, res) => {
   // Get donor dashboard data & add them to the context variable
+  const {foodDonation, cashDonation} = await getUserDonation(req.user);
+  
   // Right now, only static data is being shown to the user
   const context = {
     activePage: 'dashboard', // By default
-    user: JSON.parse(JSON.stringify(req.user))
-  }
+    user: JSON.parse(JSON.stringify(req.user)),
+    foodDonation,
+    cashDonation
+  };
 
   switch (req.page) {
     case 'donations':

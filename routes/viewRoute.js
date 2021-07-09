@@ -23,6 +23,9 @@ class ViewRouter {
   
   // All view routes definition
   viewRoute() {
+  // Used to know if user already login or not on all pages
+  this.router.use(auth.authenticateApp());
+  
   this.router.get('/signup', signup);
   this.router.get('/login', login);
   this.router.get('/forgot-password', forgotPassword);
@@ -35,7 +38,6 @@ class ViewRouter {
 
   this.router.get(
     '/donor',
-    auth.authenticateApp(),
     auth.authorizeApp('donor'),
     (req, res, next) => res.redirect('/donor/dashboard')
   );
@@ -43,7 +45,6 @@ class ViewRouter {
   this.router
     .get(
       '/donor/dashboard',
-      auth.authenticateApp(),
       auth.authorizeApp('donor'),
       (req, res, next) => ((req.page = 'dashboard'), next()),
       donorDashboard
@@ -52,7 +53,6 @@ class ViewRouter {
   this.router
     .get(
       '/donor/donations',
-      auth.authenticateApp(),
       auth.authorizeApp('donor'),
       (req, res, next) => ((req.page = 'donations'), next()),
       donorDashboard
@@ -61,7 +61,6 @@ class ViewRouter {
   this.router
     .get(
       '/donor/donations/verify',
-      auth.authenticateApp(),
       auth.authorizeApp('donor'),
       verifyMonetaryDonation
     )
