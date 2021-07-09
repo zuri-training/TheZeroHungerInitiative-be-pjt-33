@@ -8,6 +8,7 @@ const {
   forgotPasswordSuccess,
   home,
   team,
+  about,
   volunteer,
   donorDashboard,
   verifyMonetaryDonation
@@ -30,6 +31,7 @@ class ViewRouter {
   this.router.get('/forgot-password/success', forgotPasswordSuccess);
   this.router.get('/team', team);
   this.router.get('/volunteer', volunteer);
+  this.router.get('/about-us', about);
   this.router.get('/', home);
   this.router.post('/', (req, res, next) => (req.page='home', next()), home);
 
