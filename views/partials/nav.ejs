@@ -1,6 +1,6 @@
 <header class="header">
     <div class="container">
-      <a href="">
+      <a href="/">
         <img src="images/logo-main.png" alt="The Hunger Initiative logo" class="logo">
       </a>
       <input class="menu-button" type="checkbox" id="menu-button" />
@@ -8,7 +8,11 @@
       <ul class="menu">
         <li><a href="/">Home</a></li>
         <li><a href="about-us">About Us</a></li>
-        <li><a href="javascript:;">Donate</a></li>
+        <% if (user) { %>
+          <% if (user.role === 'donor') { %>
+            <li><a href="/donor/donations">DONATE</a></li>
+          <% } %>
+        <% } else { %>
         <li><a href="volunteer">Volunteer</a></li>
         <li><a href="team">Our Team</a></li>
         <li><a class="btn" href="login">Login</a></li>
