@@ -15,7 +15,17 @@
         <% } %>
         <li><a href="volunteer">Volunteer</a></li>
         <li><a href="team">Our Team</a></li>
-        <li><a class="btn" href="login">Login</a></li>
+        <li>
+          <% if (user) { %>
+            <% if (user.role === 'donor') { %>
+              <a class="btn" href="/donor/dashboard">My Dashboard</a>
+            <% } else if (user.role === 'admin') { %>
+              <a class="btn" href="/admin/dashboard">Admin</a>
+            <% } %>
+          <% } else { %>
+            <a class="btn" href="signup">Sign Up</a>
+          <% }%>
+        </li>
       </ul>
     </div>
   </header>
