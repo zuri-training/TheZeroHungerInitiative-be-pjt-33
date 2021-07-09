@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const MonetaryDonation = require('../models/monetaryDonationModel');
+const Donation = require('../models/donationModel');
 const request = require('request');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -66,3 +67,13 @@ exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
     res.status(500).json({ status: 'false', message: 'An unknown error occured!' });
   })
 })
+
+exports.getUserDonation = async (user) => {
+  // Food Donations
+  const foodDonation = await Donation.find({user:user._id});
+  
+  // Cash donation
+  const cashDonation = await MonetaryDonation.find({user:user._id});
+  
+  return {foodDonation, cashDonation};
+};

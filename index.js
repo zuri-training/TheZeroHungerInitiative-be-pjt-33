@@ -165,6 +165,7 @@ class App {
       res.locals.successMessage = req.flash('successMessage');
       res.locals.errorMessage = req.flash('errorMessage');
       res.locals.session = req.session;
+      
       next();
     });
   }
