@@ -26,8 +26,10 @@
         <li><a href="volunteer">Volunteer</a></li>
         <li><a href="team">Our Team</a></li>
         <li>
-          <% if(user) { %>
-            <a class="btn" href="/donor/dashboard"><%= user.firstName %></a>
+          <% if (user.role === 'donor') { %>
+            <a class="btn" href="/donor/dashboard">My Dashboard</a>
+          <% } else if (user.role === 'admin') { %>
+            <a class="btn" href="/admin/dashboard">Admin</a>
           <% } else { %>
             <a class="btn" href="login">Login</a>
           <% }%>
