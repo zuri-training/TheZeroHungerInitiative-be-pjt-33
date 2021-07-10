@@ -1,0 +1,63 @@
+                  <nav class="navbar navbar-expand">
+                    <section class="material-design-hamburger navigation-toggle">
+                        <a href="javascript:;" data-activates="slide-out" class="button-collapse material-design-hamburger__icon">
+                            <span class="material-design-hamburger__layer"></span>
+                        </a>
+                    </section>
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/logo-main.png" alt="The Zero Hunger Initiative logo">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown d-none d-lg-block">
+                                <a class="nav-link dropdown-toggle text-dark" href="javascript:;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">notifications_none</i>
+                                    <span class="badge">1</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right dd-notifications" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a href="javascript:;">
+                                          <div class="notification">
+                                              <div class="notification-icon circle green"><i class="material-icons">done</i></div>
+                                              <div class="notification-text">
+                                                <p><b>You</b> successfully donated a sum of <b>₦750,000</b></p>
+                                                <span>7 min ago</span>
+                                              </div>
+                                          </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown account-wrapper">
+                                <a class="nav-link dropdown-toggle" href="javascript:;" id="account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-1 d-flex-inline">
+                                        <span class="text-dark"><%= user.firstName %> <%= user.lastName %></span>
+                                    </span>
+                                    <img src="/images/profile.jpg" class="rounded-circle" width="32" alt="Profile picture">
+                                </a>
+                                <i class="material-icons caret">arrow_drop_down</i>
+                                <ul class="dropdown-menu dropdown-menu-right account-dropdown" aria-labelledby="account">
+                                    <div class="dropdown-item-text">
+                                        <div><strong><%= user.firstName %> <%= user.lastName %></strong></div>
+                                        <div class="text-muted">@<%= user.username %></div>
+                                        <span class="badge badge-primary user-badge"><%= helpers.capitalise(user.role) %></span>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:;">
+                                      <i class="material-icons">edit</i>
+                                      <span>Edit Account</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item logout">
+                                      <i class="material-icons">power_settings_new</i>
+                                      <span>Logout</span>
+                                    </a>
+                                  </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>

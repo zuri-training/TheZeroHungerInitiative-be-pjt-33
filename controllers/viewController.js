@@ -67,6 +67,39 @@ const verifyMonetaryDonation = (req, res) => {
   res.status(200).render('donor/verify-monetary-donation');
 }
 
+const adminDashboard = async (req, res) => {
+  // Get admin dashboard data & add them to the context variable
+  
+  // Right now, only static data is being shown to the admin
+  const context = {
+    activePage: req.page,
+    title: 'Admin Dashboard', // By default
+    user: JSON.parse(JSON.stringify(req.user))
+  }
+
+  switch (req.page) {
+    case 'donations':
+      context.title = 'All Donations';
+      res.status(200).render('admin/donations', context);
+      break;
+    case 'donation-stations':
+      context.title = 'Donation Station';
+      res.status(200).render('admin/donation-stations', context);
+      break;
+    case 'live-chat':
+      context.title = 'Admin Live Chat';
+      res.status(200).render('admin/live-chat', context);
+      break;
+    case 'users':
+      context.title = 'User Management';
+      res.status(200).render('admin/users', context);
+      break;
+    default:
+      res.status(200).render('admin/dashboard', context);
+      break;
+  }
+}
+
 module.exports = {
   login,
   signup,
@@ -78,5 +111,6 @@ module.exports = {
   volunteer,
   about,
   donorDashboard,
-  verifyMonetaryDonation
+  verifyMonetaryDonation,
+  adminDashboard
 }

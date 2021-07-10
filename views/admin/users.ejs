@@ -1,0 +1,95 @@
+<%- include('partials/adminHeader') %>
+
+        <div class="alpha-app">
+          <div class="page-header">
+            <%- include('partials/adminNavbar') %>
+          </div>
+            
+          <%- include('partials/adminSidebar') %>
+
+          <div class="page-content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="donation-container">
+                    <div class="donation-container-inner">
+                      <div class="donation-container-header">
+                        <h5>User Management</h5>
+                        <div class="donation-container-actions">
+                          <span class="filter">
+                            <i class="material-icons">filter_list</i>&nbsp; Filter
+                          </span>
+                          <a href="javascript:;" class="btn btn-primary btn-large">
+                            <i class="material-icons left">add</i>Create User
+                          </a>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table white border-radius-4 pt-1 no-footer dtr-column collapsed" role="grid">
+                          <thead>
+                            <tr role="row">
+                              <th>S/N</th>
+                              <th>Full Name</th>
+                              <th>Email Address</th>
+                              <th>Phone Number</th>
+                              <th>User Role</th>
+                              <th>Date Created</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <tr role="row" class="odd">
+                              <td>1</td>
+                              <td>Omezibe Obioha</td>
+                              <td>obiohaomezibe@gmail.com</td>
+                              <td>07063235958</td>
+                              <td>Admin</td>
+                              <td>Dec 5th, 2020</td>
+                              <td><a href="javascript:;">
+                                  <i class="material-icons">assignment</i>
+                                  <i class="material-icons text-dark">edit</i>
+                                </a></td>
+                            </tr>
+                            <tr role="row" class="odd">
+                              <td>1</td>
+                              <td>John Doe</td>
+                              <td>john@example.com</td>
+                              <td>999666333</td>
+                              <td>Donor</td>
+                              <td>Dec 5th, 2020</td>
+                              <td><a href="javascript:;">
+                                  <i class="material-icons">assignment</i>
+                                  <i class="material-icons text-dark">edit</i>
+                                  <i class="material-icons">delete</i>
+                                </a></td>
+                            </tr>
+                            <tr role="row" class="odd">
+                              <td>3</td>
+                              <td>Jane Doe</td>
+                              <td>jane@example.com</td>
+                              <td>123456789</td>
+                              <td>Volunteer</td>
+                              <td>Dec 5th, 2020</td>
+                              <td><a href="javascript:;">
+                                  <i class="material-icons">assignment</i>
+                                  <i class="material-icons text-dark">edit</i>
+                                  <i class="material-icons">delete</i>
+                                </a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%- include('../partials/appLoader') %>
+        
+    <%- include('partials/adminFooter') %>
+  </body>
+</html>
