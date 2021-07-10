@@ -11,7 +11,8 @@ const {
   about,
   volunteer,
   donorDashboard,
-  verifyMonetaryDonation
+  verifyMonetaryDonation,
+  adminDashboard
 } = require('../controllers/viewController');
 
 const auth = require('../controllers/authController');
@@ -76,6 +77,54 @@ class ViewRouter {
         (req, res, next) => ((req.page = 'live-chat'), next()),
         donorDashboard
       );
+    
+    // Admin routes
+    this.router.get(
+      '/admin',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => res.redirect('/admin/dashboard')
+    );
+
+    this.router.get(
+      '/admin/dashboard',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'dashboard'), next()),
+      adminDashboard
+    );
+
+    this.router.get(
+      '/admin/donations',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'donations'), next()),
+      adminDashboard
+    );
+
+    this.router.get(
+      '/admin/donation-stations',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'donation-stations'), next()),
+      adminDashboard
+    );
+
+    this.router.get(
+      '/admin/live-chat',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'live-chat'), next()),
+      adminDashboard
+    );
+
+    this.router.get(
+      '/admin/users',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'users'), next()),
+      adminDashboard
+    );
   
   return this.router;
 }
