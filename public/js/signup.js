@@ -32,6 +32,17 @@ form.addEventListener('submit', async e => {
         });
         
         // Redirect to dashboard
+        switch (res.data.user.role) {
+          case 'donor':
+            window.location.href = '/donor/dashboard';
+            break;
+          case 'volunteer':
+            window.location.href = '/volunteer/dashboard';
+            break;
+          case 'admin':
+            window.location.href = '/admin/dashboard';
+            break;
+        }
       }, 3e3);
     }
   } catch (e) {
