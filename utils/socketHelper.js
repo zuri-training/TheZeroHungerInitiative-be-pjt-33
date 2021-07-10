@@ -1,11 +1,12 @@
 const addConnectedUser = (usersArray, userId, socketId) => {
-  console.log(usersArray);
+  //console.log(usersArray);
   const user = usersArray.find((user) => user.userId === userId);
   
   user === undefined ? usersArray.push({userId, socketId}) : user.socketId = socketId;
 };
 
 
+// It doesn't mutate the original usersArray
 const removeConnectedUser = (usersArray, socketId) => {
   return usersArray.filter((user) => user.socketId !== socketId);
 };
