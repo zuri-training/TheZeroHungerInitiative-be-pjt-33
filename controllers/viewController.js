@@ -40,9 +40,8 @@ const donorDashboard = async (req, res) => {
   // Get donor dashboard data & add them to the context variable
   const { foodDonation, cashDonation } = await getUserDonation(req.user);
   
-  // Right now, only static data is being shown to the user
   const context = {
-    activePage: 'dashboard', // By default
+    activePage: req.page,
     title: 'Dashboard', // By default
     user: JSON.parse(JSON.stringify(req.user)),
     foodDonation,
@@ -51,9 +50,12 @@ const donorDashboard = async (req, res) => {
 
   switch (req.page) {
     case 'donations':
-      context.activePage = 'donations';
       context.title = 'Donations';
       res.status(200).render('donor/donations', context);
+      break;
+    case 'live-chat':
+      context.title = 'Live Chat';
+      res.status(200).render('donor/live-chat', context);
       break;
     default:
       res.status(200).render('donor/dashboard', context);
