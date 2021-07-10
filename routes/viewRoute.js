@@ -38,7 +38,7 @@ class ViewRouter {
     this.router.get('/about-us', about);
     this.router.post('/', (req, res, next) => (req.page='home', next()), home);
 
-  
+    // Donor routes
     this.router.get(
       '/donor',
       auth.authenticateApp(),
@@ -46,8 +46,7 @@ class ViewRouter {
       (req, res, next) => res.redirect('/donor/dashboard')
     );
     
-    this.router
-      .get(
+    this.router.get(
         '/donor/dashboard',
         auth.authenticateApp(),
         auth.authorizeApp('donor'),
@@ -55,8 +54,7 @@ class ViewRouter {
         donorDashboard
       );
     
-    this.router
-      .get(
+    this.router.get(
         '/donor/donations',
         auth.authenticateApp(),
         auth.authorizeApp('donor'),
@@ -64,13 +62,20 @@ class ViewRouter {
         donorDashboard
       );
     
-    this.router
-      .get(
+    this.router.get(
         '/donor/donations/verify',
         auth.authenticateApp(),
         auth.authorizeApp('donor'),
         verifyMonetaryDonation
       )
+    
+    this.router.get(
+        '/donor/live-chat',
+        auth.authenticateApp(),
+        auth.authorizeApp('donor'),
+        (req, res, next) => ((req.page = 'live-chat'), next()),
+        donorDashboard
+      );
   
   return this.router;
 }
