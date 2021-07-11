@@ -8,6 +8,7 @@ const messageAPI = new CRUDAPI(Message);
 
 exports.createConversation = conversationAPI.createData();
 exports.getAllConversation = conversationAPI.getAllData();
+exports.deleteConversation = conversationAPI.deleteData();
 
 exports.getSpecificUserConversation = catchAsync(async (req, res, next) => {
   const {userId} = req.params;

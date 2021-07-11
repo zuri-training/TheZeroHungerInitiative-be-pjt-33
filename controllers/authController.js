@@ -68,7 +68,7 @@ class AuthController {
       // save user to database & generate a token
       const user = await this.User.create(req.body);
       const token = this.sendToken(user, res);
-
+      
       // removing the user password from the output
       user.password = undefined;
 

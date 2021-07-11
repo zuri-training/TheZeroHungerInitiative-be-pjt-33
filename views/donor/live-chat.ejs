@@ -1,6 +1,6 @@
 <%- include('partials/donorHeader') %>
 
-        <div class="alpha-app">
+        <div id="user-data" data='<%= JSON.stringify(user) %>' class="alpha-app">
           <div class="page-header">
             <%- include('partials/donorNavbar') %>
           </div>
@@ -16,7 +16,7 @@
 
                     <section class="chat-window">
                       <div class="chats">
-                        <div class="chats">
+                        <div class="chats" id="chats-container">
                           <div class="chat chat-left">
                             <div class="chat-avatar">
                               <a class="avatar">
@@ -42,7 +42,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="chat">
+                          <!--<div class="chat">
                             <div class="chat-avatar">
                               <a class="avatar">
                                 <img src="/images/profile.jpg" class="rounded-circle" width="50" alt="avatar">
@@ -53,8 +53,8 @@
                                 <p>Customer support</p>
                               </div>
                             </div>
-                          </div>
-                          <div class="chat chat-left">
+                          </div>-->
+                          <!--<div class="chat chat-left">
                             <div class="chat-avatar">
                               <a class="avatar">
                                 <img src="/images/chatbot.png" class="rounded-circle" width="50" alt="avatar">
@@ -89,15 +89,15 @@
                                 <p>Hi Didhee. I can't seem to find a pickup station close to me. I'd like to donate some food items ASAP.</p>
                               </div>
                             </div>
-                          </div>
+                          </div>-->
                         </div>
                       </div>
                     </section>
 
                     <div class="chat-footer">
                       <span class="material-icons mr-2 emoji">sentiment_very_satisfied</span>
-                      <input type="text" placeholder="Type something here..." class="browser-default" value="Thank you">
-                      <span class="material-icons ml-2 send">send</span>
+                      <input type="text" placeholder="Type something here..." class="browser-default" id="message-box">
+                      <span class="material-icons ml-2 send" id="send-message">send</span>
                     </div>
                   </div>
                 </div>
@@ -109,5 +109,7 @@
         <%- include('../partials/appLoader') %>
         
     <%- include('partials/donorFooter') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/chat.js"></script>
   </body>
 </html>

@@ -105,11 +105,7 @@ class App {
     });
     
     //this.io = socketio(this.server);
-    this.io = socketio(this.server, {
-      cors: {
-        origin: "http://localhost:8158",
-      }
-    });
+    this.io = socketio(this.server);
     
     this.startTime();
     
@@ -125,6 +121,7 @@ class App {
       socket.on('sendConnectedUser', (userId) => {
         // Add connected user into the user array
         addConnectedUser(this.users, userId, socket.id);
+        //console.log("addConnectedUser", this.users);
         console.log(this.users);
         // Send all the connected user to the client
         socket.emit("getConnectedUser", this.users);
@@ -132,10 +129,15 @@ class App {
       
       socket.on("sendMessage", ({senderId, receiverId, message}) => {
         const user = getCurrentUser(this.users, receiverId);
-        console.log(user);
+        console.log(senderId, receiverId, message);
         if(user !== undefined) {
           this.io.to(user.socketId).emit("getMessage", {senderId, message});
-        }
+        }/* else {
+          this.io.emit("userNotOnline", {senderId, receiverId, message});
+          console.log("user undefined");
+          console.log({senderId, receiverId, message});
+          console.log(user);
+        }*/
       /*this.io.to(user.socketId).emit("getMessage", {senderId, message});*/
       });
       
@@ -143,7 +145,7 @@ class App {
       socket.on("disconnect", () => {
         console.log(`user disconnected ${socket.id}`);
         const user = removeConnectedUser(this.users, socket.id);
-        console.log(user);
+        //console.log("user", user);
         this.io.emit("getConnectedUser", user);
       });
     });
