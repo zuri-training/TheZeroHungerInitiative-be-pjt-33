@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createConversation, getAllConversation, getSpecificUserConversation } = require ("../controllers/chatController");
+const { createConversation, getAllConversation, deleteConversation, getSpecificUserConversation } = require ("../controllers/chatController");
 const auth = require ("../controllers/authController");
 
  class ConversationRouter {
@@ -21,6 +21,9 @@ const auth = require ("../controllers/authController");
       this.router
       .route("/:userId")
       .get(auth.authorize("admin", "volunteer", "donor"), getSpecificUserConversation);
+      
+    this.router
+      .route("/:id").delete(auth.authorize("admin"), deleteConversation);
       //.get(getSpecificUserConversation);
       
     return this.router;

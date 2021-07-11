@@ -122,6 +122,7 @@ class App {
         // Add connected user into the user array
         addConnectedUser(this.users, userId, socket.id);
         //console.log("addConnectedUser", this.users);
+        console.log(this.users);
         // Send all the connected user to the client
         socket.emit("getConnectedUser", this.users);
       });
@@ -131,7 +132,12 @@ class App {
         console.log(senderId, receiverId, message);
         if(user !== undefined) {
           this.io.to(user.socketId).emit("getMessage", {senderId, message});
-        }
+        }/* else {
+          this.io.emit("userNotOnline", {senderId, receiverId, message});
+          console.log("user undefined");
+          console.log({senderId, receiverId, message});
+          console.log(user);
+        }*/
       /*this.io.to(user.socketId).emit("getMessage", {senderId, message});*/
       });
       

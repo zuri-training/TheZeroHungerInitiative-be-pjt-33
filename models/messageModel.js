@@ -11,6 +11,10 @@ const messageSchema = new Schema(
     message: {
       type: String,
     },
+    unread: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
