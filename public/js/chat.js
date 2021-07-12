@@ -6,7 +6,8 @@
 // 2) When displaying all conversation, add a green dot to recognise online users
 // 3) admin should be able to click on each conversation which will lead to displaying all the message for that conversation
 
-const socket = io("http://localhost:5000");
+//const socket = io("http://localhost:5000");
+const socket = io(`${location.host}`);
 
 const user = JSON.parse($('#user-data').attr("data"));
 //let otherMembers = [];
