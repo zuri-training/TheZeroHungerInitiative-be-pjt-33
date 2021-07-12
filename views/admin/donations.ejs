@@ -27,7 +27,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Donation Number</th>
+                              <th>Donation Id</th>
                               <th>No. of Items Donated</th>
                               <th>Delivery Option</th>
                               <th>Status</th>
@@ -37,19 +37,29 @@
                           </thead>
 
                           <tbody>
-                            <tr role="row" class="odd">
-                              <td>1</td>
-                              <td>THI/FD/49056</td>
-                              <td>15 Items</td>
-                              <td>Pick-Up Donation</td>
-                              <td><span class="badge badge-success">Delivered</span></td>
-                              <td>Dec 5th, 2020</td>
-                              <td><a href="javascript:;">
-                                  <i class="material-icons">assignment</i>
-                                  <i class="material-icons text-dark">edit</i>
-                                  <i class="material-icons">filter_center_focus</i>
-                                </a></td>
+                            <% if (foodDonations.length > 1) { %>
+                              <% foodDonations.forEach((donation, i) => { %>
+                                <tr role="row" class="odd">
+                                  <td><%= i + 1 %></td>
+                                  <td><%= donation._id %></td>
+                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) %> Items</td>
+                                  <td style="text-transform: capitalize;"><%= donation.deliveryOption %> Donation</td>
+                                  <td><span class="badge badge-success">Delivered</span></td>
+                                  <td><%= helpers.reformatDate(donation.createdAt.toDateString()) %></td>
+                                  <td>
+                                    <a href="javascript:;">
+                                      <i class="material-icons">assignment</i>
+                                      <i class="material-icons text-dark">edit</i>
+                                      <i class="material-icons">filter_center_focus</i>
+                                    </a>
+                                  </td>
+                                </tr>
+                              <% }) %>
+                            <% } else { %>
+                            <tr>
+                              <td colspan="7" class="text-center">You haven't donated any food yet.</td>
                             </tr>
+                            <% } %>
                           </tbody>
                         </table>
                       </div>
@@ -70,7 +80,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Reference Number</th>
+                              <th>Reference Id</th>
                               <th>Donor</th>
                               <th>Amount (₦)</th>
                               <th>Status</th>
@@ -80,18 +90,26 @@
                           </thead>
 
                           <tbody>
+                            <% if (cashDonations.length > 1) { %>
+                            <% cashDonations.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
-                              <td>1</td>
-                              <td>60e99ddf797bfb194b568073</td>
-                              <td>Ivory Foundation</td>
-                              <td>₦12,500</td>
-                              <td><span class="badge badge-success">Success</span>
+                              <td><%= i + 1 %></td>
+                              <td><%= donation._id %></td>
+                              <td><%= donation.donorName %></td>
+                              <td>₦<%= donation.amount.toLocaleString() %></td>
+                              <td><span class="badge badge-<%=donation.transactionStatus%>"><%= helpers.capitalise(donation.transactionStatus) %></span>
                               </td>
-                              <td>10/07/2021</td>
+                              <td><%= helpers.reformatDate(donation.createdAt.toDateString()) %></td>
                               <td><a href="javascript:;">
                                   <i class="material-icons">assignment</i>
                                 </a></td>
                             </tr>
+                            <% }) %>
+                            <% } else { %>
+                            <tr>
+                              <td colspan="7" class="text-center">You haven't made any cash donations yet.</td>
+                            </tr>
+                            <% } %>
                           </tbody>
                         </table>
                       </div>
