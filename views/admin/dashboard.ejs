@@ -20,7 +20,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Total Users</h5>
-                            <h5>13,904</h5>
+                            <h5><%= userCount %></h5>
                           </div>
                         </div>
                       </div>
@@ -33,7 +33,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Total Donations</h5>
-                            <h5>193,909,000</h5>
+                            <h5><%= foodDonationCount + cashDonationCount %></h5>
                           </div>
                         </div>
                       </div>
@@ -46,7 +46,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Active Users</h5>
-                            <h5>12,190</h5>
+                            <h5><%= userCount %></h5> <!-- Change to users that have logged in within the past month -->
                           </div>
                         </div>
                       </div>
@@ -59,7 +59,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Dispatch Riders</h5>
-                            <h5>136</h5>
+                            <h5>0</h5>
                           </div>
                         </div>
                       </div>
@@ -72,7 +72,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Pending Chat</h5>
-                            <h5>67</h5>
+                            <h5><%= pendingChat.length %></h5>
                           </div>
                         </div>
                       </div>
@@ -85,7 +85,7 @@
                           </div>
                           <div class="dashboard-info-text">
                             <h5>Referred Users</h5>
-                            <h5>50</h5>
+                            <h5>0</h5>
                           </div>
                         </div>
                       </div>
@@ -96,64 +96,33 @@
                   <div class="row">
                     <div class="col-lg-6 col-sm-12">
                       <div class="dashboard-table">
-                        <h4>New Users</h4>
+                        <h4>Latest Users</h4>
 
-                        <div class="media mb-2">
-                          <a>
-                            <img class="media-object d-flex mr-3 bg-primary rounded-circle"
-                              src="/images/profile.jpg" height="45">
-                          </a>
-                          <div class="media-body">
-                            <h5 class="mt-1 mb-0">Omezibe Obioha</h5>
-                            <p class="text-muted">Enugu, NG</p>
+                        <% if (latestUsers.length > 1) { %>
+                          <% latestUsers.forEach((user, i) => { %>
+                            <% if (latestUsers.length - 1 === i) { %>
+                            <div class="media mb-0">
+                            <% } else { %>
+                            <div class="media mb-2">
+                            <% } %>
+                            <a>
+                              <img class="media-object d-flex mr-3 bg-light rounded-circle" src="https://robohash.org/<%= user.username %>?set=set3" height="52">
+                            </a>
+                            <div class="media-body">
+                              <h5 class="mt-1 mb-2"><%= user.firstName %> <%= user.lastName %></h5>
+                              <div class="badge badge-primary p-1 mb-2">
+                                @<%= user.username %>
+                              </div>
+                            </div>
+                            <div class="mt-1">
+                              <small><%= helpers.formatDateToNow(user.createdAt) %></small>
+                              <!-- <i class="material-icons">more_vert</i> -->
+                            </div>
                           </div>
-                          <div class="mt-1">
-                            <small>10/07/2021 10:30 AM</small>
-                            <!-- <i class="material-icons">more_vert</i> -->
-                          </div>
-                        </div>
-                        <div class="media mb-2">
-                          <a>
-                            <img class="media-object d-flex mr-3 bg-primary rounded-circle"
-                              src="/images/profile.jpg" height="45">
-                          </a>
-                          <div class="media-body">
-                            <h5 class="mt-1 mb-0">Omezibe Obioha</h5>
-                            <p class="text-muted">Enugu, NG</p>
-                          </div>
-                          <div class="mt-1">
-                            <small>10/07/2021 10:30 AM</small>
-                            <!-- <i class="material-icons">more_vert</i> -->
-                          </div>
-                        </div>
-                        <div class="media mb-2">
-                          <a>
-                            <img class="media-object d-flex mr-3 bg-primary rounded-circle"
-                              src="/images/profile.jpg" height="45">
-                          </a>
-                          <div class="media-body">
-                            <h5 class="mt-1 mb-0">Omezibe Obioha</h5>
-                            <p class="text-muted">Enugu, NG</p>
-                          </div>
-                          <div class="mt-1">
-                            <small>10/07/2021 10:30 AM</small>
-                            <!-- <i class="material-icons">more_vert</i> -->
-                          </div>
-                        </div>
-                        <div class="media mb-0">
-                          <a>
-                            <img class="media-object d-flex mr-3 bg-primary rounded-circle"
-                              src="/images/profile.jpg" height="45">
-                          </a>
-                          <div class="media-body">
-                            <h5 class="mt-1 mb-0">Omezibe Obioha</h5>
-                            <p class="text-muted">Enugu, NG</p>
-                          </div>
-                          <div class="mt-1">
-                            <small>10/07/2021 10:30 AM</small>
-                            <!-- <i class="material-icons">more_vert</i> -->
-                          </div>
-                        </div>
+                          <% }) %>
+                        <% } else { %>
+                          <p class="mt-4">No user yet!</p>
+                        <% } %>
                       </div>
                     </div>
                     <div class="col-lg-6 col-sm-12">

@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const cloudinary = require('cloudinary');
 const socketio = require('socket.io');
 const compression = require('compression');
+const { formatDistanceToNow } = require('date-fns');
 // The dotenv should be immediately cofig, before the logger because it reading from the env variable
 const dotenv = require('dotenv').config();
 const YAML = require('yamljs');
@@ -63,7 +64,23 @@ class App {
 
     // EJS helpers
     this.app.locals.helpers = {
-      capitalise: ([first, ...rest]) => first.toUpperCase() + rest.join('')
+      capitalise: ([first, ...rest]) => first.toUpperCase() + rest.join(''),
+      formatDate: value => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        return new Intl.DateTimeFormat('en-US', options).format(value);
+      },
+      formatDateToNow: date => {
+        return formatDistanceToNow(date, { addSuffix: true, includeSeconds: true })
+      },
+      reformatDate: value => {
+        const dateSplit = value.split(' ');
+        const date = Number(dateSplit[!!{} + !!{}]);
+        const ordinal = n => n < 11 || n > 13 ? [`${n}st`, `${n}nd`, `${n}rd`, `${n}th`][Math.min((n - 1) % 10, 3)] : `${n}th`;
+
+        dateSplit[+[]] += ','; dateSplit[!!{} + !!{}] = ordinal(date);
+
+        return dateSplit.join(' ');
+      }
     }
 
     // Parsing request body
