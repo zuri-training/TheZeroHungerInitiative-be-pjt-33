@@ -37,14 +37,22 @@
                           </thead>
 
                           <tbody>
-                            <% if (foodDonations.length > 1) { %>
+                            <% if (foodDonations.length > 0) { %>
                               <% foodDonations.forEach((donation, i) => { %>
                                 <tr role="row" class="odd">
                                   <td><%= i + 1 %></td>
                                   <td><%= donation._id %></td>
-                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) %> Items</td>
+                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) || 10 %> Items</td>
                                   <td style="text-transform: capitalize;"><%= donation.deliveryOption %> Donation</td>
-                                  <td><span class="badge badge-success">Delivered</span></td>
+                                  <td>
+                                    <% if (donation.status === 'pending') { %>
+                                      <span class="badge badge-warning"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } else if (donation.status === 'picked-up') { %>
+                                    <span class="badge badge-info"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } else if (donation.status === 'delivered') { %>
+                                    <span class="badge badge-success"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } %>
+                                  </td>
                                   <td><%= helpers.reformatDate(donation.createdAt.toDateString()) %></td>
                                   <td>
                                     <a href="javascript:;">
@@ -57,7 +65,7 @@
                               <% }) %>
                             <% } else { %>
                             <tr>
-                              <td colspan="7" class="text-center">You haven't donated any food yet.</td>
+                              <td colspan="7" class="text-center">No food items donated yet.</td>
                             </tr>
                             <% } %>
                           </tbody>
@@ -90,11 +98,11 @@
                           </thead>
 
                           <tbody>
-                            <% if (cashDonations.length > 1) { %>
+                            <% if (cashDonations.length > 0) { %>
                             <% cashDonations.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
                               <td><%= i + 1 %></td>
-                              <td><%= donation._id %></td>
+                              <td><%= donation.referenceId %></td>
                               <td><%= donation.donorName %></td>
                               <td>₦<%= donation.amount.toLocaleString() %></td>
                               <td><span class="badge badge-<%=donation.transactionStatus%>"><%= helpers.capitalise(donation.transactionStatus) %></span>
@@ -107,7 +115,7 @@
                             <% }) %>
                             <% } else { %>
                             <tr>
-                              <td colspan="7" class="text-center">You haven't made any cash donations yet.</td>
+                              <td colspan="7" class="text-center">No cash donations yet.</td>
                             </tr>
                             <% } %>
                           </tbody>

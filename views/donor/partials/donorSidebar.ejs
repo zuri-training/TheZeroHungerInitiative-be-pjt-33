@@ -4,21 +4,21 @@
                         <div class="sidebar-accordion-menu">
                             <ul class="sidebar-menu list-unstyled">
                                 <li>
-                                    <a href="dashboard" class="waves-effect waves-grey <% if (activePage === 'dashboard') { %>
+                                    <a href="/donor/dashboard" class="waves-effect waves-grey <% if (activePage === 'dashboard') { %>
                                   active
                                 <% } %>">
                                       <i class="material-icons">dashboard</i>Dashboard
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="donations" class="waves-effect waves-grey <% if (activePage === 'donations') { %>
+                                    <a href="/donor/donations" class="waves-effect waves-grey <% if (activePage === 'donations' || activePage === 'new-food-donation') { %>
                                   active
                                 <% } %>">
                                       <i class="material-icons">redeem</i>Donation
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="live-chat" class="waves-effect waves-grey <% if (activePage === 'live-chat') { %>
+                                    <a href="/donor/live-chat" class="waves-effect waves-grey <% if (activePage === 'live-chat') { %>
                                   active
                                 <% } %>">
                                       <i class="material-icons">chat_bubble</i>Live Chat

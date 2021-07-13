@@ -14,12 +14,12 @@
                   <div class="donation-container">
                     <div class="donation-container-inner">
                       <div class="donation-container-header">
-                        <h5> Food Donations</h5>
+                        <h5>Food Donations</h5>
                         <div class="donation-container-actions">
                           <span class="filter">
                             <i class="material-icons">filter_list</i>&nbsp; Filter
                           </span>
-                          <a href="javascript:;" class="btn btn-primary btn-large">
+                          <a href="/donor/donations/new" class="btn btn-primary btn-large">
                             <i class="material-icons left">add</i>New Donation
                           </a>
                         </div>
@@ -29,7 +29,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Donation Number</th>
+                              <th>Donation Id</th>
                               <th>No. of Items Donated</th>
                               <th>Delivery Option</th>
                               <th>Status</th>
@@ -39,14 +39,22 @@
                           </thead>
 
                           <tbody>
-                            <% if (foodDonation.length > 1) { %>
+                            <% if (foodDonation.length > 0) { %>
                               <% foodDonation.forEach((donation, i) => { %>
                                 <tr role="row" class="odd">
                                   <td><%= i + 1 %></td>
                                   <td><%= donation._id %></td>
-                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) %> Items</td>
+                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) || 10 %> Items</td>
                                   <td style="text-transform: capitalize;"><%= donation.deliveryOption %> Donation</td>
-                                  <td><span class="badge badge-success">Delivered</span></td>
+                                  <td>
+                                    <% if (donation.status === 'pending') { %>
+                                      <span class="badge badge-warning"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } else if (donation.status === 'picked-up') { %>
+                                    <span class="badge badge-info"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } else if (donation.status === 'delivered') { %>
+                                    <span class="badge badge-success"><%= helpers.capitalise(donation.status) %></span>
+                                    <% } %>
+                                  </td>
                                   <td><%= helpers.reformatDate(donation.createdAt.toDateString()) %></td>
                                   <td>
                                     <a href="javascript:;">
@@ -128,7 +136,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Reference Number</th>
+                              <th>Reference Id</th>
                               <th>Donor</th>
                               <th>Amount (₦)</th>
                               <th>Status</th>
@@ -138,11 +146,11 @@
                           </thead>
 
                           <tbody>
-                            <% if (cashDonation.length > 1) { %>
+                            <% if (cashDonation.length > 0) { %>
                             <% cashDonation.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
                               <td><%= i + 1 %></td>
-                              <td><%= donation._id %></td>
+                              <td><%= donation.referenceId %></td>
                               <td><%= donation.donorName %></td>
                               <td>₦<%= donation.amount.toLocaleString() %></td>
                               <td><span class="badge badge-<%=donation.transactionStatus%>"><%= helpers.capitalise(donation.transactionStatus) %></span>

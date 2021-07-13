@@ -48,35 +48,51 @@ class ViewRouter {
     );
     
     this.router.get(
-        '/donor/dashboard',
-        auth.authenticateApp(),
-        auth.authorizeApp('donor'),
-        (req, res, next) => ((req.page = 'dashboard'), next()),
-        donorDashboard
-      );
+      '/donor/dashboard',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'dashboard'), next()),
+      donorDashboard
+    );
     
     this.router.get(
-        '/donor/donations',
-        auth.authenticateApp(),
-        auth.authorizeApp('donor'),
-        (req, res, next) => ((req.page = 'donations'), next()),
-        donorDashboard
-      );
+      '/donor/donations',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'donations'), next()),
+      donorDashboard
+    );
+
+    this.router.get(
+      '/donor/donations/new',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'new-food-donation'), next()),
+      donorDashboard
+    );
     
     this.router.get(
-        '/donor/donations/verify',
-        auth.authenticateApp(),
-        auth.authorizeApp('donor'),
-        verifyMonetaryDonation
-      )
+      '/donor/donations/verify',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      verifyMonetaryDonation
+    );
     
     this.router.get(
-        '/donor/live-chat',
-        auth.authenticateApp(),
-        auth.authorizeApp('donor'),
-        (req, res, next) => ((req.page = 'live-chat'), next()),
-        donorDashboard
-      );
+      '/donor/live-chat',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'live-chat'), next()),
+      donorDashboard
+    );
+    
+    this.router.get(
+      '/donor/edit-account',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'edit-account'), next()),
+      donorDashboard
+    );
     
     // Admin routes
     this.router.get(
@@ -123,6 +139,22 @@ class ViewRouter {
       auth.authenticateApp(),
       auth.authorizeApp('admin'),
       (req, res, next) => ((req.page = 'users'), next()),
+      adminDashboard
+    );
+
+    this.router.get(
+      '/admin/users/edit/:id',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'user-edit'), next()),
+      adminDashboard
+    );
+    
+    this.router.get(
+      '/admin/users/new',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'user-new'), next()),
       adminDashboard
     );
   

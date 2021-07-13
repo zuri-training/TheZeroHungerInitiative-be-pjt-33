@@ -48,8 +48,8 @@ const sendErrorInProduction = (errorObject, res) => {
     }
   }
 
-  res.status(errorObject.statusCode).json({
-    status: errorObject.status, message: errorObject.message, details
+  res.status(errorObject.statusCode || 500).json({
+    status: errorObject.status || 'Internal server error', message: errorObject.message, details
   })
 }
 

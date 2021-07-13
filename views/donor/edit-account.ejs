@@ -1,0 +1,150 @@
+<%- include('partials/donorHeader') %>
+
+        <div class="alpha-app">
+          <div class="page-header">
+            <%- include('partials/donorNavbar') %>
+          </div>
+            
+          <%- include('partials/donorSidebar') %>
+
+          <div class="page-content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-10 offset-sm-1">
+                  <form class="form">
+                    <h5>Edit Your Account</h5>
+                    <br>
+                    <div class="input-group">
+                      <label for="firstName">First Name</label>
+                      <input type="text" name="firstName" id="firstName" placeholder="Your first name" required
+                        class="browser-default" value="<%= userData.firstName %>">
+                      <img src="/images/icons/person-icon.png" alt="person icon">
+                    </div>
+
+                    <div class="input-group">
+                      <label for="lastName">Last Name</label>
+                      <input type="text" name="lastName" id="lastName" placeholder="Your last name" required
+                        class="browser-default" value="<%= userData.lastName %>">
+                      <img src="/images/icons/person-icon.png" alt="person icon">
+                    </div>
+
+                    <div class="input-group">
+                      <label for="username">Username</label>
+                      <input type="text" name="username" id="username" placeholder="Your username" required
+                        class="browser-default" value="<%= userData.username %>" disabled>
+                      <img src="/images/icons/person-icon.png" alt="person icon">
+                    </div>
+
+                    <div class="input-group">
+                      <label for="gender">Gender</label>
+                      <select name="gender" id="gender" required class="browser-default">
+                        <option value="unknown">Prefer not to say</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                      <img src="/images/icons/person-icon.png" alt="person icon">
+                    </div>
+
+                    <div class="input-group">
+                      <label for="address">Address</label>
+                      <input type="text" name="address" id="address" placeholder="Enter your address" required
+                        class="browser-default" value="<%= userData.address %>">
+                      <img src="/images/icons/location-icon.png" alt="address icon">
+                    </div>
+
+                    <div class="input-group">
+                      <label for="phoneNumber">Phone Number</label>
+                      <input type="number" name="phoneNumber" id="phoneNumber" placeholder="Enter your phone number"
+                        required class="browser-default" value="<%= userData.phoneNumber %>">
+                      <img src="/images/icons/telephone-icon.png" alt="telephone icon" />
+                    </div>
+
+                    <div class="input-group">
+                      <label for="email">Email Address</label>
+                      <input type="text" name="email" id="email" placeholder="Enter your email address" required
+                        class="browser-default" value="<%= userData.email %>">
+                      <img src="/images/icons/message-icon.png" alt="email icon">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary big-button float-right">Update Your Account</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%- include('../partials/appLoader') %>
+        
+    <%- include('partials/donorFooter') %>
+    <script>
+      const $q = document.querySelector.bind(document);
+      const form = $q('form');
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const data = new URLSearchParams(new FormData(e.target).entries());
+
+        $q('body').classList.add('js-loader');
+        $q('.app-loader').classList.add('visible');
+        $q('.big-button').setAttribute('disabled', 'disabled');
+
+        try {
+          const res = await axios({
+            method: 'PATCH', url: '/api/v1/users/update-details', data
+          });
+
+          if (res.data.status === 'success') {
+            iziToast.success({
+              message: 'Account successfully updated!', position: 'topCenter', timeout: 3e3
+            });
+
+            setTimeout(() => {
+              $q('.app-loader').classList.remove('visible');
+              window.location.href = '/donor/dashboard';
+            }, 3e3);
+          }
+        } catch (e) {
+          if (!e.response && e.message === 'Network Error') {
+            $q('body').classList.remove('js-loader');
+            $q('.app-loader').classList.remove('visible');
+
+            return iziToast.error({
+              title: 'Error:', position: 'topCenter', timeout: 3e3,
+              message: 'Network error. Please check your internet connection.',
+              onClosing: () => $q('.big-button').removeAttribute('disabled')
+            });
+          }
+          
+          iziToast.error({
+            title: 'Error', position: 'topCenter', timeout: 3e3,
+            message: `${e.response.data.message}`,
+            onClosing: () => $q('.big-button').removeAttribute('disabled')
+          });
+
+          if (e.response.data?.details) {
+            const errorDetails = e.response.data.details;
+
+            if (e.response.data.message !== 'A record exists with some of your entered values') {
+              Object.keys(errorDetails).forEach(field => {
+                iziToast.warning({
+                  title: 'Error:', position: 'topCenter', timeout: 3e3, message: `${errorDetails[field]}`
+                });
+              })
+            } else {
+              Object.keys(errorDetails).forEach(field => {
+                iziToast.warning({
+                  title: `Please choose another ${field}`, position: 'topCenter', timeout: 3e3
+                });
+              })
+            }
+          }
+
+          $q('body').classList.remove('js-loader');
+          $q('.app-loader').classList.remove('visible');
+        }
+      })
+    </script>
+  </body>
+</html>
