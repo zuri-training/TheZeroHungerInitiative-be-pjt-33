@@ -399,6 +399,17 @@ class AuthController {
       res.status(200).json({ status: 'success', token });
     });
   }
+
+  updateDetails() {
+    return catchAsync(async (req, res, next) => {
+      const data = await User.findByIdAndUpdate(req.user.id, req.body, {
+        new: true,
+        runValidator: true
+      });
+
+      return res.status(200).json({ status: 'success', data });
+    });
+  }
 }
 
 module.exports = new AuthController(User);

@@ -14,7 +14,7 @@
                   <div class="donation-container">
                     <div class="donation-container-inner">
                       <div class="donation-container-header">
-                        <h5> Food Donations</h5>
+                        <h5>Food Donations</h5>
                         <div class="donation-container-actions">
                           <span class="filter">
                             <i class="material-icons">filter_list</i>&nbsp; Filter
@@ -29,7 +29,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Donation Number</th>
+                              <th>Donation Id</th>
                               <th>No. of Items Donated</th>
                               <th>Delivery Option</th>
                               <th>Status</th>
@@ -128,7 +128,7 @@
                           <thead>
                             <tr role="row">
                               <th>S/N</th>
-                              <th>Reference Number</th>
+                              <th>Reference Id</th>
                               <th>Donor</th>
                               <th>Amount (₦)</th>
                               <th>Status</th>
@@ -142,7 +142,7 @@
                             <% cashDonation.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
                               <td><%= i + 1 %></td>
-                              <td><%= donation._id %></td>
+                              <td><%= donation.referenceId %></td>
                               <td><%= donation.donorName %></td>
                               <td>₦<%= donation.amount.toLocaleString() %></td>
                               <td><span class="badge badge-<%=donation.transactionStatus%>"><%= helpers.capitalise(donation.transactionStatus) %></span>

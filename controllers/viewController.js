@@ -1,5 +1,6 @@
 const { getUserDonation } = require('./monetaryDonationController');
 const { fetchAdminDashboard, fetchAdminDonations, fetchAdminUsers, fetchAdminUser } = require('../utils/adminDataFetcher');
+const User = require('../models/userModel');
 
 const login = (req, res) => {
   res.status(200).render('login');
@@ -41,7 +42,7 @@ const donorDashboard = async (req, res) => {
   // Get donor dashboard data & add them to the context variable
   const { foodDonation, cashDonation } = await getUserDonation(req.user);
   
-  const context = {
+  let context = {
     activePage: req.page,
     title: 'Dashboard', // By default
     user: JSON.parse(JSON.stringify(req.user)),
@@ -58,6 +59,13 @@ const donorDashboard = async (req, res) => {
       context.title = 'Live Chat';
       res.status(200).render('donor/live-chat', context);
       break;
+    case 'edit-account':
+      const userData = await User.findById(req.user._id);
+      context.title = 'Edit Your Account';
+      context = { ...context, userData }
+
+      res.status(200).render('donor/edit-account', context);
+      break;
     default:
       res.status(200).render('donor/dashboard', context);
       break;
@@ -70,8 +78,6 @@ const verifyMonetaryDonation = (req, res) => {
 
 const adminDashboard = async (req, res) => {
   // Get admin dashboard data & add them to the context variable
-  
-  // Right now, only static data is being shown to the admin
   let context = {
     activePage: req.page,
     title: 'Admin Dashboard', // By default

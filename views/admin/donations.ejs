@@ -94,7 +94,7 @@
                             <% cashDonations.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
                               <td><%= i + 1 %></td>
-                              <td><%= donation._id %></td>
+                              <td><%= donation.referenceId %></td>
                               <td><%= donation.donorName %></td>
                               <td>₦<%= donation.amount.toLocaleString() %></td>
                               <td><span class="badge badge-<%=donation.transactionStatus%>"><%= helpers.capitalise(donation.transactionStatus) %></span>
