@@ -45,6 +45,10 @@ const donationSchema = new Schema({
     type: Number,
     required: [true, "please provide your contact name"]
   },
+  state: {
+    type: String,
+    required: [true, "please provide your state"]
+  },
   localGovernment: {
     type: String,
     required: [true, "please provide your local government"]

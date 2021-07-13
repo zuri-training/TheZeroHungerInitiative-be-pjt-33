@@ -18,7 +18,9 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    required: [true, "Please provide your gender"]
+    required: [true, "Please provide your gender"],
+    enum: ['male', 'female', 'unknown'],
+    default: 'unknown'
   },
   address: {
     type: String,
@@ -40,7 +42,7 @@ const userSchema = new Schema({
     validate: [validator.isEmail, "Please provide a valid email"],
     trim: true,
     unique: true,
-    lowercase: true,
+    lowercase: true
   },
   role: {
     type: String,

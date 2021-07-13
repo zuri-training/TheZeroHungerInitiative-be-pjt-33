@@ -19,7 +19,7 @@
                           <span class="filter">
                             <i class="material-icons">filter_list</i>&nbsp; Filter
                           </span>
-                          <a href="javascript:;" class="btn btn-primary btn-large">
+                          <a href="/admin/users/new" class="btn btn-primary btn-large">
                             <i class="material-icons left">add</i>Create User
                           </a>
                         </div>
@@ -39,44 +39,30 @@
                           </thead>
 
                           <tbody>
-                            <tr role="row" class="odd">
-                              <td>1</td>
-                              <td>Omezibe Obioha</td>
-                              <td>obiohaomezibe@gmail.com</td>
-                              <td>07063235958</td>
-                              <td>Admin</td>
-                              <td>Dec 5th, 2020</td>
-                              <td><a href="javascript:;">
-                                  <i class="material-icons">assignment</i>
-                                  <i class="material-icons text-dark">edit</i>
-                                </a></td>
+                            <% if (allUsers.length > 0) { %>
+                              <% allUsers.forEach((user, i) => { %>
+                                <tr role="row" class="odd">
+                                  <td><%= i + 1 %></td>
+                                  <td><%= user.firstName %> <%= user.lastName %></td>
+                                  <td><%= user.email %></td>
+                                  <td><%= user.phoneNumber %></td>
+                                  <td style="text-transform: capitalize;"><%= user.role %></td>
+                                  <td><%= helpers.reformatDate(user.createdAt.toDateString()) %></td>
+                                  <td>
+                                    <a href="/admin/users/edit/<%= user._id %>">
+                                      <i class="material-icons text-dark">edit</i>
+                                    </a>
+                                    <% if (user.role !== 'admin') { %>
+                                    <i class="material-icons text-primary delete-user" data-user-id="<%= user._id %>" style="cursor: pointer;">delete</i>
+                                    <% } %>
+                                  </td>
+                                </tr>
+                              <% }) %>
+                            <% } else { %>
+                            <tr>
+                              <td colspan="7" class="text-center">No users yet 👀.</td>
                             </tr>
-                            <tr role="row" class="odd">
-                              <td>1</td>
-                              <td>John Doe</td>
-                              <td>john@example.com</td>
-                              <td>999666333</td>
-                              <td>Donor</td>
-                              <td>Dec 5th, 2020</td>
-                              <td><a href="javascript:;">
-                                  <i class="material-icons">assignment</i>
-                                  <i class="material-icons text-dark">edit</i>
-                                  <i class="material-icons">delete</i>
-                                </a></td>
-                            </tr>
-                            <tr role="row" class="odd">
-                              <td>3</td>
-                              <td>Jane Doe</td>
-                              <td>jane@example.com</td>
-                              <td>123456789</td>
-                              <td>Volunteer</td>
-                              <td>Dec 5th, 2020</td>
-                              <td><a href="javascript:;">
-                                  <i class="material-icons">assignment</i>
-                                  <i class="material-icons text-dark">edit</i>
-                                  <i class="material-icons">delete</i>
-                                </a></td>
-                            </tr>
+                            <% } %>
                           </tbody>
                         </table>
                       </div>
@@ -91,5 +77,40 @@
         <%- include('../partials/appLoader') %>
         
     <%- include('partials/adminFooter') %>
+    <script>
+      const $$ = document.querySelectorAll.bind(document);
+
+      $$('.delete-user').forEach(button => {
+        button.addEventListener('click', e => {
+          const { userId } = e.target.dataset;
+          
+          iziToast.question({
+            timeout: null,
+            close: false,
+            overlay: true,
+            displayMode: 'once',
+            zindex: 9999,
+            title: 'Warning!',
+            message: 'Are you sure you want to delete this user?',
+            position: 'center',
+            buttons: [
+                ['<button><b>YES</b></button>', async function (instance, toast) {
+                  await axios({
+                    method: 'DELETE',
+                    url: `/api/v1/users/${userId}`
+                  }).then(() => {
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                    iziToast.info({ message: 'User deleted successfully!', timeout: 3e3, position: 'topCenter' })
+                    e.target.closest('tr').remove();
+                  });
+                }, true],
+                ['<button>NO</button>', function (instance, toast) {
+                  instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                }],
+            ]
+          });
+        })
+      })
+    </script>
   </body>
 </html>

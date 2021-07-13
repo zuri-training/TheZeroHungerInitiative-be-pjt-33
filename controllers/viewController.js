@@ -1,5 +1,6 @@
 const { getUserDonation } = require('./monetaryDonationController');
-const { fetchAdminDashboard, fetchAdminDonations } = require('../utils/adminDataFetcher');
+const { fetchAdminDashboard, fetchAdminDonations, fetchAdminUsers, fetchAdminUser } = require('../utils/adminDataFetcher');
+const User = require('../models/userModel');
 
 const login = (req, res) => {
   res.status(200).render('login');
@@ -41,7 +42,7 @@ const donorDashboard = async (req, res) => {
   // Get donor dashboard data & add them to the context variable
   const { foodDonation, cashDonation } = await getUserDonation(req.user);
   
-  const context = {
+  let context = {
     activePage: req.page,
     title: 'Dashboard', // By default
     user: JSON.parse(JSON.stringify(req.user)),
@@ -54,9 +55,20 @@ const donorDashboard = async (req, res) => {
       context.title = 'Donations';
       res.status(200).render('donor/donations', context);
       break;
+    case 'new-food-donation':
+      context.title = 'New Food Donation';
+      res.status(200).render('donor/new-food-donation', context);
+      break;
     case 'live-chat':
       context.title = 'Live Chat';
       res.status(200).render('donor/live-chat', context);
+      break;
+    case 'edit-account':
+      const userData = await User.findById(req.user._id);
+      context.title = 'Edit Your Account';
+      context = { ...context, userData }
+
+      res.status(200).render('donor/edit-account', context);
       break;
     default:
       res.status(200).render('donor/dashboard', context);
@@ -70,8 +82,6 @@ const verifyMonetaryDonation = (req, res) => {
 
 const adminDashboard = async (req, res) => {
   // Get admin dashboard data & add them to the context variable
-  
-  // Right now, only static data is being shown to the admin
   let context = {
     activePage: req.page,
     title: 'Admin Dashboard', // By default
@@ -95,8 +105,22 @@ const adminDashboard = async (req, res) => {
       res.status(200).render('admin/live-chat', context);
       break;
     case 'users':
+      const { allUsers } = await fetchAdminUsers();
+
       context.title = 'User Management';
+      context = { ...context, allUsers }
       res.status(200).render('admin/users', context);
+      break;
+    case 'user-edit':
+      const { userData } = await fetchAdminUser(req.params.id);
+
+      context.title = 'Edit User';
+      context = { ...context, userData }
+      res.status(200).render('admin/user-edit', context);
+      break;
+    case 'user-new':
+      context.title = 'Create User';
+      res.status(200).render('admin/user-new', context);
       break;
     default:
       const {
@@ -105,9 +129,18 @@ const adminDashboard = async (req, res) => {
         foodDonationCount,
         cashDonationCount,
         pendingChat,
+        dispatchRiderCount
       } = await fetchAdminDashboard();
 
-      context = { ...context, latestUsers, userCount, foodDonationCount, cashDonationCount, pendingChat }
+      context = {
+        ...context,
+        latestUsers,
+        userCount,
+        foodDonationCount,
+        cashDonationCount,
+        pendingChat,
+        dispatchRiderCount
+      };
       res.status(200).render('admin/dashboard', context);
       break;
   }
