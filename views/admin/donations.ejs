@@ -37,7 +37,7 @@
                           </thead>
 
                           <tbody>
-                            <% if (foodDonations.length > 1) { %>
+                            <% if (foodDonations.length > 0) { %>
                               <% foodDonations.forEach((donation, i) => { %>
                                 <tr role="row" class="odd">
                                   <td><%= i + 1 %></td>
@@ -57,7 +57,7 @@
                               <% }) %>
                             <% } else { %>
                             <tr>
-                              <td colspan="7" class="text-center">You haven't donated any food yet.</td>
+                              <td colspan="7" class="text-center">No food items donated yet.</td>
                             </tr>
                             <% } %>
                           </tbody>
@@ -90,7 +90,7 @@
                           </thead>
 
                           <tbody>
-                            <% if (cashDonations.length > 1) { %>
+                            <% if (cashDonations.length > 0) { %>
                             <% cashDonations.forEach((donation, i) => { %>
                             <tr role="row" class="odd">
                               <td><%= i + 1 %></td>
@@ -107,7 +107,7 @@
                             <% }) %>
                             <% } else { %>
                             <tr>
-                              <td colspan="7" class="text-center">You haven't made any cash donations yet.</td>
+                              <td colspan="7" class="text-center">No cash donations yet.</td>
                             </tr>
                             <% } %>
                           </tbody>

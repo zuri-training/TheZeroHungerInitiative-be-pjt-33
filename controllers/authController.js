@@ -60,27 +60,31 @@ class AuthController {
   signup() {
     return catchAsync(async (req, res, next) => {
       if (req.body.role === 'admin') {
-        return next(
-          new AppError("Hey, you can't make your self an admin 😎", 400)
-        );
+        return next(new AppError("Hey, you can't make your self an admin 😎", 400));
       }
 
       // save user to database & generate a token
       const user = await this.User.create(req.body);
-      const token = this.sendToken(user, res);
+      
+      let token;
+      let decode;
+
+      // Checks if user is admin, sends new token if not
+      if (!req.body.isAdmin) {
+        token = this.sendToken(user, res);
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      }
       
       // removing the user password from the output
       user.password = undefined;
 
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
       // send a response
       res.status(201).json({
         status: 'success',
-        user,
+        user: req.body,
         token,
-        iat: decode.iat,
-        exp: decode.exp,
+        iat: decode?.iat,
+        exp: decode?.exp
       });
     });
   }

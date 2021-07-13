@@ -6,7 +6,7 @@ form.addEventListener('submit', async e => {
   e.preventDefault();
 
   const data = new URLSearchParams(new FormData(e.target).entries());
-  location.href.match('/admin/') && data.append('isAdmin', true);
+  const id = location.pathname.split('/').pop();
 
   $q('body').classList.add('js-loader');
   $q('.app-loader').classList.add('visible');
@@ -14,43 +14,19 @@ form.addEventListener('submit', async e => {
 
   try {
     const res = await axios({
-      method: 'POST', url: '/api/v1/users/signup', data
+      method: 'PATCH', url: `/api/v1/users/${id}`, data
     });
 
     if (res.data.status === 'success') {
-      console.log(res.data);
-      const { firstName, role } = res.data.user;
-      if (!res.data.user.isAdmin) {
-        iziToast.success({
-          message: `You've signed up successfully as a <b>${role}</b>!`, position: 'topCenter', timeout: 3e3
-        });
+      iziToast.success({
+        message: 'User successfully updated!', position: 'topCenter', timeout: 3e3
+      });
 
-        setTimeout(() => {
-          $q('.app-loader').classList.remove('visible');
+      setTimeout(() => {
+        $q('.app-loader').classList.remove('visible');
 
-          iziToast.success({
-            message: `Hi, <b>${firstName}</b>! You'll be redirected to the dashboard shortly.`, position: 'topCenter', timeout: null
-          });
-          
-          // Redirect to dashboard
-          switch (res.data.user.role) {
-            case 'donor':
-              window.location.href = '/donor/dashboard';
-              break;
-            case 'volunteer':
-              window.location.href = '/volunteer/dashboard';
-              break;
-            case 'admin':
-              window.location.href = '/admin/dashboard';
-              break;
-          }
-        }, 3e3);
-      } else {
-        iziToast.success({
-          message: 'User created successfully!', position: 'topCenter', timeout: 3e3,
-          onClosing: () => (window.location.href = '/admin/users')
-        });
-      }
+        window.location.href = '/admin/users';
+      }, 3e3);
     }
   } catch (e) {
     if (!e.response && e.message === 'Network Error') {

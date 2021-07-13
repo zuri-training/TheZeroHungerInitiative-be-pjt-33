@@ -125,6 +125,22 @@ class ViewRouter {
       (req, res, next) => ((req.page = 'users'), next()),
       adminDashboard
     );
+
+    this.router.get(
+      '/admin/users/edit/:id',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'user-edit'), next()),
+      adminDashboard
+    );
+    
+    this.router.get(
+      '/admin/users/new',
+      auth.authenticateApp(),
+      auth.authorizeApp('admin'),
+      (req, res, next) => ((req.page = 'user-new'), next()),
+      adminDashboard
+    );
   
   return this.router;
 }

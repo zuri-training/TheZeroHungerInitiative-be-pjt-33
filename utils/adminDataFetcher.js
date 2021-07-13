@@ -20,12 +20,26 @@ exports.fetchAdminDashboard = async () => {
   const foodDonationCount = await Donation.countDocuments();
   const cashDonationCount = await MonetaryDonation.countDocuments();
   const pendingChat = await Message.find({ unread: true });
+  const dispatchRiderCount = await User.find({ role: 'dispatch rider' });
 
   return {
     latestUsers,
     userCount,
     foodDonationCount,
     cashDonationCount,
-    pendingChat
+    pendingChat,
+    dispatchRiderCount
   }
+}
+
+exports.fetchAdminUsers = async () => {
+  const allUsers = await User.find();
+
+  return { allUsers }
+}
+
+exports.fetchAdminUser = async id => {
+  const userData = await User.findById(id);
+
+  return { userData }
 }
