@@ -55,6 +55,10 @@ const donorDashboard = async (req, res) => {
       context.title = 'Donations';
       res.status(200).render('donor/donations', context);
       break;
+    case 'new-food-donation':
+      context.title = 'New Food Donation';
+      res.status(200).render('donor/new-food-donation', context);
+      break;
     case 'live-chat':
       context.title = 'Live Chat';
       res.status(200).render('donor/live-chat', context);

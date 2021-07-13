@@ -1,0 +1,156 @@
+<%- include('partials/donorHeader') %>
+
+        <div class="alpha-app">
+          <div class="page-header">
+            <%- include('partials/donorNavbar') %>
+          </div>
+
+          <%- include('partials/donorSidebar') %>
+
+          <div class="page-content">
+            <div class="container-fluid">
+              <div class="donation-container">
+                <div class="row">
+                  <div class="col-lg-8 offset-lg-2">
+                    <div class="donation-container-inner">
+                      <div class="donation-container-header">
+                        <h5>New Donation/Item Information</h5>
+                      </div>
+
+                      <form class="form">
+                        <div class="input-group">
+                          <label for="donationFrequency">Donation Frequency</label>
+                          <select name="donationFrequency" id="donationFrequency" required  class="browser-default">
+                            <option value="male" selected>One-Time Donation</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                          </select>
+                          <img src="/images/icons/donor-icon.png" alt="person icon">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="foodCategory">Donation Frequency</label>
+                          <select name="foodCategory" id="foodCategory" required class="browser-default">
+                            <option value="raw food" selected>Raw Food</option>
+                            <option value="cooked food">Cooked Food</option>
+                          </select>
+                          <img src="/images/icons/food-icon.png" alt="food icon">
+                        </div>
+
+                        <div class="items-container">
+                          <div class="item-option d-none option-clone">
+                            <h6>Item Name & Description</h6>
+
+                            <div class="item-select">
+                              <div class="item-text">
+                                <input type="text" name="description" class="item-name" placeholder="Rice">
+                                <i class="material-icons">shopping_basket</i>
+                              </div>
+                              <div class="item-number">
+                                <i class="material-icons">remove</i>
+                                <input type="number" name="quantity" class="item-quantity" placeholder="10">
+                                <i class="material-icons">add</i>
+                                <select name="metric" class="item-unit">
+                                  <option value="bag">Bags</option>
+                                  <option value="litre">Ltrs</option>
+                                  <option value="cartoon">Ctns</option>
+                                  <option value="kg">Kg</option>
+                                </select>
+                              </div>
+                              <i class="material-icons mr-4 remove-option">delete</i>
+                            </div>
+                          </div>
+                          <div class="item-option">
+                            <h6>Item Name & Description</h6>
+
+                            <div class="item-select">
+                              <div class="item-text">
+                                <input type="text" name="description" class="item-name" placeholder="Rice" required>
+                                <i class="material-icons">shopping_basket</i>
+                              </div>
+                              <div class="item-number">
+                                <i class="material-icons">remove</i>
+                                <input type="number" name="quantity" class="item-quantity" placeholder="10" required>
+                                <i class="material-icons">add</i>
+                                <select name="metric" class="item-unit">
+                                  <option value="bag">Bags</option>
+                                  <option value="litre">Ltrs</option>
+                                  <option value="cartoon">Ctns</option>
+                                  <option value="kg">Kg</option>
+                                </select>
+                              </div>
+                              <i class="material-icons mr-4 remove-option">delete</i>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        <div class="add-item">
+                          <i class="material-icons left">add_circle_outline</i>
+                          <span>Add New Item</span>
+                        </div>
+
+                        <div class="input-group">
+                          <label for="deliveryOption">Delivery Option</label>
+                          <select name="deliveryOption" id="deliveryOption" required class="browser-default">
+                            <option value="pick-up" selected>Pick-Up</option>
+                            <option value="drop-off">Drop-Off</option>
+                          </select>
+                          <img src="/images/dashboard-dispatch-riders.png" alt="delivery icon" style="filter: invert(0.5);">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="pickupAddress">Pick-Up Address</label>
+                          <input type="text" name="pickupAddress" id="pickupAddress" placeholder="Enter the pick-up address" required class="browser-default" value="<%= user.address %>">
+                          <img src="/images/icons/location-icon.png" alt="address icon">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="pickupDate">Pick-Up Date</label>
+                          <input type="date" name="pickupDate" id="pickupDate" placeholder="Enter your address" required class="browser-default">
+                          <img src="/images/icons/location-icon.png" alt="address icon">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="state">State</label>
+                          <input type="text" name="state" id="state" placeholder="Enter the pick-up address" required class="browser-default">
+                          <img src="/images/icons/location-icon.png" alt="address icon">
+                        </div>
+                        
+                        <div class="input-group">
+                          <label for="localGovernment">Local Government</label>
+                          <input type="text" name="localGovernment" id="localGovernment" placeholder="Enter the pick-up address" required class="browser-default">
+                          <img src="/images/icons/location-icon.png" alt="address icon">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="contactName">Contact Name</label>
+                          <input type="text" name="contactName" id="contactName" placeholder="Your contact name" required class="browser-default">
+                          <img src="/images/icons/person-icon.png" alt="person icon">
+                        </div>
+
+                        <div class="input-group">
+                          <label for="contactPhoneNumber">Contact Phone Number</label>
+                          <input type="number" name="contactPhoneNumber" id="contactPhoneNumber" placeholder="enter your phone number" required class="browser-default">
+                          <img src="/images/icons/telephone-icon.png" alt="telephone icon" />
+                        </div>
+
+                        <div class="donation-actions">
+                          <button type="submit" class="btn btn-primary big-button float-right ml-4">Proceed</button>
+                          <a href="/donor/donations/" class="btn btn-outline float-right">Cancel</a>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%- include('../partials/appLoader') %>
+        
+    
+    <%- include('partials/donorFooter') %>
+    <script src="/js/new-food-donation.js"></script>
+  </body>
+</html>

@@ -62,6 +62,14 @@ class ViewRouter {
       (req, res, next) => ((req.page = 'donations'), next()),
       donorDashboard
     );
+
+    this.router.get(
+      '/donor/donations/new',
+      auth.authenticateApp(),
+      auth.authorizeApp('donor'),
+      (req, res, next) => ((req.page = 'new-food-donation'), next()),
+      donorDashboard
+    );
     
     this.router.get(
       '/donor/donations/verify',

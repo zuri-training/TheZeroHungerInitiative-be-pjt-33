@@ -12,6 +12,7 @@ class Processes {
   processDonation() {
     return catchAsync(async (req, res, next) => {
       // save the donation to the database
+      req.body.user = req.user._id;
       const donation = await this.Model.create(req.body);
       /*const donation = await query.populate({path: "rider"})
         .populate({path: "user"});*/
