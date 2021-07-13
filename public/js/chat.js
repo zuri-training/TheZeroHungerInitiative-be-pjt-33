@@ -6,31 +6,53 @@
 // 2) When displaying all conversation, add a green dot to recognise online users
 // 3) admin should be able to click on each conversation which will lead to displaying all the message for that conversation
 
-const socket = io("http://localhost:5000");
+//const socket = io("http://localhost:5000");
+const socket = io(`${location.host}`);
 
 const user = JSON.parse($('#user-data').attr("data"));
+let onlineUsers = null;
 //let otherMembers = [];
 let conversations = null;
-let currentConv = 3
+let currentConv = 0;
 //let messages = null;
+//alert(JSON.stringify(user))
+
+document.addEventListener('click', e => {
+  //alert(e.target);
+  
+  if (e.target.className.includes("list-group-item border-0") || e.target.className.includes("media-body") || e.target.className.includes("list-group-item-heading") || e.target.className.includes("d-flex text-muted m-0") || e.target.className.includes("show-online") || e.target.className.includes("media")) {
+    // Set current conversation to the id
+    currentConv = e.target.id;
+    
+    // Removing old message from the dom
+    $(".chat").remove();
+    $(".chat-left").remove();
+    
+    // Refetch message for that specific conversation
+    fetchMessage(conversations, user);
+    //alert(e.target.id);
+  }
+});
 
 // Connected user
 socket.emit('sendConnectedUser', user._id);
 
 // Send connected user to Admin
-if(user.role === "admin") {
+//if(user.role === "admin") {
   socket.on('getConnectedUser', (users) => {
+    onlineUsers = users;
     // TEST
-    alert(JSON.stringify(users));
+    //alert(JSON.stringify(users));
     // TEST
   });
-}
+//}
 
 // Get message from the server
 socket.on("getMessage", (data) => {
   //alert(JSON.stringify(data));
   insertSingleMessageToDOM(data, user);
 });
+
 
 const fetchConversation = async (user) => {
   //conversation
@@ -39,7 +61,8 @@ const fetchConversation = async (user) => {
     const res = await axios({
       method: 'GET',
       url: `/api/v1/conversation/${user._id}`});
-      
+      //alert("conv")
+      //alert(JSON.stringify(res))
     if(res.data.conversation.length < 1) {
       // 1) Create a new conversation with the admin
       const res = await axios({
@@ -80,6 +103,33 @@ const fetchConversation = async (user) => {
   }
 }
  
+const showOnlineUsers = (user) => {
+    let allOnlineUser = null;
+    /*
+    alert("online, users")
+    alert(JSON.stringify(user))
+    /*alert(JSON.stringify(onlineUsers))*/
+   user.forEach((userObject, i) => {
+     //alert(JSON.stringify(memberObject.members))
+      onlineUsers.forEach((onlineUser, i) => {
+        
+        if(userObject._id === onlineUser.userId) {
+          const oUser = [...user, {...userObject, online: true}];
+          allOnlineUser = oUser;
+          /*alert("oUser")
+          alert(JSON.stringify(oUser))
+          alert(`oUser ${i}: ${userObject._id} / connected user ${i}: ${onlineUser.userId}`);*/
+          return
+        }
+        
+        allOnlineUser = user;
+      })
+   })
+   
+   //alert(allOnlineUser)
+   insertAllConversationToDOM(allOnlineUser);
+}
+
 const getOtherMember = (conv, user) => {
   let otherMembers = [];
   
@@ -88,6 +138,7 @@ const getOtherMember = (conv, user) => {
       if(id !== user._id) otherMembers.push(id)
     })
   });
+  //alert(JSON.stringify(otherMembers))
   //console.log(this.otherMembers);
   fetchMemberDetails(otherMembers);
 }
@@ -106,7 +157,9 @@ const fetchMemberDetails = async (otherMembers) => {
     const users = await Promise.all(promises);
     // User
     //alert(JSON.stringify(users))
-    insertAllConversationToDOM(users)
+    
+    // Showing all online users
+    showOnlineUsers(users)
   } catch (e) {
     //console.log(e);
     alert(e.response.data.message);
@@ -148,35 +201,24 @@ const fetchMessage = async (conversations, user) => {
   }
 }
 
-const t = () => {
-  /*document.addEventListener('DOMContentLoaded', (event) => {
-    alert("loaded");
-    const arr = Array.from(document.querySelectorAll(".list-group-item"));
-    alert(JSON.stringify(arr));
-  });*/
-  
-  
-  /*$(".list-group-item").on("click", (e) => {
-    alert(JSON.stringify($(this)))
-  })*/
-  //alert(JSON.stringify(conv))
-}
-
 const insertAllConversationToDOM = (otherConversation) => {
-  otherConversation.forEach((member) => {
-    const html = `<a class="list-group-item border-0">
-      <span class="media">
-        <span class="avatar avatar-md avatar-online">
+  otherConversation.forEach((member, i) => {
+    const html = `<a class="list-group-item border-0" id=${`${i}`}>
+      <span class="media" id=${`${i}`}>
+        <span class="avatar avatar-md avatar-online" id=${`${i}`}>
           <img class="media-object d-flex mr-3 bg-primary rounded-circle" src="/images/default.jpg" alt="User Image" height="50">
           <i></i>
         </span>
-        <div class="media-body">
+        <div class="media-body" id=${`${i}`}>
           <h6 class="list-group-item-heading">${member.firstName + " " + member.lastName}
-            <span class="p-1 text-white float-right primary">4:14 AM</span>
+            <span id=${`${i}`} class="p-1 text-white float-right primary">4:14 AM</span>
           </h6>
-          <p class="d-flex text-muted m-0" style="justify-content: flex-start; align-items: center;">
+          <p class="d-flex text-muted m-0" style="justify-content: flex-start; align-items: center;" id=${`${i}`}>
             <i class="material-icons mr-1">check</i>
             <span>${member.username}</span>
+          </p>
+          <p class="show-online" id=${`${i}`}>
+            ${member.online !== undefined && member.online === true ? "<p>online</p>" : "<span></span>" }
           </p>
         </div>
       </span>
@@ -205,6 +247,36 @@ const insertSingleMessageToDOM = (msg, userData) => {
 };
 
 const insertMessageToDOM = (messages, userData) => {
+  const chatHeader = `
+    <div class="chat chat-left">
+      <div class="chat-avatar">
+        <a class="avatar">
+          <img src="/images/chatbot.png" class="rounded-circle" width="50" alt="avatar">
+        </a>
+      </div>
+      <div class="chat-body">
+        <div class="chat-content">
+          <p>Hi, Omzi! I'm Fifi, your virtual support. How may I assist you today?<br><br>
+            <button class="btn btn-primary">
+              Make A Donation
+            </button>
+            <button class="btn btn-primary">
+              View Donations
+            </button>
+            <button class="btn btn-primary">
+              View FAQ's
+            </button>
+            <button class="btn btn-primary">
+              Customer Support
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  $("#chats-container").append(chatHeader);
+  
   messages.forEach((msg) => {
     const html = `<div class=${userData._id === msg.senderId ? "chat" : "chat-left"}>
       <div class="chat-avatar">
