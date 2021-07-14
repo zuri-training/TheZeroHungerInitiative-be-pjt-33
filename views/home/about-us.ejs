@@ -1,68 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include('../partials/head.ejs')%>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/about-us.css">
   <body>
     <%- include('../partials/nav.ejs')%>
-    <main style="margin-top: 70px;">
+    
+    <section class="intro">
       <div class="container">
-        <div class="row center-align">
-          <header>
-            <h3>The Zero Hunger Initiative</h3>
-            <h6>
-                We at The Zero Hunger Initiative aim at reducing hunger in our communities, one day at a time!
-            </h6>
-            <h6>
-                We do this with the aim of reducing hunger induced crimes and killings as well as prevent malnourishment of indigent kids in the society due to lack of food and proper nutrition .
-            </h6>
-            <h6 class="center-align">
-                Zero Hunger hopes that in 10 years, with the help of you, our wonderful donor, we will be able to completely eradicate hunger in our communties
-            </h6>
-          </header>
-        </div>
         <div class="row">
-          <div class="img-container">
-            <img
-              src="images/hero.png"
-              alt="Mother and Child Cooking"
-              style="max-width: 100%"
-            />
-          </div>
-        </div>
-        <div class="row"style="margin-bottom: 96px;margin-top: 96px;">
-          <div class="col s12 m6">
-            <h3 class="center-align" style="margin-top: 0;">Our Mission</h3>
+          <div class="col l6 s12">
+            <h2>The Zero Hunger Initiative</h2>
+            <h5>Our aim is to reduce hunger in our communities</h5>
             <p>
-                Our aim is to reduce hunger and death in Africa.
+              We do this with the aim of reducing hunger-induced crimes and killings, and also to prevent malnourishment of indigent kids in the society due to lack of food and proper nutrition.
             </p>
             <p>
-                Our mission can also be sub divided into two;
+              Zero Hunger hopes that in 10 years, with the help of our wonderful donors, we will be able to completely eradicate hunger in our communities.
             </p>
-            <ul>
-              <li style="list-style: circle inside">
-                To do our bit in the sustainment development goals of our nation Nigeria. 
-              </li>
-              <li style="list-style: circle inside">
-                Have drop off points in all local government, closer to the people who are in dire need of food.
-              </li>
-            </ul>
           </div>
-          <div class="col s12 m6">
-            <img src="images/our-mission.png" alt="" style="max-width: 100%" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12 m6">
-            <img src="images/our-vision.png" alt="Father, mother and child sitting at the dining table" style="max-width: 100%" />
-          </div>
-          <div class="col s12 m6">
-            <h3 class="center-align">Our Vision</h3>
-            <p>
-                We strive to eliminate hunger all over africa and ensure that no one goes to bed hungry.
-            </p>
+          <div class="col l6 s12">
+            <img loading="lazy" src="images/gift-balloon.jpeg" alt="...">
           </div>
         </div>
       </div>
-    </main>
+    </section>
+
+    <section class="mission">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12" style="background-image: url(images/volunteer-background.png); background-size: cover;">
+            <img loading="lazy" src="images/little-girl-planting.png" alt="...">
+          </div>
+          <div class="col l6 s12">
+            <h2>Our Mission</h2>
+            <p>Our mission is sub divided into two:</p>
+            <ul class="browser-default">
+              <li>To do our bit in the sustainment development goals of our nation Nigeria.</li>
+              <li>Have drop off points in all local government area, close to the people who are in direct need of food.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="vision">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h2>Our Vision</h2>
+            <p>We strive to eliminate hunger all over Africa and ensure that no one goes to bed hungry.</p>
+          </div>
+          <div class="col l6 s12" style="background-image: url(images/volunteer-background.png); background-size: cover;">
+            <img loading="lazy" src="images/strawberries-in-hand.png" alt="...">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stories">
+      <div class="container">
+        <div class="center">
+          <h2>Our Stories</h2>
+        </div>
+        <div class="row">
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people1.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people2.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people3.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people4.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people5.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+          <div class="col l4 m6 s12">
+            <div class="story-card">
+              <img loading="lazy" src="images/people6.png" alt="Our Donees">
+              <div class="story-detail">
+                <h5>Gloria Mbaka</h5>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt autem nisi temporibus magni culpa tempore quos neque labore mollitia repellat eaque cum dolorum officiis, fugit laborum! Eaque sapiente ipsum iste.</p>
+                <button class="btn">Read More</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="partnership">
+      <div class="container center">
+        <h2>The Zero Hunger Partnership</h2>
+
+        <p>Join our cooperate partnership to help expedite our projects to the various communities within your reach. Your support is extremely important to us & is highly appreciated.</p>
+        <button class="btn">BECOME A PARTNER</button>
+      </div>
+    </section>
+
+    <section class="team">
+      <div class="container">
+        <div class="center">
+          <h2>Our Team</h2>
+        </div>
+
+        <div class="row">
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-1.jpg" alt="Teammate 1">
+              <figcaption>John Doe</figcaption>
+              <figcaption>Principal FrontEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-2.jpg" alt="Teammate 2">
+              <figcaption>Jane Doe</figcaption>
+              <figcaption>Senior UI/UX Designer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-3.jpg" alt="Teammate 3">
+              <figcaption>Jeremy Doe</figcaption>
+              <figcaption>DevOps & BackEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-4.jpg" alt="Teammate 4">
+              <figcaption>Jamie Doe</figcaption>
+              <figcaption>Project Manager</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-2.jpg" alt="Teammate 2">
+              <figcaption>Jane Doe</figcaption>
+              <figcaption>Senior UI/UX Designer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-3.jpg" alt="Teammate 3">
+              <figcaption>Jeremy Doe</figcaption>
+              <figcaption>DevOps & BackEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-4.jpg" alt="Teammate 4">
+              <figcaption>Jamie Doe</figcaption>
+              <figcaption>Project Manager</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-1.jpg" alt="Teammate 1">
+              <figcaption>John Doe</figcaption>
+              <figcaption>Principal FrontEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-3.jpg" alt="Teammate 3">
+              <figcaption>Jeremy Doe</figcaption>
+              <figcaption>DevOps & BackEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-4.jpg" alt="Teammate 4">
+              <figcaption>Jamie Doe</figcaption>
+              <figcaption>Project Manager</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-1.jpg" alt="Teammate 1">
+              <figcaption>John Doe</figcaption>
+              <figcaption>Principal FrontEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-3.jpg" alt="Teammate 3">
+              <figcaption>Jeremy Doe</figcaption>
+              <figcaption>DevOps & BackEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-4.jpg" alt="Teammate 4">
+              <figcaption>Jamie Doe</figcaption>
+              <figcaption>Project Manager</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-1.jpg" alt="Teammate 1">
+              <figcaption>John Doe</figcaption>
+              <figcaption>Principal FrontEnd Engineer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-2.jpg" alt="Teammate 2">
+              <figcaption>Jane Doe</figcaption>
+              <figcaption>Senior UI/UX Designer</figcaption>
+            </figure>
+          </div>
+          <div class="col l3 m6 s12 center">
+            <figure class="team-mate">
+              <img loading="lazy" src="images/teammate-3.jpg" alt="Teammate 3">
+              <figcaption>Jeremy Doe</figcaption>
+              <figcaption>DevOps & BackEnd Engineer</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <%- include('../partials/footer.ejs') %>
   </body>
 </html>
