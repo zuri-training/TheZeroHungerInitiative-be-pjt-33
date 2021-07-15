@@ -3,6 +3,7 @@ const AppError = require("../utils/appError");
 const jsQR = require("jsqr");
 const Jimp = require('jimp');
 const Donation = require('../models/donationModel');
+const { differenceInDays } = require('date-fns');
 
 class Processes {
   constructor(Model) {
@@ -12,21 +13,37 @@ class Processes {
   
   processDonation() {
     return catchAsync(async (req, res, next) => {
-      // save the donation to the database
+      // Check if date is greater than the minimum number of days necessary
+      // to process the pick-up or drop-off donation
+      const dateFromDonor = new Date(req.body.pickupDate);
+      const dateNow = new Date();
+      const DONATION_PROCESS_TIME = 3; // Can be any number >= 1
+      
+      if (differenceInDays(dateFromDonor, dateNow) < DONATION_PROCESS_TIME) {
+        dateNow.setDate(dateNow.getDate() + DONATION_PROCESS_TIME);
+
+        return next(new AppError(`Please select a date after ${dateNow.toLocaleDateString()}`))
+      }
+      
       // Loop through & format for saving in database
-      delete req.body.donationFrequency;
+      req.body.items = req.body.description.map((description, index) => {
+        return {
+          description,
+          metric: req.body.metric[index],
+          quantity: req.body.quantity[index]
+        }
+      }).filter(item => item.description !== undefined && item.quantity > 0);
+
+      // delete req.body.donationFrequency;
       delete req.body.quantity;
       delete req.body.metric;
       delete req.body.description;
-
+      
       req.body.user = req.user._id.toString();
       // console.log(req.body);
       const donation = await Donation.create(req.body);
-      /*const donation = await query.populate({path: "rider"})
-        .populate({path: "user"});*/
       
-      // send response to the user
-      res.status(201).json({ status: "success", donation });
+      res.status(201).json({ status: 'success', donation });
     });
   }
   

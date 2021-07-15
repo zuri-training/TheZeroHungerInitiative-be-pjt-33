@@ -81,7 +81,8 @@ class AuthController {
       // send a response
       res.status(201).json({
         status: 'success',
-        user: req.body,
+        user,
+        isAdmin: req.body.isAdmin,
         token,
         iat: decode?.iat,
         exp: decode?.exp
@@ -120,7 +121,7 @@ class AuthController {
         user: userExist,
         token,
         iat: decode.iat,
-        exp: decode.exp,
+        exp: decode.exp
       });
     });
   }
@@ -159,10 +160,17 @@ class AuthController {
       /*
         1= Using the promisify method so as to avoid passing callback to the jwt.verify method
       */
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      let decode;
+      let userExist;
 
-      // 3= Check if the user exist in the database
-      const userExist = await User.findById(decode._id);
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
+      }
 
       // Checking for the existence of the user that owns the token
       if (!userExist)
@@ -195,8 +203,17 @@ class AuthController {
         return res.redirect('/login');
       }
 
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-      const userExist = await User.findById(decode._id);
+      let decode;
+      let userExist;
+
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
+      }
 
       if (!userExist) {
         req.flash('errorMessage', 'Unauthorized. Please log in!');
@@ -209,7 +226,7 @@ class AuthController {
     });
   }
   
-  isLoggedIn() {
+  isLoggedIn(redirectIfLoggedIn = false) {
     // Basically a modification of the authenticate() method above.
     // Determine if a user is logged in
     return catchAsync(async (req, res, next) => {
@@ -229,15 +246,37 @@ class AuthController {
         return next();
       }
 
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-      const userExist = await User.findById(decode._id);
+      let decode;
+      let userExist;
 
-      if (!userExist) {
-        return next();
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
       }
 
+      if (!userExist) return next();
+
       req.user = userExist;
-      //res.locals.user = userExist;
+
+      if (redirectIfLoggedIn) {
+        // Redirect to dashboard
+        switch (req.user.role) {
+          case 'donor':
+            req.flash('infoMessage', `You're already logged in!`);
+            return res.status(200).redirect('/donor/dashboard');
+          case 'volunteer':
+            req.flash('infoMessage', `You're already logged in!`);
+            return res.status(200).redirect('/volunteer/dashboard');
+          case 'admin':
+            req.flash('infoMessage', `You're already logged in!`);
+            return res.status(200).redirect('/admin/dashboard');
+        }
+      }
+      
       next();
     });
   }

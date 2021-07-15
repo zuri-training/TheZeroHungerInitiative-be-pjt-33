@@ -20,7 +20,7 @@ form.addEventListener('submit', async e => {
     if (res.data.status === 'success') {
       console.log(res.data);
       const { firstName, role } = res.data.user;
-      if (!res.data.user.isAdmin) {
+      if (!res.data.isAdmin) {
         iziToast.success({
           message: `You've signed up successfully as a <b>${role}</b>!`, position: 'topCenter', timeout: 3e3
         });

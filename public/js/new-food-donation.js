@@ -1,5 +1,14 @@
 const $q = document.querySelector.bind(document);
 
+const fadeOut = (element, callback) => {
+  let opacity = 1;
+  const timer = setInterval(() => {
+    opacity <= 0.1 && (clearInterval(timer), element.remove(), callback())
+    element.style.opacity = opacity;
+    opacity -= .1 * opacity;
+  }, 30)
+}
+
 $q('.add-item').addEventListener('click', () => {
   const clonedNode = $q('.option-clone').cloneNode(true);
   clonedNode.classList.remove('d-none', 'option-clone');
@@ -8,7 +17,11 @@ $q('.add-item').addEventListener('click', () => {
 
 document.body.addEventListener('click', e => {
   if (e.target.matches('.remove-option')) {
-    e.target.closest('.item-option').remove();
+    // e.target.closest('.item-option').remove();
+    // Prevent last visible item option from being removed
+    if (document.querySelectorAll('.item-option:not(.option-clone)').length > 1) {
+      fadeOut(e.target.closest('.item-option'));
+    }
   }
 })
 
@@ -91,23 +104,3 @@ form.addEventListener('submit', async (e) => {
     $q('.app-loader').classList.remove('visible');
   }
 });
-
-// {
-//   "foodCategory": "raw food",
-//   "deliveryOption": "pick-up",
-//   "items": [
-//     {
-//       "description": "indomitable",
-//       "metric": "kg",
-//       "quantity": "12"
-//     }
-//   ],
-//   "user": "userid",
-//   "pickupDate": "2021-06-24",
-//   "pickupAddress": "ondo",
-//   "contactName": "Toheeb",
-//   "contactPhoneNumber": "09020119024",
-//   "localGovernment": "ondo",
-//   "attachedDispatchRider": false,
-//   "rider": "riderid"
-// }

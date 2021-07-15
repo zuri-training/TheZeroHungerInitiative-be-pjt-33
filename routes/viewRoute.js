@@ -28,8 +28,8 @@ class ViewRouter {
 
     this.router.use(auth.isLoggedIn());
     
-    this.router.get('/signup', signup);
-    this.router.get('/login', login);
+    this.router.get('/signup', auth.isLoggedIn(true), signup);
+    this.router.get('/login', auth.isLoggedIn(true), login);
     this.router.get('/forgot-password', forgotPassword);
     this.router.get('/reset-password', resetPassword);
     this.router.get('/forgot-password/success', forgotPasswordSuccess);

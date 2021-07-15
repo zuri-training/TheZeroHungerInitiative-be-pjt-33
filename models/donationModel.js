@@ -63,7 +63,6 @@ const donationSchema = new Schema({
   },
   qrCodeLink: {
     type: String
-    //select: false
   }
 }, { timestamps: true });
 
@@ -74,9 +73,16 @@ donationSchema.pre("save", async function(next) {
   //const code = await QRCode.toString(`${this._id}`);
   const code = await QRCode.toDataURL(`${this._id}`);
   
-  const uploadResponse = await cloudinary.uploader.upload(code);
-  
-  this.qrCodeLink = uploadResponse.secure_url;
+  // In case QR image upload to Cloudinary fails
+  // When updating a donation, we can now try re-uploading the QR
+  // or resolve it manually
+  try {
+    const uploadResponse = await cloudinary.uploader.upload(code);
+
+    this.qrCodeLink = uploadResponse.secure_url;
+  } catch (e) {
+    this.qrCodeLink = null;
+  }
   next();
 });
 
