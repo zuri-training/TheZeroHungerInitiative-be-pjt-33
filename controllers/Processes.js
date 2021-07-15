@@ -2,6 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const jsQR = require("jsqr");
 const Jimp = require('jimp');
+const Donation = require('../models/donationModel');
 
 class Processes {
   constructor(Model) {
@@ -12,16 +13,20 @@ class Processes {
   processDonation() {
     return catchAsync(async (req, res, next) => {
       // save the donation to the database
-      req.body.user = req.user._id;
-      const donation = await this.Model.create(req.body);
+      // Loop through & format for saving in database
+      delete req.body.donationFrequency;
+      delete req.body.quantity;
+      delete req.body.metric;
+      delete req.body.description;
+
+      req.body.user = req.user._id.toString();
+      // console.log(req.body);
+      const donation = await Donation.create(req.body);
       /*const donation = await query.populate({path: "rider"})
         .populate({path: "user"});*/
       
       // send response to the user
-      res.status(201).json({
-        status: "success",
-        donation
-      });
+      res.status(201).json({ status: "success", donation });
     });
   }
   

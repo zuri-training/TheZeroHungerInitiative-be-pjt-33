@@ -60,6 +60,7 @@ form.addEventListener('submit', async (e) => {
       });
     }
 
+    console.log(e);
     iziToast.error({
       title: 'Error:',
       position: 'topCenter',

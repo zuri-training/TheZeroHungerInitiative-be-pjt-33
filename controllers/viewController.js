@@ -23,7 +23,7 @@ const forgotPasswordSuccess = (req, res) => {
 }
 
 const home = (req, res) => {
-  res.status(200).render('home/index', { user: req.user });
+  res.status(200).render('home/index', { title: 'Home', user: req.user });
 }
 
 const team = (req, res) => {

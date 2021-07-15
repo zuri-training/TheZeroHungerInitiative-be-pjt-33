@@ -1,236 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home : : #TheZeroHunger Initiative : : Ending hunger & starvation, one day at a time</title>
-
-  <link rel="stylesheet" href="css/materialize.min.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/font.css">
-  <link rel="stylesheet" href="css/home.css">
+  <%- include('../partials/head.ejs')%>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/home.css">
 
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <a href="">
-        <img src="images/logo-main.png" alt="The Hunger Initiative logo" class="logo">
-      </a>
-      <input class="menu-button" type="checkbox" id="menu-button" />
-      <label class="menu-icon" for="menu-button"><span class="navicon"></span></label>
-      <ul class="menu">
-        <li><a href="javascript:;">Home</a></li>
-        <li><a href="about-us">About Us</a></li>
-        <li><a href="javascript:;" id="donate">Donate</a></li>
-        <li><a href="volunteer">Volunteer</a></li>
-        <li><a href="team">Our Team</a></li>
-        <li>
-          <% if (user) { %>
-            <% if (user.role === 'donor') { %>
-              <a class="btn" href="/donor/dashboard">My Dashboard</a>
-            <% } else if (user.role === 'admin') { %>
-              <a class="btn" href="/admin/dashboard">Admin</a>
-            <% } %>
-          <% } else { %>
-            <a class="btn" href="signup">Sign Up</a>
-          <% }%>
-        </li>
-      </ul>
-    </div>
-  </header>
-
+  <%- include('../partials/nav.ejs')%>
 
   <section class="intro">
     <div class="container">
-      <h2>Help Put Food on Someone's Table Today And A Smile on Their Faces</h2>
-      <h5>The Zero Hunger Initiative connects intending donors to thousands of donees in Nigeria.</h5>
-      <span style="transform: scale(1.25);">
-        <button class="btn">
-          <% if (user) { %>
-            <% if (user.role === 'donor') { %>
-              <a href="/donor/donations">DONATE</a>
-            <% } %>
-          <% } else { %>
-            <a href="signup">DONATE</a>
-          <% } %>
-        </button>
-        <button class="btn btn-outline" id="learn-more">LEARN MORE</button>
-      </span>
+      <div class="row">
+        <div class="col l6 s12">
+          <h2>Help Put Food On Someone's Table Today</h2>
+          <h5>Reducing Hunger In Our Communities</h5>
+          <ul class="browser-default">
+            <li>Reduce hunger induced crimes and killings</li>
+            <li>Prevent malnourishment of indigent kids in the society</li>
+            <li>
+              Help people suffering from lack of good food and proper
+              nutrition
+            </li>
+          </ul>
+          <span style="transform: scale(1.2); display: inline-block; margin-left: 30px;">
+            <button class="btn" style="letter-spacing: 1px;">DONATE FOOD ITEMS</button>
+            <button class="btn btn-outline" style="letter-spacing: 1px;">DONATE CASH</button>
+          </span>
+        </div>
+        <div class="col l6 s12">
+          <img loading="lazy" src="images/smiling-lady.png" alt="Smiling lady">
+        </div>
+      </div>
     </div>
   </section>
 
-
-  <section class="about">
+  <section class="volunteer">
     <div class="container">
-      <h2>What We Do</h2>
-      <h5>
-        The Zero Hunger Initiative strives to eliminate hunger in our communities,
-        one day at a time, through donations from people like you!
-      </h5>
-
-      <h5>
-        We do this this with the aim of reducing hunger-induced crimes and killings as well as prevent
-        malnourishment of indigent kids in the society due to lack of good food and proper nutrition.
-      </h5>
+      <div class="row">
+        <div class="col l6 s12" style="background-image: url(images/volunteer-background.png); background-size: cover;">
+          <img loading="lazy" src="images/little-girl-planting.png" alt="Little girl planting">
+        </div>
+        <div class="col l6 s12">
+          <h2>Help Fight Hunger Today. Partner With Us.</h2>
+          <p>Join the ZeroHunger community to become a volunteer today and you can impact lives by devoting your time to
+            helping others.</p>
+          
+          <button class="btn">SIGN UP AS A VOLUNTEER</button>
+        </div>
+      </div>
     </div>
   </section>
-
-
-  <section class="donate-food">
-    <div class="container">
-      <h2>Eliminate Hunger, One Donation At A Time!</h2>
-      <h5>
-        Due to the ever rising inflation of the Nigerian economy, a high
-        percentage of the population find it increasingly difficult to feed
-        as well as they should. We at The Zero Hunger Initiative have found
-        that sharing from what we have, no matter how little, helps to make
-        our world a better place.
-      </h5>
-      <button class="btn" style="transform: scale(1.25);">
-        <% if (user) { %>
-          <% if (user.role === 'donor') { %>
-            <a href="/donor/donations">DONATE FOOD ITEMS</a>
-          <% } %>
-        <% } else { %>
-          <a href="signup">DONATE FOOD ITEMS</a>
-        <% } %>
-      </button>
-    </div>
-  </section>
-
-
-  <section class="donate-cash">
-    <div class="container">
-      <h2>
-        Can’t Donate Food? <br>
-        Don’t Worry, You Can Still Be of Help.
-      </h2>
-      <h5>
-        We absolutely understand if you aren’t one for stocking up on
-        foodstuff regularly. There is another way you can help someone -
-        through your money! Our organisation also makes provision for cash
-        donations. This way, we make sure no intending donor gets left out.
-      </h5>
-      <button class="btn" style="transform: scale(1.25);">
-        <% if (user) { %>
-          <% if (user.role === 'donor') { %>
-            <a href="/donor/donations">DONATE CASH</a>
-          <% } %>
-        <% } else { %>
-          <a href="signup">DONATE CASH</a>
-        <% } %>
-      </button>
-    </div>
-  </section>
-
 
   <section class="food-list">
     <div class="container">
-      <h2>Having A Hard Time Deciding What To Donate?</h2>
-      <h5>Here’s a list of highly demanded food items</h5>
+      <div class="center">
+        <h2>Can't Decide On What To Donate?</h2>
+        <h5>Here's a list of highly demanded food items</h5>
+      </div>
 
       <div class="row">
-        <div class="col l3 m6 s12">
-          <ul>
-            <li>Rice</li>
-            <li>Sweet Potato</li>
-            <li>Cubes</li>
-            <li>Beverages</li>
-            <li>Milk</li>
-          </ul>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-1.png" alt="..." class="food-image">
+            <figcaption>Mustard Stew</figcaption>
+          </figure>
         </div>
-        <div class="col l3 m6 s12">
-          <ul>
-            <li>Yam</li>
-            <li>Semovita</li>
-            <li>Vegetable Oil</li>
-            <li>Flour</li>
-            <li>Cooking Flour</li>
-          </ul>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-2.png" alt="..." class="food-image">
+            <figcaption>Village Food</figcaption>
+          </figure>
         </div>
-        <div class="col l3 m6 s12">
-          <ul>
-            <li>Cereals</li>
-            <li>Beans</li>
-            <li>Noodles</li>
-            <li>Wheat</li>
-            <li>Garri</li>
-          </ul>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images//food-3.png" alt="..." class="food-image">
+            <figcaption>Garnished Pasta</figcaption>
+          </figure>
         </div>
-        <div class="col l3 m6 s12">
-          <ul>
-            <li>Egusi</li>
-            <li>Oil</li>
-            <li>Cornflakes</li>
-            <li>Eggs</li>
-            <li>Tomato</li>
-          </ul>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-4.png" alt="..." class="food-image">
+            <figcaption>Village Rice</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-5.png" alt="..." class="food-image">
+            <figcaption>Full Meal</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-6.png" alt="..." class="food-image">
+            <figcaption>Rice Stew</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-7.png" alt="..." class="food-image">
+            <figcaption>Pepper Soup</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-8.png" alt="..." class="food-image">
+            <figcaption>Vegetable Soup</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-9.png" alt="..." class="food-image">
+            <figcaption>Garnished Beans</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-10.png" alt="..." class="food-image">
+            <figcaption>Goat Meat Pepper Soup</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-11.png" alt="..." class="food-image">
+            <figcaption>Pepper Soup</figcaption>
+          </figure>
+        </div>
+        <div class="col l3 m6 s12 center">
+          <figure class="food-container">
+            <img loading="lazy" src="images/food-12.png" alt="..." class="food-image">
+            <figcaption>Village Rice</figcaption>
+          </figure>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="payment-options center-align">
-    <div class="container">
-      <h5>Supported Payment Options</h5>
-
-      <div class="row">
-        <div class="col l3 m6 s12"><img src="images/payment-method-1.png" alt="Paystack logo"></div>
-        <div class="col l3 m6 s12"><img src="images/payment-method-2.png" alt="MasterCard"></div>
-        <div class="col l3 m6 s12"><img src="images/payment-method-3.png" alt="Visa Card"></div>
-        <div class="col l3 m6 s12"><img src="images/payment-method-4.png" alt="Verve Card"></div>
-      </div>
+  <div class="center" style="margin: 50px 0;">
+    <div style="transform: scale(1.2);">
+      <button class="btn" style="letter-spacing: 1px;">DONATE & ELIMINATE HUNGER NOW</button>
     </div>
-  </section>
+  </div>
 
-
-  <footer>
-    <form action="" method="POST">
-      <input type="text" class="input browser-default" placeholder="Email Address">
-      <button>Subscribe</button>
-    </form>
-
-    <div class="container">
-      <div class="row">
-        <div class="col l3 s12">
-          <h5>INFORMATION</h5>
-          <ul>
-            <a href="#"><li>Testimonials</li></a>
-            <a href="about-us"><li>Our Mission</li></a>
-            <a href="about-us"><li>Our Vision</li></a>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5>HELP</h5>
-          <ul>
-            <a href="#"><li>Support</li></a>
-            <a href="#"><li>Contact</li></a>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5>LEGAL</h5>
-          <ul>
-            <a href="#"><li>Terms &amp; Conditions</li></a>
-            <a href="#"><li>Privacy Policy</li></a>
-            <a href="#"><li>License Agreement</li></a>
-            <a href="#"><li>Cookie Settings</li></a>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5>CONTACT US</h5>
-          <ul>
-            <a href="#"><li>Twitter</li></a>
-            <a href="#"><li>Facebook</li></a>
-            <a href="#"><li>LinkedIn</li></a>
-            <a href="#"><li>Email</li></a>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-  
-  
-  <script src="js/home.js"></script>
+  <%- include('../partials/footer.ejs') %>
 </body>
 </html>
