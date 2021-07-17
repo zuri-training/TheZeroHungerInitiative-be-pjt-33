@@ -23,6 +23,19 @@ document.body.addEventListener('click', e => {
       fadeOut(e.target.closest('.item-option'));
     }
   }
+
+  // Increment quantity field
+  if (e.target.matches('.js-increment')) {
+    const quantityField = e.target.previousElementSibling;
+    quantityField.value = parseInt(quantityField.value || 0, 10) + 1;
+  }
+
+  // Decrement quantity field
+  if (e.target.matches('.js-decrement')) {
+    const quantityField = e.target.nextElementSibling;
+    const newValue = parseInt(quantityField.value || 0, 10) - 1;
+    quantityField.value = newValue >= 1 ? newValue : 1;
+  }
 })
 
 
@@ -52,8 +65,7 @@ form.addEventListener('submit', async (e) => {
         $q('.app-loader').classList.remove('visible');
 
         iziToast.success({
-          message: 'Redirecting to donations...',
-          position: 'topCenter', timeout: null
+          message: 'Redirecting to donations...', position: 'topCenter', timeout: null
         });
 
         window.location.href = '/donor/donations';

@@ -354,9 +354,22 @@ body {
   background-color: #fff
 }
 
+.chat-container .chat-window {
+  background-image: url("../images/chat-background.jpg");
+  background-size: cover;
+}
+
 .chat-container .chat-userlist {
   padding: 0;
   border-right: 1px solid #E4E7ED
+}
+
+.chat-container .chat-cue[disabled],
+.chat-container .chat-cue[disabled]:hover {
+  opacity: 0.5;
+  background-color: #aaa !important;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 .chat-container .chat-userlist .list-group-item {
@@ -434,9 +447,11 @@ body {
 }
 
 .chat-container .chats .chat-avatar .avatar img {
-  border: 1px solid #151515;
+  border: 1px solid #989898;
   padding: 2px;
-  object-fit: cover
+  object-fit: cover;
+  background-color: gainsboro;
+  background-color: #fff;
 }
 
 .chat-container .chats .time {
@@ -460,7 +475,7 @@ body {
   float: left;
   margin: 0 0 10px 20px;
   color: #343a40;
-  background-color: #e0e0e0
+  background-color: #fff
 }
 
 .chat-container .chats .chat-left .chat-content button {
@@ -590,7 +605,8 @@ body {
   background: #f0f0f0;
   border-radius: 24px;
   cursor: pointer;
-  box-shadow: 0 1px 3px 1px #aaa;
+  margin: 0 5px;
+  box-shadow: 0 2px 5px #aaa;
 }
 
 .item-number > input,

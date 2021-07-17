@@ -264,15 +264,17 @@ class AuthController {
 
       if (redirectIfLoggedIn) {
         // Redirect to dashboard
+        const message = `You're already logged in!`;
+        
         switch (req.user.role) {
           case 'donor':
-            req.flash('infoMessage', `You're already logged in!`);
+            req.flash('infoMessage', message);
             return res.status(200).redirect('/donor/dashboard');
           case 'volunteer':
-            req.flash('infoMessage', `You're already logged in!`);
+            req.flash('infoMessage', message);
             return res.status(200).redirect('/volunteer/dashboard');
           case 'admin':
-            req.flash('infoMessage', `You're already logged in!`);
+            req.flash('infoMessage', message);
             return res.status(200).redirect('/admin/dashboard');
         }
       }
@@ -332,13 +334,9 @@ class AuthController {
       const ua = uaParser(req.headers['user-agent']);
 
       if (process.env.NODE_ENV === 'production') {
-        resetURL = `${req.protocol}://${req.get(
-          'host'
-        )}/reset-password?token=${resetToken}`;
+        resetURL = `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`;
       } else {
-        resetURL = `${req.protocol}://${req.get(
-          'host'
-        )}/api/v1/users/reset-password/${resetToken}`;
+        resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
       }
 
       // 3. send the link to the user email
@@ -353,18 +351,14 @@ class AuthController {
             browser: `${ua.browser.name}`,
             resetURL,
             passwordExpiration: '20 minutes',
-            productName: process.env.FROM_NAME,
-          },
+            productName: process.env.FROM_NAME
+          }
         });
 
-        return res
-          .status(200)
-          .json({ status: 'success', message: 'Password reset email sent' });
+        return res.status(200).json({ status: 'success', message: 'Password reset email sent' });
       } catch (e) {
         logger.debug(e);
-        return next(
-          new AppError(`Password reset email couldn't been sent at the moment`)
-        );
+        return next(new AppError(`Password reset email couldn't been sent at the moment`));
       }
     });
   }

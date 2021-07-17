@@ -6,8 +6,8 @@
 // 2) When displaying all conversation, add a green dot to recognise online users
 // 3) admin should be able to click on each conversation which will lead to displaying all the message for that conversation
 
-//const socket = io("http://localhost:5000");
 const socket = io(`${location.host}`);
+const $q = document.querySelector.bind(document);
 
 const user = JSON.parse($('#user-data').attr("data"));
 let onlineUsers = null;
@@ -15,10 +15,10 @@ let onlineUsers = null;
 let conversations = null;
 let currentConv = 0;
 //let messages = null;
-//alert(JSON.stringify(user))
+//console.log(JSON.stringify(user))
 
 document.addEventListener('click', e => {
-  //alert(e.target);
+  //console.log(e.target);
   
   if (e.target.className.includes("list-group-item border-0") || e.target.className.includes("media-body") || e.target.className.includes("list-group-item-heading") || e.target.className.includes("d-flex text-muted m-0") || e.target.className.includes("show-online") || e.target.className.includes("media")) {
     // Set current conversation to the id
@@ -30,7 +30,7 @@ document.addEventListener('click', e => {
     
     // Refetch message for that specific conversation
     fetchMessage(conversations, user);
-    //alert(e.target.id);
+    //console.log(e.target.id);
   }
 });
 
@@ -42,14 +42,14 @@ socket.emit('sendConnectedUser', user._id);
   socket.on('getConnectedUser', (users) => {
     onlineUsers = users;
     // TEST
-    //alert(JSON.stringify(users));
+    //console.log(JSON.stringify(users));
     // TEST
   });
 //}
 
 // Get message from the server
 socket.on("getMessage", (data) => {
-  //alert(JSON.stringify(data));
+  //console.log(JSON.stringify(data));
   insertSingleMessageToDOM(data, user);
 });
 
@@ -61,8 +61,8 @@ const fetchConversation = async (user) => {
     const res = await axios({
       method: 'GET',
       url: `/api/v1/conversation/${user._id}`});
-      //alert("conv")
-      //alert(JSON.stringify(res))
+      //console.log("conv")
+      //console.log(JSON.stringify(res))
     if(res.data.conversation.length < 1) {
       // 1) Create a new conversation with the admin
       const res = await axios({
@@ -75,8 +75,8 @@ const fetchConversation = async (user) => {
       if(res.data.status === "success") {
         const {data} = res.data;
         conversations = data;
-        //alert("new conversation")
-        //alert(JSON.stringify(conversation))
+        //console.log("new conversation")
+        //console.log(JSON.stringify(conversation))
         // Get other members
         getOtherMember(data, user)
         fetchMessage(data, user);
@@ -89,8 +89,8 @@ const fetchConversation = async (user) => {
     if(res.data.status === "success") {
       const {conversation} = res.data;
       conversations = conversation;
-      //alert("old conversation")
-      //alert(JSON.stringify(conversation))
+      //console.log("old conversation")
+      //console.log(JSON.stringify(conversation))
       // Get other members
       getOtherMember(conversation, user)
       fetchMessage(conversation, user);
@@ -99,26 +99,26 @@ const fetchConversation = async (user) => {
     
   } catch (e) {
     //console.log(e);
-    alert(e.response.data.message);
+    console.log(e.response.data.message);
   }
 }
  
 const showOnlineUsers = (user) => {
     let allOnlineUser = null;
     /*
-    alert("online, users")
-    alert(JSON.stringify(user))
-    /*alert(JSON.stringify(onlineUsers))*/
+    console.log("online, users")
+    console.log(JSON.stringify(user))
+    /*console.log(JSON.stringify(onlineUsers))*/
    user.forEach((userObject, i) => {
-     //alert(JSON.stringify(memberObject.members))
+     //console.log(JSON.stringify(memberObject.members))
       onlineUsers.forEach((onlineUser, i) => {
         
         if(userObject._id === onlineUser.userId) {
           const oUser = [...user, {...userObject, online: true}];
           allOnlineUser = oUser;
-          /*alert("oUser")
-          alert(JSON.stringify(oUser))
-          alert(`oUser ${i}: ${userObject._id} / connected user ${i}: ${onlineUser.userId}`);*/
+          /*console.log("oUser")
+          console.log(JSON.stringify(oUser))
+          console.log(`oUser ${i}: ${userObject._id} / connected user ${i}: ${onlineUser.userId}`);*/
           return
         }
         
@@ -126,7 +126,7 @@ const showOnlineUsers = (user) => {
       })
    })
    
-   //alert(allOnlineUser)
+   //console.log(allOnlineUser)
    insertAllConversationToDOM(allOnlineUser);
 }
 
@@ -138,7 +138,7 @@ const getOtherMember = (conv, user) => {
       if(id !== user._id) otherMembers.push(id)
     })
   });
-  //alert(JSON.stringify(otherMembers))
+  //console.log(JSON.stringify(otherMembers))
   //console.log(this.otherMembers);
   fetchMemberDetails(otherMembers);
 }
@@ -156,13 +156,13 @@ const fetchMemberDetails = async (otherMembers) => {
     // Resolve all trh Promise above
     const users = await Promise.all(promises);
     // User
-    //alert(JSON.stringify(users))
+    //console.log(JSON.stringify(users))
     
     // Showing all online users
     showOnlineUsers(users)
   } catch (e) {
     //console.log(e);
-    alert(e.response.data.message);
+    console.log(e.response.data.message);
   }
 }
 
@@ -178,7 +178,7 @@ const fetchMessage = async (conversations, user) => {
       
       const {message} = res.data;
       //messages = message;
-      //alert(JSON.stringify(message))
+      //console.log(JSON.stringify(message))
       insertMessageToDOM(message, user);
       
       return;
@@ -190,14 +190,14 @@ const fetchMessage = async (conversations, user) => {
     
     const {message} = res.data;
     //messages = message;
-    //alert(JSON.stringify(message))
+    //console.log(JSON.stringify(message))
     insertMessageToDOM(message, user);
     //localStorage.setItem("message", JSON.stringify(message));
     
     //console.log(message);
   } catch (e) {
     //console.log(e);
-    alert(e.response.data.message);
+    console.log(e.response.data.message);
   }
 }
 
@@ -228,22 +228,23 @@ const insertAllConversationToDOM = (otherConversation) => {
   });
 };
 
-const insertSingleMessageToDOM = (msg, userData) => {
+const insertSingleMessageToDOM = (msg, userData, isBot = false) => {
   const html = `<div class=${userData._id === msg.senderId ? "chat" : "chat-left"}>
     <div class="chat-avatar">
       <a class="avatar">
-        <img src=${ userData.role !== "admin" ? "/images/default.jpg" : "/images/chatbot.png"} class="rounded-circle" width="50" alt="avatar">
+        <img src=${ userData.role !== "admin" && !isBot ? 'https://robohash.org/'+ user.username +'?set=set3' : "/images/chatbot.png"} class="rounded-circle" width="50" alt="avatar">
        </a>
     </div>
     <div class="chat-body">
       <div class="chat-content">
         <p>${msg.message}</p>
-        <p>${moment(new Date()).fromNow()}</p>
+        <i>${!isBot ? moment(new Date()).fromNow(): ''}</i>
       </div>
     </div>
   </div>`;
   
   $("#chats-container").append(html);
+  Array.from(document.querySelectorAll('.chat-avatar')).pop().scrollIntoView({ behavior: 'smooth' });
 };
 
 const insertMessageToDOM = (messages, userData) => {
@@ -256,19 +257,10 @@ const insertMessageToDOM = (messages, userData) => {
       </div>
       <div class="chat-body">
         <div class="chat-content">
-          <p>Hi, Omzi! I'm Fifi, your virtual support. How may I assist you today?<br><br>
-            <button class="btn btn-primary">
-              Make A Donation
-            </button>
-            <button class="btn btn-primary">
-              View Donations
-            </button>
-            <button class="btn btn-primary">
-              View FAQ's
-            </button>
-            <button class="btn btn-primary">
-              Customer Support
-            </button>
+          <p>Hi, ${user.firstName}! I'm Fifi, your virtual support. How may I assist you today?<br><br>
+            <button class="btn btn-primary chat-cue">Make A Donation</button>
+            <button class="btn btn-primary chat-cue">View Donations</button>
+            <button class="btn btn-primary chat-cue">Customer Support</button>
           </p>
         </div>
       </div>
@@ -281,13 +273,13 @@ const insertMessageToDOM = (messages, userData) => {
     const html = `<div class=${userData._id === msg.senderId ? "chat" : "chat-left"}>
       <div class="chat-avatar">
         <a class="avatar">
-          <img src=${ userData.role !== "admin" ? "/images/default.jpg" : "/images/chatbot.png"} class="rounded-circle" width="50" alt="avatar">
+          <img src=${ userData.role !== "admin" ? 'https://robohash.org/'+ user.username +'?set=set3' : "/images/chatbot.png"} class="rounded-circle" width="50" alt="avatar">
          </a>
       </div>
       <div class="chat-body">
         <div class="chat-content">
           <p>${msg.message}</p>
-          <p>${moment(msg.createdAt).fromNow()}</p>
+          <i>${moment(msg.createdAt).fromNow()}</i>
         </div>
       </div>
     </div>`;
@@ -301,9 +293,12 @@ $("#send-message").on("click", async(e) => {
   const receiverId = conversations.map((el) => {
     return el.members.find((id) => id !== user._id);
   });
-  //alert("receiverId")
-  //alert(receiverId)
-  const userMessage = $("#message-box").val();
+  //console.log("receiverId")
+  //console.log(receiverId)
+  const userMessage = $('#message-box').val().trim() || $('#hidden-input').val().trim();
+
+  // Prevent empty messages from being sent
+  if (!/\S/.test(userMessage)) return;
   
   socket.emit("sendMessage", {
     senderId: user._id,
@@ -321,7 +316,7 @@ $("#send-message").on("click", async(e) => {
           message: userMessage
         }
       });
-      //alert(JSON.stringify(res))
+      //console.log(JSON.stringify(res))
       const {data} = res.data;
       
       // Insert new message to DOM
@@ -329,8 +324,12 @@ $("#send-message").on("click", async(e) => {
       
       // Clear user input
       $("#message-box").val("");
+      $('#hidden-input').val('');
+
+      // Initiate bot response
+      initiateBotResponse(userMessage);
     } catch (e) {
-      alert(e.response.data.message);
+      console.log(e.response.data.message);
     }
   
   /*socket.on("userNotOnline", async ({senderId, message}) => {
@@ -345,7 +344,7 @@ $("#send-message").on("click", async(e) => {
           unread: true
         }
       });
-      //alert(JSON.stringify(res))
+      //console.log(JSON.stringify(res))
       const {data} = res.data;
       
       // Insert new message to DOM
@@ -354,7 +353,7 @@ $("#send-message").on("click", async(e) => {
       // Clear user input
       $("#message-box").val("");
     } catch (e) {
-      alert(e.response.data.message);
+      console.log(e.response.data.message);
     }
     //return;
   })*/
@@ -370,8 +369,9 @@ $("#send-message").on("click", async(e) => {
           message: userMessage
         }
       });
-      //alert(JSON.stringify(res))
-      const {data} = res.data;
+      //console.log(JSON.stringify(res))
+      console.log(res);
+      // const {data} = res.data;
       
       // Insert new message to DOM
       insertSingleMessageToDOM(data, user);
@@ -379,12 +379,70 @@ $("#send-message").on("click", async(e) => {
       // Clear user input
       $("#message-box").val("");
     } catch (e) {
-      alert(e.response.data.message);
+      console.log(e.response.data.message);
     }
   });*/
 });
 
+// Send message when user clicks on any chat cue button
+$q('body').addEventListener('click', e => {
+  if (e.target.matches('.chat-cue')) {
+    e.target.setAttribute('disabled', 'disabled');
+    $q('#hidden-input').value = e.target.innerText;
+
+    $('#send-message').click();
+  }
+})
+
+// Send message when 'Enter' key is pressed
+$q('body').addEventListener('keydown', e => {
+  if (e.key === 'Enter' ) $('#send-message').click();
+})
+
 fetchConversation(user);
+
+const initiateBotResponse = userMessage => {
+  // My idea: For those four initial options the "bot" shows the user, create replies for them.
+  // I made them to be sent as messages
+  // Then admins can answer the other enquiries
+
+  // Another idea: Let's try to reach out to an online admin from the BE instead. It's more safe & ideal.
+  // Then, if no admin could be reached, the bot will now send a message to the user that no admin is online at the moment
+  const messageData = {
+    senderId: (() => {
+      const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+      return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16));
+    })()
+  }
+
+  setTimeout(() => {
+    switch (userMessage.toUpperCase()) {
+      case 'MAKE A DONATION':
+        // Send a message back to the donor
+        // It doesn't get saved though
+        messageData.message = `To make a donation, click on "Donation" in the sidebar to go to the Donations page. You can then click on the <b>"New Donation"</b> for food donations or <b>"New Monetary Donation"</b> to donate cash. Hope this helps 🙂.`;
+        insertSingleMessageToDOM(messageData, user, true);
+
+        break;
+      case 'VIEW DONATIONS':
+        messageData.message = `Click on "Donation" in the sidebar to go to the Donations page. You will then see two tables where you can view your <b>Food Donations</b> & <b>Monetary Donations</b> respectively`;
+        insertSingleMessageToDOM(messageData, user, true);
+
+        break;
+      case 'CUSTOMER SUPPORT':
+        // messageData.message = `Unfortunately, this feature isn't available yet 🥺. You can still reach out to us through the live chat for any enquiry you might have 🙂.`;
+        messageData.message = 'Contacting customer care...'
+        insertSingleMessageToDOM(messageData, user, true);
+
+        // Trying contacting an online admin
+        setTimeout(() => {
+          messageData.message = `Couldn't contact customer care at the moment 🥺. Please try again later.`;
+          insertSingleMessageToDOM(messageData, user, true);
+        }, 2e3);
+        break;
+    }
+  }, 2e3);
+}
 
 class Chat {
   constructor(socket) {
@@ -402,8 +460,8 @@ class Chat {
     if(this.user._id === "admin") {
       socket.on('getConnectedUser', (users) => {
         // TEST
-        alert("admin seeing online user");
-        alert(JSON.stringify(users));
+        console.log("admin seeing online user");
+        console.log(JSON.stringify(users));
         // TEST
       });
     }
@@ -412,7 +470,7 @@ class Chat {
   async fetchConversation() {
     //conversation
     try {
-      alert("enter 2")
+      console.log("enter 2")
       // Make an http request to the api
       const res = await axios({
         method: 'GET',
@@ -429,7 +487,7 @@ class Chat {
       
     } catch (e) {
       //console.log(e);
-      alert(e.response.data.message);
+      console.log(e.response.data.message);
     }
   }
   
@@ -445,7 +503,7 @@ class Chat {
   
   async fetchMemberDetails () {
     try {
-      alert("enter")
+      console.log("enter")
       // Make an http request to the api
       const promises = this.otherMembers.map(async (id) => {
         const res = await axios({
@@ -457,10 +515,10 @@ class Chat {
       // Resolve all trh Promise above
       const users = await Promise.all(promises);
       // User
-      alert(JSON.stringify(users))
+      console.log(JSON.stringify(users))
     } catch (e) {
       //console.log(e);
-      alert(e.response.data.message);
+      console.log(e.response.data.message);
     }
   }
 }
