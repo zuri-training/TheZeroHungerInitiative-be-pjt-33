@@ -26,8 +26,17 @@
             </li>
           </ul>
           <span style="transform: scale(1.2); display: inline-block; margin-left: 30px;">
-            <button class="btn" style="letter-spacing: 1px;">DONATE FOOD ITEMS</button>
-            <button class="btn btn-outline" style="letter-spacing: 1px;">DONATE CASH</button>
+            <% if (user) { %>
+              <% if (user.role === 'donor') { %>
+                <a href="/donor/donations" class="btn" style="letter-spacing: 1px;">DONATE FOOD ITEMS</a>
+                <a href="/donor/donations" class="btn btn-outline" style="letter-spacing: 1px;">DONATE CASH</a>
+              <% } else { %>
+                <!-- Show a volunteer or 'learn more' button? -->
+              <% } %>
+            <% } else { %>
+              <a href="/signup" class="btn" style="letter-spacing: 1px;">DONATE FOOD ITEMS</a>
+              <a href="/signup" class="btn btn-outline" style="letter-spacing: 1px;">DONATE CASH</a>
+            <% } %>
           </span>
         </div>
         <div class="col l6 s12">
@@ -48,7 +57,7 @@
           <p>Join the ZeroHunger community to become a volunteer today and you can impact lives by devoting your time to
             helping others.</p>
           
-          <button class="btn">SIGN UP AS A VOLUNTEER</button>
+          <a href="/volunteer" class="btn">SIGN UP AS A VOLUNTEER</a>
         </div>
       </div>
     </div>
@@ -140,7 +149,13 @@
 
   <div class="center" style="margin: 50px 0;">
     <div style="transform: scale(1.2);">
-      <button class="btn" style="letter-spacing: 1px;">DONATE & ELIMINATE HUNGER NOW</button>
+      <% if (user) { %>
+        <% if (user.role === 'donor') { %>
+          <a class="btn" href="/donor/donations" style="letter-spacing: 1px;">DONATE & ELIMINATE HUNGER NOW</a>
+        <% } %>
+      <% } else { %>
+        <a class="btn" href="/signup" style="letter-spacing: 1px;">DONATE & ELIMINATE HUNGER NOW</a>
+      <% } %>
     </div>
   </div>
 

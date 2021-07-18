@@ -48,8 +48,18 @@ const sendErrorInProduction = (errorObject, res) => {
     }
   }
 
+  // Error connecting to external services [Cloudinary for now]
+  // (Google SMTP Server & Paystack gets handles already)
+  if (errorObject?.error) {
+    // (errorObject?.error.hostname === 'api.cloudinary.com')
+
+    if (errorObject?.error.code === 'ENOTFOUND' && errorObject?.error?.hostname) {
+      errorObject = new AppError('An error occured while connecting to a required external service', 500);
+    }
+  }
+
   res.status(errorObject.statusCode || 500).json({
-    status: errorObject.status || 'Internal server error', message: errorObject.message, details
+    status: errorObject.status || 'failure', message: errorObject.message || 'Internal server error', details
   })
 }
 

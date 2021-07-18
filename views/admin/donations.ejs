@@ -42,7 +42,7 @@
                                 <tr role="row" class="odd">
                                   <td><%= i + 1 %></td>
                                   <td><%= donation._id %></td>
-                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) || 10 %> Items</td>
+                                  <td><%= donation.items.reduce((total, items) => total + items.quantity, 0) %> Items</td>
                                   <td style="text-transform: capitalize;"><%= donation.deliveryOption %> Donation</td>
                                   <td>
                                     <% if (donation.status === 'pending') { %>

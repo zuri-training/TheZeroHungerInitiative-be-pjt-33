@@ -187,6 +187,7 @@ class App {
     this.app.use((req, res, next) => {
       res.locals.successMessage = req.flash('successMessage');
       res.locals.errorMessage = req.flash('errorMessage');
+      res.locals.infoMessage = req.flash('infoMessage');
       res.locals.session = req.session;
       
       next();

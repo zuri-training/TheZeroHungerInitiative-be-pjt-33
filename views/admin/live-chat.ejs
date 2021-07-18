@@ -162,86 +162,12 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-8 col-sm-12">
+                      <div class="col-12">
                         <h5>Live Chat</h5>
 
                         <section class="chat-window">
-                          <div class="chats">
-                            <div class="chats" id="chats-container">
-                              <!--<div class="chat chat-left">
-                                <div class="chat-avatar">
-                                  <a class="avatar">
-                                    <img src="/images/chatbot.png" class="rounded-circle" width="50" alt="avatar">
-                                  </a>
-                                </div>
-                                <div class="chat-body">
-                                  <div class="chat-content">
-                                    <p>Hi, Omzi! I'm Fifi, your virtual support. How may I assist you today?<br><br>
-                                      <button class="btn btn-primary">
-                                        Make A Donation
-                                      </button>
-                                      <button class="btn btn-primary">
-                                        View Donations
-                                      </button>
-                                      <button class="btn btn-primary">
-                                        View FAQ's
-                                      </button>
-                                      <button class="btn btn-primary">
-                                        Customer Support
-                                      </button>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>-->
-                              <!--<div class="chat">
-                                <div class="chat-avatar">
-                                  <a class="avatar">
-                                    <img src="/images/profile.jpg" class="rounded-circle" width="50" alt="avatar">
-                                  </a>
-                                </div>
-                                <div class="chat-body">
-                                  <div class="chat-content">
-                                    <p>Customer support</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="chat chat-left">
-                                <div class="chat-avatar">
-                                  <a class="avatar">
-                                    <img src="/images/chatbot.png" class="rounded-circle" width="50" alt="avatar">
-                                  </a>
-                                </div>
-                                <div class="chat-body">
-                                  <div class="chat-content">
-                                    <p>Contacting customer care...</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="chat chat-left">
-                                <div class="chat-avatar">
-                                  <a class="avatar">
-                                    <img src="/images/profile.jpg" class="rounded-circle" width="50" alt="avatar">
-                                  </a>
-                                </div>
-                                <div class="chat-body">
-                                  <div class="chat-content">
-                                    <p>Hi, Omzi 🙂. I'm Didhee. How may I be of assistance to you?</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="chat">
-                                <div class="chat-avatar">
-                                  <a class="avatar">
-                                    <img src="/images/profile.jpg" class="rounded-circle" width="50" alt="avatar">
-                                  </a>
-                                </div>
-                                <div class="chat-body">
-                                  <div class="chat-content">
-                                    <p>Hi Didhee. I can't seem to find a pickup station close to me. I'd like to donate some food items ASAP.</p>
-                                  </div>
-                                </div>
-                              </div>-->
-                            </div>
+                          <div class="chats" id="chats-container">
+                            <input type="hidden" id="hidden-input">
                           </div>
                         </section>
 
@@ -262,7 +188,8 @@
         <%- include('../partials/appLoader') %>
         
     <%- include('partials/adminFooter') %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/socket.io.min.js"></script>
+    <script src="/js/moment.min.js"></script>
     <script src="/js/chat.js"></script>
   </body>
 </html>

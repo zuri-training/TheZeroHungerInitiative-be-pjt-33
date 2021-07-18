@@ -81,7 +81,8 @@ class AuthController {
       // send a response
       res.status(201).json({
         status: 'success',
-        user: req.body,
+        user,
+        isAdmin: req.body.isAdmin,
         token,
         iat: decode?.iat,
         exp: decode?.exp
@@ -120,7 +121,7 @@ class AuthController {
         user: userExist,
         token,
         iat: decode.iat,
-        exp: decode.exp,
+        exp: decode.exp
       });
     });
   }
@@ -159,10 +160,17 @@ class AuthController {
       /*
         1= Using the promisify method so as to avoid passing callback to the jwt.verify method
       */
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      let decode;
+      let userExist;
 
-      // 3= Check if the user exist in the database
-      const userExist = await User.findById(decode._id);
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
+      }
 
       // Checking for the existence of the user that owns the token
       if (!userExist)
@@ -195,8 +203,17 @@ class AuthController {
         return res.redirect('/login');
       }
 
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-      const userExist = await User.findById(decode._id);
+      let decode;
+      let userExist;
+
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
+      }
 
       if (!userExist) {
         req.flash('errorMessage', 'Unauthorized. Please log in!');
@@ -209,7 +226,7 @@ class AuthController {
     });
   }
   
-  isLoggedIn() {
+  isLoggedIn(redirectIfLoggedIn = false) {
     // Basically a modification of the authenticate() method above.
     // Determine if a user is logged in
     return catchAsync(async (req, res, next) => {
@@ -229,15 +246,39 @@ class AuthController {
         return next();
       }
 
-      const decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-      const userExist = await User.findById(decode._id);
+      let decode;
+      let userExist;
 
-      if (!userExist) {
-        return next();
+      // Handles invalid JWT token
+      // Since there's no catchAsync() to handle that
+      try {
+        decode = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        userExist = await User.findById(decode._id);
+      } catch (e) {
+        // console.log(e);
       }
 
+      if (!userExist) return next();
+
       req.user = userExist;
-      //res.locals.user = userExist;
+
+      if (redirectIfLoggedIn) {
+        // Redirect to dashboard
+        const message = `You're already logged in!`;
+        
+        switch (req.user.role) {
+          case 'donor':
+            req.flash('infoMessage', message);
+            return res.status(200).redirect('/donor/dashboard');
+          case 'volunteer':
+            req.flash('infoMessage', message);
+            return res.status(200).redirect('/volunteer/dashboard');
+          case 'admin':
+            req.flash('infoMessage', message);
+            return res.status(200).redirect('/admin/dashboard');
+        }
+      }
+      
       next();
     });
   }
@@ -293,13 +334,9 @@ class AuthController {
       const ua = uaParser(req.headers['user-agent']);
 
       if (process.env.NODE_ENV === 'production') {
-        resetURL = `${req.protocol}://${req.get(
-          'host'
-        )}/reset-password?token=${resetToken}`;
+        resetURL = `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`;
       } else {
-        resetURL = `${req.protocol}://${req.get(
-          'host'
-        )}/api/v1/users/reset-password/${resetToken}`;
+        resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
       }
 
       // 3. send the link to the user email
@@ -314,18 +351,14 @@ class AuthController {
             browser: `${ua.browser.name}`,
             resetURL,
             passwordExpiration: '20 minutes',
-            productName: process.env.FROM_NAME,
-          },
+            productName: process.env.FROM_NAME
+          }
         });
 
-        return res
-          .status(200)
-          .json({ status: 'success', message: 'Password reset email sent' });
+        return res.status(200).json({ status: 'success', message: 'Password reset email sent' });
       } catch (e) {
         logger.debug(e);
-        return next(
-          new AppError(`Password reset email couldn't been sent at the moment`)
-        );
+        return next(new AppError(`Password reset email couldn't been sent at the moment`));
       }
     });
   }

@@ -2,31 +2,56 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const jsQR = require("jsqr");
 const Jimp = require('jimp');
-const Donation = require('../models/donationModel');
+const { differenceInDays } = require('date-fns');
 
 class Processes {
   constructor(Model) {
     this.Model = Model;
+    this.reformatDate = value => {
+      const dateSplit = value.split(' ');
+      const date = Number(dateSplit[!!{} + !!{}]);
+      const ordinal = n => n < 11 || n > 13 ? [`${n}st`, `${n}nd`, `${n}rd`, `${n}th`][Math.min((n - 1) % 10, 3)] : `${n}th`;
+
+      dateSplit[+[]] += ','; dateSplit[!!{} + !!{}] = ordinal(date);
+
+      return dateSplit.join(' ');
+    }
   }
   
   
   processDonation() {
     return catchAsync(async (req, res, next) => {
-      // save the donation to the database
+      // Check if date is greater than the minimum number of days necessary
+      // to process the pick-up or drop-off donation
+      const dateFromDonor = new Date(req.body.pickupDate);
+      const dateNow = new Date();
+      const DONATION_PROCESS_TIME = 3; // Can be any number >= 1
+      
+      if (differenceInDays(dateFromDonor, dateNow) < DONATION_PROCESS_TIME) {
+        dateNow.setDate(dateNow.getDate() + DONATION_PROCESS_TIME);
+
+        return next(new AppError(`Please select a date after ${this.reformatDate(dateNow.toDateString())}`));
+      }
+      
       // Loop through & format for saving in database
-      delete req.body.donationFrequency;
+      req.body.items = req.body.description.map((description, index) => {
+        return {
+          description,
+          metric: req.body.metric[index],
+          quantity: Number(req.body.quantity[index])
+        }
+      }).filter(item => item.description !== undefined && item.quantity > 0);
+
+      // delete req.body.donationFrequency;
       delete req.body.quantity;
       delete req.body.metric;
       delete req.body.description;
-
+      
       req.body.user = req.user._id.toString();
       // console.log(req.body);
-      const donation = await Donation.create(req.body);
-      /*const donation = await query.populate({path: "rider"})
-        .populate({path: "user"});*/
+      const donation = await this.Model.create(req.body);
       
-      // send response to the user
-      res.status(201).json({ status: "success", donation });
+      res.status(201).json({ status: 'success', donation });
     });
   }
   

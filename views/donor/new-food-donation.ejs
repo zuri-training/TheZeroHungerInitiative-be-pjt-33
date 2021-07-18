@@ -21,7 +21,7 @@
                         <div class="input-group">
                           <label for="donationFrequency">Donation Frequency</label>
                           <select name="donationFrequency" id="donationFrequency" required  class="browser-default">
-                            <option value="male" selected>One-Time Donation</option>
+                            <option value="one-time" selected>One-Time Donation</option>
                             <option value="monthly">Monthly</option>
                             <option value="quarterly">Quarterly</option>
                           </select>
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="input-group">
-                          <label for="foodCategory">Donation Frequency</label>
+                          <label for="foodCategory">Food Category</label>
                           <select name="foodCategory" id="foodCategory" required class="browser-default">
                             <option value="raw food" selected>Raw Food</option>
                             <option value="cooked food">Cooked Food</option>
@@ -47,13 +47,13 @@
                                 <i class="material-icons">shopping_basket</i>
                               </div>
                               <div class="item-number">
-                                <i class="material-icons">remove</i>
-                                <input type="number" name="quantity" class="item-quantity" placeholder="10">
-                                <i class="material-icons">add</i>
+                                <i class="material-icons js-decrement">remove</i>
+                                <input type="number" name="quantity" min="1" class="item-quantity" placeholder="10">
+                                <i class="material-icons js-increment">add</i>
                                 <select name="metric" class="item-unit">
                                   <option value="bag">Bags</option>
-                                  <option value="litre">Ltrs</option>
-                                  <option value="cartoon">Ctns</option>
+                                  <option value="litre">Litres</option>
+                                  <option value="carton">Cartons</option>
                                   <option value="kg">Kg</option>
                                 </select>
                               </div>
@@ -69,13 +69,13 @@
                                 <i class="material-icons">shopping_basket</i>
                               </div>
                               <div class="item-number">
-                                <i class="material-icons">remove</i>
-                                <input type="number" name="quantity" class="item-quantity" placeholder="10" required>
-                                <i class="material-icons">add</i>
+                                <i class="material-icons js-decrement">remove</i>
+                                <input type="number" name="quantity" min="1" class="item-quantity" placeholder="10" required>
+                                <i class="material-icons js-increment">add</i>
                                 <select name="metric" class="item-unit">
                                   <option value="bag">Bags</option>
-                                  <option value="litre">Ltrs</option>
-                                  <option value="cartoon">Ctns</option>
+                                  <option value="litre">Litres</option>
+                                  <option value="carton">Cartons</option>
                                   <option value="kg">Kg</option>
                                 </select>
                               </div>
@@ -84,10 +84,10 @@
                           </div>
                           
                         </div>
-                        <div class="add-item">
+                        <button class="btn btn-sm btn-outline add-item" type="button">
                           <i class="material-icons left">add_circle_outline</i>
                           <span>Add New Item</span>
-                        </div>
+                        </button>
 
                         <div class="input-group">
                           <label for="deliveryOption">Delivery Option</label>
@@ -95,7 +95,7 @@
                             <option value="pick-up" selected>Pick-Up</option>
                             <option value="drop-off">Drop-Off</option>
                           </select>
-                          <img src="/images/dashboard-dispatch-riders.png" alt="delivery icon" style="filter: invert(0.5);">
+                          <img src="/images/dashboard-dispatch-riders.png" alt="delivery icon" style="filter: invert(0.25);">
                         </div>
 
                         <div class="input-group">

@@ -9,3 +9,9 @@
     <div class="error" style="display: none; position: fixed; top: -100%;"><%= message %></div>
   <% } %>
 <% } %>
+
+<% if (infoMessage.length > 0) { %>
+  <% for( let message of infoMessage ) { %>
+    <div class="info" style="display: none; position: fixed; top: -100%;"><%= message %></div>
+  <% } %>
+<% } %>

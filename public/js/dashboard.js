@@ -3,3 +3,19 @@ $(document).ready((function(){"use strict";(Waves.init({duration:400}),1===$(".m
 $('.logout').on('click', async function () {
   await axios({ url: '/api/v1/users/logout' }).then(() => (window.location.href = '/'));
 });
+
+// Show success, error & info messages from BackEnd
+const success = document.querySelectorAll('.success');
+const errors = document.querySelectorAll('.error');
+const info = document.querySelectorAll('.info');
+
+setTimeout(() => {
+  success.length
+    && success.forEach((s=>{iziToast.success({position:'topCenter',timeout:3e3,message:s.innerText})}));
+
+  errors.length
+    && errors.forEach((e=>{iziToast.error({position:'topCenter',timeout:3e3,message:e.innerText})}));
+
+  info.length
+    && info.forEach((e=>{iziToast.info({position:'topCenter',timeout:3e3,message:e.innerText})}));
+}, 1e3);

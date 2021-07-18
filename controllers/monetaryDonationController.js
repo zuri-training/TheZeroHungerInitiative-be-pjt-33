@@ -61,7 +61,7 @@ exports.verifyMonetaryDonation = catchAsync(async (req, res, next) => {
     if (status === 'abandoned') {
       return next(new AppError('Payment unsuccessful. Please try donating again', 400));
     } else if (status === 'success') {
-      return res.status(200).json({ status: 'success', message: `Payment successful! You've donated ₦${amount} to The Hunger Initiative` });
+      return res.status(200).json({ status: 'success', message: `Payment successful! You've donated ₦${amount.toLocaleString()} to The Hunger Initiative` });
     }
 
     res.status(500).json({ status: 'false', message: 'An unknown error occured!' });
